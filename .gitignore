@@ -1,0 +1,7 @@
+WpfAppTest/bin/
+ScintillaNETTest/bin/
+
+WpfAppTest/obj/
+ScintillaNETTest/obj/
+
+.vs/
