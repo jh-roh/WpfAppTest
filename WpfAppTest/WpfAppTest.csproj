@@ -95,26 +95,38 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="BaseModule.cs" />
-    <Compile Include="DerivedModule.xaml.cs">
+    <Compile Include="Model\Category.cs" />
+    <Compile Include="Model\CategoryNameOrder.cs" />
+    <Compile Include="Model\CategoryRepositoryInMemoery.cs" />
+    <Compile Include="Model\CategoryRepositorySqlServer.cs" />
+    <Compile Include="Model\IBreadShop.cs" />
+    <Compile Include="Model\ICategoryRepository.cs" />
+    <Compile Include="View\BaseModule.cs" />
+    <Compile Include="View\DerivedModule.xaml.cs">
       <DependentUpon>DerivedModule.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PopupButton.xaml.cs">
+    <Compile Include="View\OrderTestView.xaml.cs">
+      <DependentUpon>OrderTestView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\PopupButton.xaml.cs">
       <DependentUpon>PopupButton.xaml</DependentUpon>
     </Compile>
-    <Compile Include="TestButton.xaml.cs">
+    <Compile Include="View\PopupTestView.xaml.cs">
+      <DependentUpon>PopupTestView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\TestButton.xaml.cs">
       <DependentUpon>TestButton.xaml</DependentUpon>
     </Compile>
     <Compile Include="TestJSon\TestJSonClass.cs" />
-    <Page Include="DataTemplateTest.xaml">
+    <Page Include="View\DataTemplateTest.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="DerivedModule.xaml">
+    <Page Include="View\DerivedModule.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="LoginView.xaml">
+    <Page Include="View\LoginView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -126,24 +138,32 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DataClass.cs" />
-    <Compile Include="DataTemplateModel.cs" />
-    <Compile Include="DataTemplateTest.xaml.cs">
+    <Compile Include="Model\DataClass.cs" />
+    <Compile Include="ViewModel\DataTemplateModel.cs" />
+    <Compile Include="View\DataTemplateTest.xaml.cs">
       <DependentUpon>DataTemplateTest.xaml</DependentUpon>
     </Compile>
-    <Compile Include="LoginView.xaml.cs">
+    <Compile Include="View\LoginView.xaml.cs">
       <DependentUpon>LoginView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="LoginViewModel.cs" />
+    <Compile Include="ViewModel\LoginViewModel.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="PopupButton.xaml">
+    <Page Include="View\OrderTestView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="TestButton.xaml">
+    <Page Include="View\PopupButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\PopupTestView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\TestButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -172,7 +192,9 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="UserControl\" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\CheckImage.png" />
     <Resource Include="Images\RX_Error.png" />

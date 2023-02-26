@@ -5,7 +5,7 @@ VisualStudioVersion = 17.2.32516.85
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfAppTest", "WpfAppTest\WpfAppTest.csproj", "{2564F7D1-A46E-4357-B1D0-2E3D4E9A32BD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScintillaNETTest", "ScintillaNETTest\ScintillaNETTest.csproj", "{7304FF6B-3509-4052-A9CF-4700F711270F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinformAppTest", "WinformAppTest\WinformAppTest.csproj", "{7304FF6B-3509-4052-A9CF-4700F711270F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfMultipleCommandParameter", "WpfMultipleCommandParameter\WpfMultipleCommandParameter.csproj", "{1AED7604-8A98-4CBE-8807-DAEECF4EC22F}"
 EndProject

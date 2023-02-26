@@ -1,10 +1,10 @@
 WpfAppTest/bin/
-ScintillaNETTest/bin/
+WinformAppTest/bin/
 MemoryManageTest/bin/
 WpfMultipleCommandParameter/bin/
 
 WpfAppTest/obj/
-ScintillaNETTest/obj/
+WinformAppTest/obj/
 MemoryManageTest/obj/
 WpfMultipleCommandParameter/obj/
 .vs/

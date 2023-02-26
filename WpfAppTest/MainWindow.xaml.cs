@@ -12,7 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WpfAppTest.Model;
 using WpfAppTest.TestJSon;
+using WpfAppTest.ViewModel;
 
 namespace WpfAppTest
 {
@@ -26,7 +28,12 @@ namespace WpfAppTest
         {
             InitializeComponent();
 
-            TestJSonClass testJson = new TestJSonClass();
+            var dataTemplateVM = new DataTemplateModel();
+
+            ContentControl_Test.Content = dataTemplateVM;
+
+            MainClass.MainTest();
+            //TestJSonClass testJson = new TestJSonClass();
         }
 
         private void button_DoorAging_Click(object sender, RoutedEventArgs e)
