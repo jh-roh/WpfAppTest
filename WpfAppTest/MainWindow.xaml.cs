@@ -28,12 +28,16 @@ namespace WpfAppTest
         {
             InitializeComponent();
 
-            var dataTemplateVM = new DataTemplateModel();
+            //var dataTemplateVM = new DataTemplateModel();
 
-            ContentControl_Test.Content = dataTemplateVM;
+            //ContentControl_Test.Content = dataTemplateVM;
 
-            MainClass.MainTest();
+            //MainClass.MainTest();
             //TestJSonClass testJson = new TestJSonClass();
+
+            ProcessStartInfoTest test = new ProcessStartInfoTest();
+
+            test.ProcessTest();
         }
 
         private void button_DoorAging_Click(object sender, RoutedEventArgs e)

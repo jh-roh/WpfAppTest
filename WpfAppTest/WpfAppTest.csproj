@@ -101,6 +101,7 @@
     <Compile Include="Model\CategoryRepositorySqlServer.cs" />
     <Compile Include="Model\IBreadShop.cs" />
     <Compile Include="Model\ICategoryRepository.cs" />
+    <Compile Include="Model\ProcessStartInfoTest.cs" />
     <Compile Include="View\BaseModule.cs" />
     <Compile Include="View\DerivedModule.xaml.cs">
       <DependentUpon>DerivedModule.xaml</DependentUpon>
