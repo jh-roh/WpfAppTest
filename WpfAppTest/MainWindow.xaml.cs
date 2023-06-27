@@ -35,9 +35,11 @@ namespace WpfAppTest
             //MainClass.MainTest();
             //TestJSonClass testJson = new TestJSonClass();
 
-            ProcessStartInfoTest test = new ProcessStartInfoTest();
+            //ProcessStartInfoTest test = new ProcessStartInfoTest();
 
-            test.ProcessTest();
+            //test.ProcessTest();
+
+            linqAnyMethodTest();
         }
 
         private void button_DoorAging_Click(object sender, RoutedEventArgs e)
@@ -45,5 +47,24 @@ namespace WpfAppTest
             //popup_DoorAging.IsOpen = !popup_DoorAging.IsOpen;  
         }
 
+
+        private void linqAnyMethodTest()
+        {
+            // 비교할 두 개의 리스트 생성
+            List<int> list1 = new List<int> { 1, 2, 3, 4, 5 };
+            List<int> list2 = new List<int> { 1, 2, 3, 9, 10 };
+
+            // Any 메서드를 사용하여 두 리스트에서 공통된 요소가 있는지 확인
+            bool hasCommonElements = list1.Any(element => list2.Contains(element));
+
+            if (hasCommonElements)
+            {
+                Console.WriteLine("두 리스트에는 공통된 요소가 있습니다.");
+            }
+            else
+            {
+                Console.WriteLine("두 리스트에는 공통된 요소가 없습니다.");
+            }
+        }
     }
 }

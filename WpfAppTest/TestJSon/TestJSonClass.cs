@@ -8,6 +8,18 @@ using System.Text;
 
 namespace WpfAppTest.TestJSon
 {
+    public class TakeoutCellGroupClass
+    {
+        public int GroupNo { get; set; }
+        public int ModuleType { get; set; }
+        public int MachineNo { get; set; }
+        public int ModulePosition { get; set; }
+        public int MainPosition { get; set; }
+
+        public List<int> SubPositionList { get; set; }
+    }
+
+
     internal class TestJSonClass
     {
         public string SquidGame => @"
@@ -46,10 +58,10 @@ namespace WpfAppTest.TestJSon
 
         public TestJSonClass()
         {
-            JSonParameterSample();
-            JSonDynamicSample();
-            JSonAnonymousTypeSample();
-
+            //JSonParameterSample();
+            //JSonDynamicSample();
+            //JSonAnonymousTypeSample();
+            JSonParameterClassSample();
 
 
             //WebServiceXML webServiceXML = new WebServiceXML();
@@ -60,6 +72,48 @@ namespace WpfAppTest.TestJSon
             //);
             //String paraInfoString = paraInfo.ToString();
         }
+
+
+        private void JSonParameterClassSample()
+        {
+            List<TakeoutCellGroupClass> takeoutCellGroupList = new List<TakeoutCellGroupClass>();
+
+            List<TakeoutCellGroupClass> tempCellGroupList = new List<TakeoutCellGroupClass>();
+
+
+            try
+            {
+
+
+                takeoutCellGroupList.Add(new TakeoutCellGroupClass()
+                {
+                    GroupNo = 3,
+                    MachineNo = 1,
+                    ModulePosition = 2,
+                    MainPosition = 3,
+                    SubPositionList = new List<int>() { 1, 2, 3, 4, 5 }
+                });
+
+
+                string paraInfo = JsonConvert.SerializeObject(takeoutCellGroupList);
+
+                Console.WriteLine(paraInfo.ToString());
+
+
+                tempCellGroupList = JsonConvert.DeserializeObject<List<TakeoutCellGroupClass>>("");
+                //익셉션 발생하는거 아니면, 빈문자열일 경우 null로 리턴함.
+                
+                //return myObject;
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
+
+        }
+
+
 
         private void JSonParameterSample()
         {
