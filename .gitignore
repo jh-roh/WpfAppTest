@@ -2,9 +2,17 @@ WpfAppTest/bin/
 WinformAppTest/bin/
 MemoryManageTest/bin/
 WpfMultipleCommandParameter/bin/
+EF-CodeFirst/bin/
+Sales/bin/
+SQLDataBase/bin/
 
 WpfAppTest/obj/
 WinformAppTest/obj/
 MemoryManageTest/obj/
 WpfMultipleCommandParameter/obj/
+EF-CodeFirst/obj/
+Sales/obj/
+SQLDataBase/obj/
 .vs/
+SQLDataBase/SQLDataBase.dbmdl
+SQLDataBase/SQLDataBase.jfm
