@@ -30,7 +30,8 @@
 
 
         <Grid>
-            <ContentControl x:Name="ContentControl_Test"  ></ContentControl>
+            <!--<ContentControl x:Name="ContentControl_Test"  ></ContentControl>-->
+            <Button Content="WebServiceTest" Click="Button_Click"></Button>
         </Grid>
     </Grid>
 

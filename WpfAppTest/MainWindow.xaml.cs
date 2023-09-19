@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WpfAppTest.Model;
+using WpfAppTest.TestClass;
 using WpfAppTest.TestJSon;
 using WpfAppTest.ViewModel;
 
@@ -39,7 +40,13 @@ namespace WpfAppTest
 
             //test.ProcessTest();
 
-            linqAnyMethodTest();
+            //linqAnyMethodTest();
+
+            //TestTrim test = new TestTrim();
+
+            //test.TestMethod();
+            //test.ToCharMethod();
+
         }
 
         private void button_DoorAging_Click(object sender, RoutedEventArgs e)
@@ -65,6 +72,12 @@ namespace WpfAppTest
             {
                 Console.WriteLine("두 리스트에는 공통된 요소가 없습니다.");
             }
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            TestHttpRequestMethod.SendHttpRequestMethod();
+
         }
     }
 }
