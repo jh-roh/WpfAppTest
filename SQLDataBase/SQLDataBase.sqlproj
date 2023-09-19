@@ -62,4 +62,7 @@
   <ItemGroup>
     <Build Include="SQLDatabase_ex1\SQLDatabase_ex1.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="SQLDatabase_ex1\SQLDatabase_ex2.sql" />
+  </ItemGroup>
 </Project>
