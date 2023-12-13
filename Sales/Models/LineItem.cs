@@ -6,15 +6,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Sales.Models;
 
-
-//복합 인덱스 정의
-// => 열 순서, 정렬 순서
-/*
- * ALTER TABLE [dbo].[LineItems]
- * ADD CONSTRAINT [PK_LineImtes]
- * PRIMARY KEY CLUSTERED ([OrderKey] ASC, [LineNumber] ASC)
- **/
-
 [PrimaryKey("OrderKey", "LineNumber")]
 public partial class LineItem
 {
@@ -29,6 +20,8 @@ public partial class LineItem
     public int LineNumber { get; set; }
 
     [Column(TypeName = "decimal(15, 2)")]
+
+    [ConcurrencyCheck]
     public decimal Quantity { get; set; }
 
     [Column(TypeName = "decimal(15, 2)")]
@@ -69,11 +62,11 @@ public partial class LineItem
     [Unicode(false)]
     public string Comment { get; set; } = null!;
 
-    [ForeignKey("OrderKey")]
-    [InverseProperty("LineItems")]
-    public virtual Order OrderKeyNavigation { get; set; } = null!;
-
     [ForeignKey("PartKey, SuppKey")]
     [InverseProperty("LineItems")]
     public virtual PartsSupp PartsSupp { get; set; } = null!;
+
+    [ForeignKey("OrderKey")]
+    [InverseProperty("LineItems")]
+    public virtual Order OrderKeyNavigation { get; set; } = null!;
 }

@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 namespace Sales.Models;
 
 [PrimaryKey("PartKey", "SuppKey")]
-[Index("SuppKey", Name = "IX_PartsSupps_SuppKey")]
 public partial class PartsSupp
 {
     [Key]
@@ -26,7 +25,7 @@ public partial class PartsSupp
     public string Comment { get; set; } = null!;
 
     [InverseProperty("PartsSupp")]
-    public virtual ICollection<LineItem> LineItems { get; set; } = new List<LineItem>();
+    public virtual ICollection<LineItem> LineItems { get; } = new List<LineItem>();
 
     [ForeignKey("PartKey")]
     [InverseProperty("PartsSupps")]

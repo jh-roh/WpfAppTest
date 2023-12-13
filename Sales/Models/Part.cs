@@ -41,5 +41,5 @@ public partial class Part
     public string Comment { get; set; } = null!;
 
     [InverseProperty("PartKeyNavigation")]
-    public virtual ICollection<PartsSupp> PartsSupps { get; set; } = new List<PartsSupp>();
+    public virtual ICollection<PartsSupp> PartsSupps { get; } = new List<PartsSupp>();
 }

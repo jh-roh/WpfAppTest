@@ -73,6 +73,10 @@
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="Oracle.ManagedDataAccess, Version=4.121.2.0, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Library\Oracle.ManagedDataAccess.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Runtime">
@@ -101,7 +105,10 @@
     <Compile Include="Model\CategoryRepositorySqlServer.cs" />
     <Compile Include="Model\IBreadShop.cs" />
     <Compile Include="Model\ICategoryRepository.cs" />
+    <Compile Include="Model\IDatabaseRepository.cs" />
+    <Compile Include="Model\Oracle\DataBaseOracleRepository.cs" />
     <Compile Include="Model\ProcessStartInfoTest.cs" />
+    <Compile Include="TestClass\TestExcuteAtTIme.cs" />
     <Compile Include="TestClass\TestHttpRequestMethod.cs" />
     <Compile Include="TestClass\TestTrim.cs" />
     <Compile Include="View\BaseModule.cs" />
@@ -204,6 +211,11 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="LibraryFramework.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Library\Oracle.ManagedDataAccess.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

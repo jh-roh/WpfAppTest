@@ -61,6 +61,9 @@
   </ItemGroup>
   <ItemGroup>
     <Build Include="SQLDatabase_ex1\SQLDatabase_ex1.sql" />
+    <None Include="SQLDatabase_ex1\DateTime_example.sql" />
+    <None Include="SQLDatabase_ex1\SalesTable.sql" />
+    <None Include="SQLDatabase_ex1\NUMERICE_DECIMAL.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SQLDatabase_ex1\SQLDatabase_ex2.sql" />

@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 namespace Sales.Models;
 
 [Table("DML_Master")]
-[Index("CustomerKey", Name = "IX_DMLMaster_CustomerKey")]
 public partial class DmlMaster
 {
     [Key]

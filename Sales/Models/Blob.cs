@@ -6,9 +6,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Sales.Models;
 
+[Keyless]
 public partial class Blob
 {
-    [Key]
     public int Id { get; set; }
 
     [Unicode(false)]

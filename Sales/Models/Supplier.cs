@@ -33,5 +33,5 @@ public partial class Supplier
     public string Comment { get; set; } = null!;
 
     [InverseProperty("SuppKeyNavigation")]
-    public virtual ICollection<PartsSupp> PartsSupps { get; set; } = new List<PartsSupp>();
+    public virtual ICollection<PartsSupp> PartsSupps { get; } = new List<PartsSupp>();
 }

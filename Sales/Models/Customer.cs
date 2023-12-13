@@ -7,15 +7,14 @@ using Microsoft.EntityFrameworkCore;
 namespace Sales.Models;
 
 [Index("NationKey", "AcctBal", Name = "IX_C_A")]
-[Index("Name", Name = "IX_Customers_Name")]
-[Index("Phone", Name = "IX_Customers_Phone")]
 public partial class Customer
 {
     [Key]
     public int CustKey { get; set; }
 
     [StringLength(50)]
-    [Unicode(false)]
+    //실제 Name 열은 varchar() 형, 테스트를 위해 UNICODE로 설정
+    //[Unicode(false)]
     public string Name { get; set; } = null!;
 
     [StringLength(80)]
@@ -40,5 +39,5 @@ public partial class Customer
     public string Comment { get; set; } = null!;
 
     [InverseProperty("CustKeyNavigation")]
-    public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
+    public virtual ICollection<Order> Orders { get; } = new List<Order>();
 }

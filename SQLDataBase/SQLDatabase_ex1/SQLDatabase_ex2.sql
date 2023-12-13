@@ -133,3 +133,57 @@ alter table dbo.tbl_customers6
 alter table dbo.tbl_customers6
 	add constraint
 		PK_tbl_customers6_cus_id primary key clustered(cus_id)
+
+
+
+
+CREATE TABLE dbo.tbl_test
+(
+	cus_id	CHAR(10)	PRIMARY KEY,
+	cus_name CHAR(10)   UNIQUE,  
+)
+
+--값 입력
+INSERT INTO dbo.tbl_test VALUES('AAA', 'AAA'); --가능
+INSERT INTO dbo.tbl_test VALUES('', ''); --가능(빈값도 값이니깐)
+INSERT INTO dbo.tbl_test VALUES('NULL', 'BBB'); -- 가능
+INSERT INTO dbo.tbl_test VALUES(NULL, 'CCC'); -- 불가능
+INSERT INTO dbo.tbl_test VALUES('CCC', NULL); -- 가능
+INSERT INTO dbo.tbl_test VALUES('DDD', NULL); -- 불가능(기존에 NULL이 들어가 있으면 불가능)
+
+
+
+select * from dbo.tbl_test
+
+--기본키명 직접 지정하기
+--테이블을 만들때 직접 기본키명을 지정해서 만들 수 있다.
+--cus_id	CHAR(10)	NOT NULL	제약 기본키명(CONSTRAINT PK_CUSID)		PRIMARY KEY
+                                        
+--테이블 생성1
+CREATE TABLE dbo.tbl_pktest
+(
+	cus_id		char(10)	NOT	NULL	PRIMARY KEY,
+	cus_name	nvarchar(20)	NOT	NULL	,
+)
+
+--테이블 생성2
+CREATE TABLE dbo.tbl_pktest2
+(
+	cus_id		char(10)	NOT	NULL  CONSTRAINT  PK_ABC77  PRIMARY KEY,
+	cus_name	nvarchar(20)	NOT	NULL	,
+)
+
+
+
+--인덱스 확인
+EXEC sp_helpindex tbl_pktest2
+
+
+
+
+
+
+
+
+
+

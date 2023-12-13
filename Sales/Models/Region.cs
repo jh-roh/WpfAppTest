@@ -20,5 +20,5 @@ public partial class Region
     public string? Comment { get; set; }
 
     [InverseProperty("RegionKeyNavigation")]
-    public virtual ICollection<Nation> Nations { get; set; } = new List<Nation>();
+    public virtual ICollection<Nation> Nations { get; } = new List<Nation>();
 }

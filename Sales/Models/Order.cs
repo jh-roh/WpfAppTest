@@ -18,6 +18,7 @@ public partial class Order
     [Unicode(false)]
     public string OrderStatus { get; set; } = null!;
 
+    //[ConcurrencyCheck]
     [Column(TypeName = "decimal(15, 2)")]
     public decimal TotalPrice { get; set; }
 
@@ -43,5 +44,5 @@ public partial class Order
     public virtual Customer CustKeyNavigation { get; set; } = null!;
 
     [InverseProperty("OrderKeyNavigation")]
-    public virtual ICollection<LineItem> LineItems { get; set; } = new List<LineItem>();
+    public virtual ICollection<LineItem> LineItems { get; } = new List<LineItem>();
 }

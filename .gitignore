@@ -5,6 +5,7 @@ WpfMultipleCommandParameter/bin/
 EF-CodeFirst/bin/
 Sales/bin/
 SQLDataBase/bin/
+BenchmarkExample/bin/
 
 WpfAppTest/obj/
 WinformAppTest/obj/
@@ -13,6 +14,7 @@ WpfMultipleCommandParameter/obj/
 EF-CodeFirst/obj/
 Sales/obj/
 SQLDataBase/obj/
+BenchmarkExample/obj/
 .vs/
 SQLDataBase/SQLDataBase.dbmdl
 SQLDataBase/SQLDataBase.jfm

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -13,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WpfAppTest.Model;
+using WpfAppTest.Model.Oracle;
 using WpfAppTest.TestClass;
 using WpfAppTest.TestJSon;
 using WpfAppTest.ViewModel;
@@ -47,6 +49,37 @@ namespace WpfAppTest
             //test.TestMethod();
             //test.ToCharMethod();
 
+            //new TestExcuteAtTIme().TestExcuteAtTimeMethod();
+
+            var tnsName = "(DESCRIPTION = (ADDRESS_LIST = (ADDRESS = (PROTOCOL = TCP)(HOST = localhost)(PORT = 1521))(ADDRESS = (PROTOCOL = TCP)(HOST = 10.7.5.24)(PORT = 1577)))(CONNECT_DATA = (SERVER = DEDICATED)(SERVICE_NAME = ORCL)))";
+            var id = "";
+            var pw = "";
+
+            JObject paraInfo = JObject.FromObject(new
+            {
+                tnsName = tnsName,
+                id = id,
+                pw = pw,
+                queryString = @"BEGIN SET_MEDICINE_DATA('IMIDA5', 9, :ErrorMsg, :ErrorYN); END;",
+
+                //outParamater_VARCHAR2_Value1 = "ErrorMsg",
+                //outParamater_VARCHAR2_Value2 = "ErrorYN",
+
+                //queryString = @"UPDATE ADBVDRUG SET EXCHQTY = 5 WHERE DRUGCD = 'IMIDA5'",
+
+                //queryString = "BEGIN GET_MEDICINE_DATA('1', :p_cursor); END;",
+                //outParamater_RefCursor_Value1 = "p_cursor",
+
+
+            });
+
+
+
+            //new DataBaseOracleRepository().GetExecuteSelectQuery(paraInfo.ToString());
+            //new DataBaseOracleRepository().GetExecuteProcedure(paraInfo.ToString());
+            //new DataBaseOracleRepository().SetExecuteUpdateQuery(paraInfo.ToString());
+            //new DataBaseOracleRepository().SetExecuteProcedure(paraInfo.ToString());
+            
         }
 
         private void button_DoorAging_Click(object sender, RoutedEventArgs e)
