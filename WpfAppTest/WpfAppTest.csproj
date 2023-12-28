@@ -99,10 +99,20 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="View\CanvasTest.xaml.cs">
+      <DependentUpon>CanvasTest.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\GridSharedTest.xaml.cs">
+      <DependentUpon>GridSharedTest.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MenuWindow.xaml.cs">
+      <DependentUpon>MenuWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Model\Category.cs" />
     <Compile Include="Model\CategoryNameOrder.cs" />
     <Compile Include="Model\CategoryRepositoryInMemoery.cs" />
     <Compile Include="Model\CategoryRepositorySqlServer.cs" />
+    <Compile Include="Model\Cust.cs" />
     <Compile Include="Model\IBreadShop.cs" />
     <Compile Include="Model\ICategoryRepository.cs" />
     <Compile Include="Model\IDatabaseRepository.cs" />
@@ -112,8 +122,23 @@
     <Compile Include="TestClass\TestHttpRequestMethod.cs" />
     <Compile Include="TestClass\TestTrim.cs" />
     <Compile Include="View\BaseModule.cs" />
+    <Compile Include="View\BindingTest.xaml.cs">
+      <DependentUpon>BindingTest.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ControlTemplateTest.xaml.cs">
+      <DependentUpon>ControlTemplateTest.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\DerivedModule.xaml.cs">
       <DependentUpon>DerivedModule.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\DockPanelControlTest.xaml.cs">
+      <DependentUpon>DockPanelControlTest.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\GridSplitterTest.xaml.cs">
+      <DependentUpon>GridSplitterTest.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\HeaderContentControlTest.xaml.cs">
+      <DependentUpon>HeaderContentControlTest.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\OrderTestView.xaml.cs">
       <DependentUpon>OrderTestView.xaml</DependentUpon>
@@ -124,15 +149,56 @@
     <Compile Include="View\PopupTestView.xaml.cs">
       <DependentUpon>PopupTestView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\StackPanelControlTest.xaml.cs">
+      <DependentUpon>StackPanelControlTest.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\TestButton.xaml.cs">
       <DependentUpon>TestButton.xaml</DependentUpon>
     </Compile>
     <Compile Include="TestJSon\TestJSonClass.cs" />
+    <Compile Include="View\UniformGridTest.xaml.cs">
+      <DependentUpon>UniformGridTest.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\WrapPanelContolTest.xaml.cs">
+      <DependentUpon>WrapPanelContolTest.xaml</DependentUpon>
+    </Compile>
+    <Page Include="View\CanvasTest.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\GridSharedTest.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MenuWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\BindingTest.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ControlTemplateTest.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\DataTemplateTest.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\DerivedModule.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\DockPanelControlTest.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\GridSplitterTest.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\HeaderContentControlTest.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -173,7 +239,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\StackPanelControlTest.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\TestButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\UniformGridTest.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\WrapPanelContolTest.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

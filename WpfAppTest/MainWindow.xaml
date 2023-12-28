@@ -30,8 +30,15 @@
 
 
         <Grid>
-            <!--<ContentControl x:Name="ContentControl_Test"  ></ContentControl>-->
-            <Button Content="WebServiceTest" Click="Button_Click"></Button>
+            <!--<local:HeaderContentControlTest></local:HeaderContentControlTest>-->
+            <!--<local:BindingTest></local:BindingTest>-->
+            <!--<local:ControlTemplateTest></local:ControlTemplateTest>-->
+            <!--<local:WrapPanelContolTest></local:WrapPanelContolTest>-->
+            <!--<local:DockPanelControlTest></local:DockPanelControlTest>-->
+            <!--<local:GridSharedTest></local:GridSharedTest>-->
+            <!--<local:GridSplitterTest></local:GridSplitterTest>-->
+            <!--<local:UniformGridTest></local:UniformGridTest>-->
+            <local:CanvasTest></local:CanvasTest>
         </Grid>
     </Grid>
 

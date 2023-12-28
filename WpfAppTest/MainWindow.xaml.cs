@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using DevExpress.Utils;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -27,10 +28,13 @@ namespace WpfAppTest
     public partial class MainWindow : Window
     {
 
+
         public MainWindow()
         {
             InitializeComponent();
+            
 
+            #region 각종 테스트 관련 함수
             //var dataTemplateVM = new DataTemplateModel();
 
             //ContentControl_Test.Content = dataTemplateVM;
@@ -50,17 +54,19 @@ namespace WpfAppTest
             //test.ToCharMethod();
 
             //new TestExcuteAtTIme().TestExcuteAtTimeMethod();
+            #endregion
 
+            #region 오라클 관련 웹서비스 XML 테스트 함수
             var tnsName = "(DESCRIPTION = (ADDRESS_LIST = (ADDRESS = (PROTOCOL = TCP)(HOST = localhost)(PORT = 1521))(ADDRESS = (PROTOCOL = TCP)(HOST = 10.7.5.24)(PORT = 1577)))(CONNECT_DATA = (SERVER = DEDICATED)(SERVICE_NAME = ORCL)))";
-            var id = "";
-            var pw = "";
+            var id = "intipharm";
+            var pw = "jv2511";
 
             JObject paraInfo = JObject.FromObject(new
             {
                 tnsName = tnsName,
                 id = id,
                 pw = pw,
-                queryString = @"BEGIN SET_MEDICINE_DATA('IMIDA5', 9, :ErrorMsg, :ErrorYN); END;",
+                //queryString = @"BEGIN SET_MEDICINE_DATA('IMIDA5', 9, :ErrorMsg, :ErrorYN); END;",
 
                 //outParamater_VARCHAR2_Value1 = "ErrorMsg",
                 //outParamater_VARCHAR2_Value2 = "ErrorYN",
@@ -70,6 +76,12 @@ namespace WpfAppTest
                 //queryString = "BEGIN GET_MEDICINE_DATA('1', :p_cursor); END;",
                 //outParamater_RefCursor_Value1 = "p_cursor",
 
+                //queryString = @"SELECT A.CABINETSEQ,  A.SEQNO, A.INSTCD, B.PRCPDD,B.PRNTDT, B.ORDDRID,B.RGSTRID,  to_char(A.FSTRGSTDT, 'yyyy-mm-dd hh24:mi:SSxFF') AS JVMTIME, A.PRCPFLAG, B.DRUGBARCD,
+                //B.MEMO, B.PID, B.HNGNM, B.AGE, B.SEX, B.WARDNM, B.ROOMNM, B.ORDDEPTNM, B.DRUGIOFLAG, A.DRUGNO,A.DRUGCD, A.MTHDCD, A.MTHDNM,A.TOTDRUGQTY, A.PRCPVOL,A.PRCPVOLUNIT, A.DAYPRCPQTY, A.PRCPQTY, A.PRCPQTYUNIT, A.PRCPTIMS, A.PRCPDAYNO
+                //FROM ADTDDRUGCABINET A INNER JOIN ADTMDRUGCABINET B ON A.INSTCD = B.INSTCD AND A.CABINETSEQ = B.CABINETSEQ
+                //WHERE A.INSTCD = '126'"
+                //queryString = "select * from ADTMDRUGCABINET"
+                //queryString = "select * from ADBVDRUG"
 
             });
 
@@ -79,7 +91,8 @@ namespace WpfAppTest
             //new DataBaseOracleRepository().GetExecuteProcedure(paraInfo.ToString());
             //new DataBaseOracleRepository().SetExecuteUpdateQuery(paraInfo.ToString());
             //new DataBaseOracleRepository().SetExecuteProcedure(paraInfo.ToString());
-            
+
+            #endregion
         }
 
         private void button_DoorAging_Click(object sender, RoutedEventArgs e)
@@ -107,10 +120,10 @@ namespace WpfAppTest
             }
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            TestHttpRequestMethod.SendHttpRequestMethod();
+        //private void Button_Click(object sender, RoutedEventArgs e)
+        //{
+        //    TestHttpRequestMethod.SendHttpRequestMethod();
 
-        }
+        //}
     }
 }

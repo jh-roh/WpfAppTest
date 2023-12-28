@@ -10,6 +10,9 @@ namespace WpfAppTest.Model
     /// </summary>
     internal interface IDatabaseRepository
     {
+        List<dynamic> CreateDynamicList(List<Dictionary<string, object>> dataDictList);
+
+        Type CreateDynamicClass(Dictionary<string, object> dataDict);
         string GetExecuteSelectQuery(string getJsonData);
 
         string SetExecuteUpdateQuery(string setJsonData);
