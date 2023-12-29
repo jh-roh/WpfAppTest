@@ -6,8 +6,17 @@
              Startup="Application_Startup"
              Activated="Application_Activated"
              Deactivated="Application_Deactivated"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        
              Exit="Application_Exit">
     <Application.Resources>
-         
+        <sys:String x:Key="strTitle">고객관리 ver 1.0.1</sys:String>
+        <sys:String x:Key="strClass">강좌:</sys:String>
+        
+        <x:Array x:Key="cboClassItems" Type="sys:String">
+            <sys:String>WFP 초급</sys:String>
+            <sys:String>WFP 중급</sys:String>
+            <sys:String>WFP 응용실무</sys:String>
+        </x:Array>
     </Application.Resources>
 </Application>

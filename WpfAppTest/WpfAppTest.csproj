@@ -99,8 +99,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="View\CanvasTest.xaml.cs">
-      <DependentUpon>CanvasTest.xaml</DependentUpon>
+    <Compile Include="View\CanvasViewBoxTest.xaml.cs">
+      <DependentUpon>CanvasViewBoxTest.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ComboBoxTest.xaml.cs">
+      <DependentUpon>ComboBoxTest.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\EventRoutingTest.xaml.cs">
+      <DependentUpon>EventRoutingTest.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\GridSharedTest.xaml.cs">
       <DependentUpon>GridSharedTest.xaml</DependentUpon>
@@ -140,6 +146,18 @@
     <Compile Include="View\HeaderContentControlTest.xaml.cs">
       <DependentUpon>HeaderContentControlTest.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\LabelTextBlockTextBoxTest.xaml.cs">
+      <DependentUpon>LabelTextBlockTextBoxTest.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ListBoxTest.xaml.cs">
+      <DependentUpon>ListBoxTest.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\MarginPaddingTest.xaml.cs">
+      <DependentUpon>MarginPaddingTest.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\MouseHandling\MouseLocation.xaml.cs">
+      <DependentUpon>MouseLocation.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\OrderTestView.xaml.cs">
       <DependentUpon>OrderTestView.xaml</DependentUpon>
     </Compile>
@@ -148,6 +166,9 @@
     </Compile>
     <Compile Include="View\PopupTestView.xaml.cs">
       <DependentUpon>PopupTestView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ResoureceTest.xaml.cs">
+      <DependentUpon>ResoureceTest.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\StackPanelControlTest.xaml.cs">
       <DependentUpon>StackPanelControlTest.xaml</DependentUpon>
@@ -162,7 +183,15 @@
     <Compile Include="View\WrapPanelContolTest.xaml.cs">
       <DependentUpon>WrapPanelContolTest.xaml</DependentUpon>
     </Compile>
-    <Page Include="View\CanvasTest.xaml">
+    <Page Include="View\CanvasViewBoxTest.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ComboBoxTest.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\EventRoutingTest.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -202,6 +231,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\LabelTextBlockTextBoxTest.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ListBoxTest.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\LoginView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -227,6 +264,14 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\MarginPaddingTest.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\MouseHandling\MouseLocation.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\OrderTestView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -236,6 +281,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\PopupTestView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ResoureceTest.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

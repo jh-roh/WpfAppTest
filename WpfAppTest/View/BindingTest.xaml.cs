@@ -35,7 +35,7 @@ namespace WpfAppTest.View
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
-            custList.Add(new Cust(txtName.Text.Trim(), txtTel.Text.Trim()));
+            custList.Add(new Cust(txtName.Text.Trim(), txtTel.Text.Trim(),0));
         }
     }
 }

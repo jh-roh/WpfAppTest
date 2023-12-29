@@ -46,7 +46,21 @@ namespace WpfAppTest.Model
 
             }
         }
-        
+
+        private int intPoint;
+
+        public int IntPoint
+        {
+            get { return intPoint; }
+            set 
+            { 
+                intPoint = value; 
+                Notify("IntPoint");
+
+            }
+        }
+
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         void Notify(string propName)
@@ -55,15 +69,16 @@ namespace WpfAppTest.Model
                 PropertyChanged(this, new PropertyChangedEventArgs(propName));
         }
 
-        public Cust():this("성명", "전화번호")
+        public Cust():this("성명", "전화번호",0)
         {
 
         }
 
-        public Cust(string name, string tel)
+        public Cust(string name, string tel, int intPoint)
         {
             this.Name = name;
             this.Tel = tel;
+            this.IntPoint = intPoint;
         }
     }
 }
