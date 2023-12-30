@@ -35,5 +35,22 @@ namespace WpfAppTest.View.MouseHandling
 
         }
 
+
+        private void cvs01_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void cvs01_MouseMove(object sender, MouseEventArgs e)
+        {
+            Debug.WriteLine("MouseMove");
+
+        }
+
+        private void cvs01_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
     }
 }
