@@ -1,0 +1,71 @@
+﻿<UserControl x:Class="WpfAppTest.View.DataBinding.DefaultBinding"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WpfAppTest.View.DataBinding"
+             xmlns:model="clr-namespace:WpfAppTest.Model"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <!--<model:Cust x:Key="c1" >
+            <model:Cust.Name>김유신</model:Cust.Name>
+            <model:Cust.Age>15</model:Cust.Age>
+        </model:Cust>--> 
+        <model:Cust x:Key="c2" Name="이순신" Age="4" />
+        <local:Int32ToBrush x:Key="ageConverter" />
+        <local:Int32ToHex x:Key="int32ToHex" />
+    </UserControl.Resources>
+    <!--DataContext="{StaticResource c2}"-->
+    <Grid Margin="10" x:Name="grdMain" DataContext="{StaticResource c2}" >
+        <Grid.RowDefinitions >
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <TextBlock Grid.Row="0" Grid.Column="0" Margin="10,5" VerticalAlignment="Center">성명:</TextBlock>
+        <TextBox x:Name="txtName" Grid.Row="0" Grid.Column="1" Margin="5" Padding="2" VerticalAlignment="Center" 
+                 Text="{Binding Path=Name}"
+                 Foreground="{Binding Path=Age, Converter={StaticResource ageConverter}}">
+            <!--<TextBox.Text>
+                <Binding Path="Name" Mode="OneWay"></Binding> 
+                --><!--Name : Filed Name--><!-- 
+            </TextBox.Text>-->
+        </TextBox>
+
+        <TextBlock Grid.Row="1" Grid.Column="0" Margin="10,5">나이:</TextBlock>
+        <TextBox x:Name="txtAge" Grid.Row="1" Grid.Column="1" Margin="5" Padding="2"
+                 ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors)[0].ErrorContent}"
+                 Foreground="Blue" >
+            <!--<TextBox.Text>
+                <Binding Path="Age"   Mode="OneWay"></Binding>
+                 --><!--Age : Filed Name--><!-- 
+            </TextBox.Text>-->
+            <!--Text="{Binding Path=Age, Converter={StaticResource int32ToHex}, Mode=TwoWay}"-->
+            <TextBox.Text>
+                <Binding Path="Age"
+                         Mode="TwoWay"
+                         UpdateSourceTrigger="PropertyChanged"
+                         >
+                    <!--NotifyOnValidationError="True"-->
+                    <Binding.ValidationRules>
+                        <!--<ExceptionValidationRule />-->
+                        <local:AgeRangeRule Min="0" Max="125"></local:AgeRangeRule>
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox.Text>
+        </TextBox>
+
+        <TextBlock Text="{Binding Path=Age}" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"> </TextBlock>
+
+        <Button x:Name="btnYear" Grid.Row="2" Grid.Column="1" Margin="5" Content="출생년도"
+                Foreground="{Binding ElementName=txtAge, Path=Foreground}"></Button>
+
+        <Button x:Name="btnAddAge" Grid.Row="3" Grid.Column="1" Margin="5" Content="나이증가" Click="btnAddAge_Click" ></Button>
+    </Grid>
+</UserControl>

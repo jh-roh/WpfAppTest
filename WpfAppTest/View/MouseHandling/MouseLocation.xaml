@@ -6,15 +6,15 @@
              xmlns:local="clr-namespace:WpfAppTest.View.MouseHandling"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <!--<Grid x:Name="grdMain" >
+    <Grid x:Name="grdMain" >
         <Canvas x:Name="cvsMain" MouseMove="cvsMain_MouseMove" Background="Yellow" Margin="10"></Canvas>
             
         
         
         
-    </Grid>-->
+    </Grid>
 
-    <Grid>
+    <!--<Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
             <ColumnDefinition />
@@ -22,6 +22,6 @@
 
         <Canvas x:Name="cvs01" Grid.Column="0" MouseDown="cvs01_MouseDown" MouseMove="cvs01_MouseMove" MouseUp="cvs01_MouseUp" Background="Yellow"></Canvas>
         <Canvas x:Name="cvs02" Grid.Column="1" Background="#00ffff"></Canvas>
-    </Grid>
+    </Grid>-->
 
 </UserControl>

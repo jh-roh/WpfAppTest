@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfAppTest.View"
         xmlns:mouseHandle="clr-namespace:WpfAppTest.View.MouseHandling"
-        
+        xmlns:Keyboard="clr-namespace:WpfAppTest.View.KeyboardHandling"
+        xmlns:Binding="clr-namespace:WpfAppTest.View.DataBinding"
         xmlns:viewModel="clr-namespace:WpfAppTest.ViewModel"
         xmlns:model="clr-namespace:WpfAppTest.Model"
         xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
@@ -46,7 +47,12 @@
             <!--<local:ListBoxTest></local:ListBoxTest>-->
             <!--<local:ComboBoxTest></local:ComboBoxTest>-->
             <!--<local:EventRoutingTest></local:EventRoutingTest>-->
-            <mouseHandle:MouseLocation></mouseHandle:MouseLocation>
+            <!--<mouseHandle:MouseLocation></mouseHandle:MouseLocation>-->
+            <!--<Keyboard:KeyboardTest></Keyboard:KeyboardTest>-->
+            <!--<Binding:PreviousBinding></Binding:PreviousBinding>-->
+            <!--<Binding:DefaultBinding/>-->
+            <!--<Binding:StringFormatBinding></Binding:StringFormatBinding>-->
+            <Binding:BindingList></Binding:BindingList>
         </Grid>
     </Grid>
 

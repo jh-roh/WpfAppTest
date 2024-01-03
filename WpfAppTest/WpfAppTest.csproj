@@ -102,11 +102,24 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Model\CustList.cs" />
     <Compile Include="View\CanvasViewBoxTest.xaml.cs">
       <DependentUpon>CanvasViewBoxTest.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\ComboBoxTest.xaml.cs">
       <DependentUpon>ComboBoxTest.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\DataBinding\BindingList.xaml.cs">
+      <DependentUpon>BindingList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\DataBinding\DefaultBinding.xaml.cs">
+      <DependentUpon>DefaultBinding.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\DataBinding\PreviousBinding.xaml.cs">
+      <DependentUpon>PreviousBinding.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\DataBinding\StringFormatBinding.xaml.cs">
+      <DependentUpon>StringFormatBinding.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\EventRoutingTest.xaml.cs">
       <DependentUpon>EventRoutingTest.xaml</DependentUpon>
@@ -148,6 +161,9 @@
     </Compile>
     <Compile Include="View\HeaderContentControlTest.xaml.cs">
       <DependentUpon>HeaderContentControlTest.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\KeyboardHandling\KeyboardTest.xaml.cs">
+      <DependentUpon>KeyboardTest.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\LabelTextBlockTextBoxTest.xaml.cs">
       <DependentUpon>LabelTextBlockTextBoxTest.xaml</DependentUpon>
@@ -194,6 +210,22 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\DataBinding\BindingList.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\DataBinding\DefaultBinding.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\DataBinding\PreviousBinding.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\DataBinding\StringFormatBinding.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\EventRoutingTest.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -231,6 +263,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\HeaderContentControlTest.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\KeyboardHandling\KeyboardTest.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

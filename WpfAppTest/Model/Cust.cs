@@ -60,6 +60,20 @@ namespace WpfAppTest.Model
             }
         }
 
+        private int age;
+        public int Age
+        {
+            get
+            {
+                return age;
+            }
+            set
+            {
+                age = value;
+                Notify("Age");
+            }
+        }
+
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -79,6 +93,11 @@ namespace WpfAppTest.Model
             this.Name = name;
             this.Tel = tel;
             this.IntPoint = intPoint;
+        }
+
+        public override string ToString()
+        {
+            return String.Format("성명 :{0}, 나이 :{1}",name,age);
         }
     }
 }
