@@ -102,6 +102,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Database\dsWpf.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>dsWpf.xsd</DependentUpon>
+    </Compile>
     <Compile Include="Model\CustList.cs" />
     <Compile Include="View\CanvasViewBoxTest.xaml.cs">
       <DependentUpon>CanvasViewBoxTest.xaml</DependentUpon>
@@ -120,6 +125,9 @@
     </Compile>
     <Compile Include="View\DataBinding\StringFormatBinding.xaml.cs">
       <DependentUpon>StringFormatBinding.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\DataBinding\XmlDataProviderBinding.xaml.cs">
+      <DependentUpon>XmlDataProviderBinding.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\EventRoutingTest.xaml.cs">
       <DependentUpon>EventRoutingTest.xaml</DependentUpon>
@@ -170,6 +178,9 @@
     </Compile>
     <Compile Include="View\ListBoxTest.xaml.cs">
       <DependentUpon>ListBoxTest.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ListViewTest.xaml.cs">
+      <DependentUpon>ListViewTest.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\MarginPaddingTest.xaml.cs">
       <DependentUpon>MarginPaddingTest.xaml</DependentUpon>
@@ -226,6 +237,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\DataBinding\XmlDataProviderBinding.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\EventRoutingTest.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -275,6 +290,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\ListBoxTest.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ListViewTest.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -362,6 +381,18 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="app.config" />
+    <None Include="Database\dsWpf.xsc">
+      <DependentUpon>dsWpf.xsd</DependentUpon>
+    </None>
+    <None Include="Database\dsWpf.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>dsWpf.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Database\dsWpf.xss">
+      <DependentUpon>dsWpf.xsd</DependentUpon>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -380,6 +411,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Library\Oracle.ManagedDataAccess.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="XmlData\Custlist.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

@@ -52,7 +52,9 @@
             <!--<Binding:PreviousBinding></Binding:PreviousBinding>-->
             <!--<Binding:DefaultBinding/>-->
             <!--<Binding:StringFormatBinding></Binding:StringFormatBinding>-->
-            <Binding:BindingList></Binding:BindingList>
+            <!--<Binding:BindingList></Binding:BindingList>-->
+            <!--<Binding:XmlDataProviderBinding></Binding:XmlDataProviderBinding>-->
+            <local:ListViewTest></local:ListViewTest>
         </Grid>
     </Grid>
 

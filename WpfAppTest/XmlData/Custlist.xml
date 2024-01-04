@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<CustList xmlns="http://test01.co.kr">
+	<Cust Name="홍길동" Age="17" Id="aa"/>
+	<Cust Name="김유신" Age="60" Id="bb"/>
+	<Cust Name="이순신" Age="50" Id="cc"/>
+	<Cust Name="감강찬" Age="16" Id="dd"/>
+</CustList>

@@ -22,5 +22,16 @@ namespace WpfAppTest.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=WpfTestLocalDB;Integrated Secu" +
+            "rity=True")]
+        public string WpfTestLocalDBConnectionString {
+            get {
+                return ((string)(this["WpfTestLocalDBConnectionString"]));
+            }
+        }
     }
 }

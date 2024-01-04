@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
@@ -17,6 +18,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WpfAppTest.Database;
 using WpfAppTest.Model;
 
 namespace WpfAppTest.View.DataBinding
@@ -33,14 +35,20 @@ namespace WpfAppTest.View.DataBinding
 
         private void btnYear_Click(object sender, RoutedEventArgs e)
         {
-            CustList list = (CustList)this.FindResource("custList");
+            //CustList list = (CustList)this.FindResource("custList");
 
-            ICollectionView view = CollectionViewSource.GetDefaultView(list);
+            //ICollectionView view = CollectionViewSource.GetDefaultView(list);
+            //Cust c = (Cust)view.CurrentItem;
 
-            Cust c = (Cust)view.CurrentItem;
+            ICollectionView view = GetList();
 
-            Debug.WriteLine("성명: " + c.Name);
-            Debug.WriteLine("나이: " + c.Age);
+            dsWpf.t_custRow c = (dsWpf.t_custRow)((DataRowView)view.CurrentItem).Row;
+
+
+
+
+            Debug.WriteLine("성명: " + c.name);
+            Debug.WriteLine("나이: " + c.age);
         }
 
         private void btnPre_Click(object sender, RoutedEventArgs e)
@@ -69,9 +77,11 @@ namespace WpfAppTest.View.DataBinding
 
         private ICollectionView GetList()
         {
-            CustList list = (CustList)this.FindResource("custList");
+            //CustList list = (CustList)this.FindResource("custList");
 
-            return CollectionViewSource.GetDefaultView(list);
+
+            DataSourceProvider prov = (DataSourceProvider)this.FindResource("custList");
+            return CollectionViewSource.GetDefaultView(prov.Data);
         }
 
         private void lstCust_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -136,8 +146,8 @@ namespace WpfAppTest.View.DataBinding
 
             if (list.SortDescriptions.Count == 0)
             {
-                list.SortDescriptions.Add(new SortDescription("Age", ListSortDirection.Ascending));
-                list.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Descending));
+                list.SortDescriptions.Add(new SortDescription("age", ListSortDirection.Ascending));
+                list.SortDescriptions.Add(new SortDescription("name", ListSortDirection.Descending));
             }
             else
             {
@@ -168,7 +178,7 @@ namespace WpfAppTest.View.DataBinding
 
             if(list.GroupDescriptions.Count == 0)
             {
-                list.GroupDescriptions.Add(new PropertyGroupDescription("Name"));
+                list.GroupDescriptions.Add(new PropertyGroupDescription("name"));
             }
             else
             {
@@ -182,12 +192,12 @@ namespace WpfAppTest.View.DataBinding
             if (list.GroupDescriptions.Count == 0)
             {
                 list.GroupDescriptions.Add(
-                    new PropertyGroupDescription("Age",new AgeToRangeConverter())
+                    new PropertyGroupDescription("age",new AgeToRangeConverter())
                 );
 
                 //다층 그룹용
                 list.GroupDescriptions.Add(
-                   new PropertyGroupDescription("Name")
+                   new PropertyGroupDescription("name")
                );
             }
             else

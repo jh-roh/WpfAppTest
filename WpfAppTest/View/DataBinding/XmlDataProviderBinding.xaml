@@ -1,0 +1,68 @@
+﻿<UserControl x:Class="WpfAppTest.View.DataBinding.XmlDataProviderBinding"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WpfAppTest.View.DataBinding"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+
+        <!--Source="pack://application:,,,/WpfAppTest;component/XmlData/Custlist.xml"-->
+        <!--<XmlDataProvider x:Key="custList" Source="pack://application:,,,/WpfAppTest;component/XmlData/Custlist.xml"  XPath="/sb:CustList/sb:Cust">
+            <XmlDataProvider.XmlNamespaceManager>
+                <XmlNamespaceMappingCollection>
+                    <XmlNamespaceMapping Uri="http://test01.co.kr" Prefix="sb" />
+                </XmlNamespaceMappingCollection>
+            </XmlDataProvider.XmlNamespaceManager>
+        </XmlDataProvider>-->
+
+        <!--<XmlDataProvider x:Key="custList" Source="pack://application:,,,/WpfAppTest;component/XmlData/Custlist.xml"  XPath="/sb:CustList/sb:Cust">
+            <XmlDataProvider.XmlNamespaceManager>
+                <XmlNamespaceMappingCollection>
+                    <XmlNamespaceMapping Uri="http://test01.co.kr" Prefix="sb" />
+                </XmlNamespaceMappingCollection>
+            </XmlDataProvider.XmlNamespaceManager>
+
+            <x:XData>
+                <CustList xmlns="http://test01.co.kr">
+                    <Cust Name="홍길동" Age="17" Id="aa"/>
+                    <Cust Name="김유신" Age="60" Id="bb"/>
+                    <Cust Name="이순신" Age="50" Id="cc"/>
+                    <Cust Name="감강찬" Age="16" Id="dd"/>
+                </CustList>
+            </x:XData>
+        </XmlDataProvider>-->
+
+    </UserControl.Resources>
+    <Grid x:Name="grdMain">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="120"/>
+        </Grid.ColumnDefinitions>
+        <!--DataContext="{StaticResource custList}"-->
+        <ListBox  ItemsSource="{Binding}" IsSynchronizedWithCurrentItem="True"
+                 MouseDoubleClick="ListBox_MouseDoubleClick">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock>
+                        <TextBlock Text="{Binding XPath=@Id}" />
+                        (<TextBlock Text="{Binding XPath=@Name}" /> - <TextBlock Text="{Binding XPath=@Age}"/>)
+                    </TextBlock>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Button x:Name="btnAdd" Content="추가" Click="btnAdd_Click"></Button>
+        </Grid>
+    </Grid>
+</UserControl>
