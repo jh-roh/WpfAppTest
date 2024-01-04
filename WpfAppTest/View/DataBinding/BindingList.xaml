@@ -5,17 +5,31 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WpfAppTest.View.DataBinding"
              xmlns:model="clr-namespace:WpfAppTest.Model"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
-        <model:CustList x:Key="custList">
+        <model:CustList x:Key="custList2">
             <model:Cust Name="홍길동" Age="17" />
             <model:Cust Name="이순신" Age="22"/>
             <model:Cust Name="김유신" Age="46"/>
             <model:Cust Name="유관순" Age="16"/>
             <model:Cust Name="강감찬" Age="33"/>
+            <model:Cust Name="이순신" Age="33"/>
+            <model:Cust Name="이순신" Age="19"/>
 
         </model:CustList>
+        <ObjectDataProvider x:Key="custList"
+                            ObjectType="{x:Type local:RemortCustListLoader}"
+                            MethodName="loadCustList"
+                            IsAsynchronous="True"
+                            >
+            <ObjectDataProvider.MethodParameters>
+                <sys:String>20</sys:String>
+                <sys:String>39</sys:String>
+            </ObjectDataProvider.MethodParameters>
+            
+        </ObjectDataProvider>
         <DataTemplate DataType="{x:Type model:Cust}">
             <Grid>
                 <Grid.RowDefinitions>
@@ -26,13 +40,16 @@
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+
                 </Grid.ColumnDefinitions>
                 <Image Grid.Row="0" Grid.Column="0"
-               Grid.RowSpan="2"  Width="64" Height="64"
+               Grid.RowSpan="2"  Width="50" Height="64"
                Source="https://cdn3.iconfinder.com/data/icons/pixel-perfect-at-16px-volume-3-1/16/2049-512.png"></Image>
                 <TextBlock Grid.Row="0" Grid.Column="1" >성명:</TextBlock>
                 <TextBlock Grid.Row="0" Grid.Column="2"  Text="{Binding Path=Name}"></TextBlock>
 
+                <Button x:Name="btnDelete" Grid.Row="0" Grid.Column="3" Content="삭제" Click="btnDelete_Click"></Button>
                 <TextBlock Grid.Row="1" Grid.Column="1" >나이:</TextBlock>
                 <TextBlock Grid.Row="1" Grid.Column="2"  Text="{Binding Path=Age}"></TextBlock>
 
@@ -48,11 +65,28 @@
         </Grid.ColumnDefinitions>
         <ListBox x:Name="lstCust" Grid.Column="0"  ItemsSource="{Binding}" IsSynchronizedWithCurrentItem="True"
                SelectedValuePath="Age"  MouseDoubleClick="lstCust_MouseDoubleClick" HorizontalContentAlignment="Stretch">
-
+            <ListBox.GroupStyle>
+                <!--<x:Static Member="GroupStyle.Default" />-->
+                <GroupStyle>
+                    <GroupStyle.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Name}" Background="#333" Foreground="#ffffff" FontWeight="Bold">
+                                 (<TextBlock Text="{Binding ItemCount}"/> )
+                            </TextBlock>
+                           
+                        </DataTemplate>
+                    </GroupStyle.HeaderTemplate>
+                </GroupStyle>
+            </ListBox.GroupStyle>
         </ListBox>
         
         <Grid  Grid.Column="1">
             <Grid.RowDefinitions >
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -85,6 +119,22 @@
                       DataContext="{Binding Source={StaticResource custList}}"
                       ItemsSource="{Binding}" 
                       DisplayMemberPath="Name" SelectedValuePath="Age" SelectedValue="{Binding Path=Age}" IsSynchronizedWithCurrentItem="True"></ComboBox>
+            <Button x:Name="btnAddCustOld" Grid.Row="6" Grid.Column="1" Content="신규 고객 추가" Click="btnAddCust_Click_old"></Button>
+            <Button x:Name="btnAddCust" Grid.Row="6" Grid.Column="1" Content="신규 고객 추가" Click="btnAddCust_Click"></Button>
+
+            <Grid Grid.Row="7" Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <Button x:Name="btnSortName" Grid.Column="0" Content="성명 정렬" Click="btnSortName_Click"></Button>
+                <Button x:Name="btnSortAge" Grid.Column="1" Content="나이 정렬" Click="btnSortAge_Click"></Button>
+            </Grid>
+            <Button x:Name="btnFilter" Grid.Row="8" Grid.Column="1" Content="성인 필터" Click="btnFilter_Click"></Button>
+            <Button x:Name="btnGroupName" Grid.Row="9" Grid.Column="1" Content="성명 그룹핑" Click="btnGroupName_Click"></Button>
+            <Button x:Name="btnAgeRangeGroup" Grid.Row="10" Grid.Column="1" Content="미성년 그룹핑" Click="btnAgeRangeGroup_Click"></Button>
+        
         </Grid>
     </Grid>
     
