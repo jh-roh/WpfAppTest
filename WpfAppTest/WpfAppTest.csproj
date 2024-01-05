@@ -210,6 +210,9 @@
       <DependentUpon>TestButton.xaml</DependentUpon>
     </Compile>
     <Compile Include="TestJSon\TestJSonClass.cs" />
+    <Compile Include="View\TreeView\TreeViewTest.xaml.cs">
+      <DependentUpon>TreeViewTest.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\UniformGridTest.xaml.cs">
       <DependentUpon>UniformGridTest.xaml</DependentUpon>
     </Compile>
@@ -358,6 +361,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\TestButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\TreeView\TreeViewTest.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

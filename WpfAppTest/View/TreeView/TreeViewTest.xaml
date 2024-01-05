@@ -18,6 +18,9 @@
                 <TreeViewItem Header="강동구" />
             </TreeViewItem>
             <TreeViewItem Header="경기도">
+                <TreeViewItem Header="수원시" />
+                <TreeViewItem Header="화성시" />
+                <TreeViewItem Header="강북구" />
                 <TreeViewItem Header="강북구" />
             </TreeViewItem>
         </TreeView>
