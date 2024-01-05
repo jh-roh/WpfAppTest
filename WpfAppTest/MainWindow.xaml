@@ -15,6 +15,7 @@
         xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
         xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/charts"
         xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+        xmlns:listView="clr-namespace:WpfAppTest.View.ListView"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800" >
     <Window.Resources>
@@ -54,7 +55,8 @@
             <!--<Binding:StringFormatBinding></Binding:StringFormatBinding>-->
             <!--<Binding:BindingList></Binding:BindingList>-->
             <!--<Binding:XmlDataProviderBinding></Binding:XmlDataProviderBinding>-->
-            <local:ListViewTest></local:ListViewTest>
+            <!--<local:ListViewTest></local:ListViewTest>-->
+            <listView:ListViewWithGridView></listView:ListViewWithGridView>
         </Grid>
     </Grid>
 

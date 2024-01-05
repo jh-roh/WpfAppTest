@@ -32,16 +32,16 @@ namespace WpfAppTest.View
         private void LoadData()
         {
             list = new List<Cust>();
-            list.Add(new Cust { Name = "홍길동", Age = 17 });
-            list.Add(new Cust { Name = "이순신", Age = 58 });
-            list.Add(new Cust { Name = "김유신", Age = 23 });
+            list.Add(new Cust { Name = "홍길동", Age = 17 , Email = "aaa@naver.com"});
+            list.Add(new Cust { Name = "이순신", Age = 58 , Email = "bbb@naver.com"});
+            list.Add(new Cust { Name = "김유신", Age = 23 , Email = "ccc@naver.com"});
     
             lvCust.ItemsSource = list;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            list.Add(new Cust() { Name = "을지문덕", Age = 45 });
+            list.Add(new Cust() { Name = "을지문덕", Age = 45, Email = "ddd@naver.com" });
             lvCust.ItemsSource = null;
             lvCust.ItemsSource = list;
 

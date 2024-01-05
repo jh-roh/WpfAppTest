@@ -89,6 +89,18 @@ namespace WpfAppTest.Model
             }
         }
 
+        private string sex;
+
+        public string Sex
+        {
+            get { return sex; }
+            set
+            {
+                sex = value;
+                Notify("Sex");
+            }
+        }
+
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -112,7 +124,7 @@ namespace WpfAppTest.Model
 
         public override string ToString()
         {
-            return String.Format("성명 :{0}, 나이 :{1}",name,age);
+            return String.Format("성명 :{0}, 나이 :{1}, Email : {2}",name,age, Email);
         }
     }
 }

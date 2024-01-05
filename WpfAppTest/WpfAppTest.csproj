@@ -179,8 +179,11 @@
     <Compile Include="View\ListBoxTest.xaml.cs">
       <DependentUpon>ListBoxTest.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\ListViewTest.xaml.cs">
+    <Compile Include="View\ListView\ListViewTest.xaml.cs">
       <DependentUpon>ListViewTest.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ListView\ListViewWithGridView.xaml.cs">
+      <DependentUpon>ListViewWithGridView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\MarginPaddingTest.xaml.cs">
       <DependentUpon>MarginPaddingTest.xaml</DependentUpon>
@@ -293,7 +296,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\ListViewTest.xaml">
+    <Page Include="View\ListView\ListViewTest.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ListView\ListViewWithGridView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

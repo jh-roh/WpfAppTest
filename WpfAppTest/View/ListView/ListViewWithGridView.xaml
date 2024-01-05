@@ -1,0 +1,112 @@
+﻿<UserControl x:Class="WpfAppTest.View.ListView.ListViewWithGridView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WpfAppTest.View.ListView"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="400">
+    <UserControl.Resources>
+        <Style TargetType="{x:Type GridViewColumnHeader}">
+            <Setter Property="HorizontalContentAlignment" Value="Left"></Setter>
+        </Style>
+    </UserControl.Resources>
+    <DockPanel>
+        <Grid DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="100"/>
+            </Grid.ColumnDefinitions>
+            <TextBox x:Name="txtFilter" Grid.Column="0" TextChanged="txtFilter_TextChanged"/>
+            <Button x:Name="btnFilter" Grid.Column="1" Content="필터링"  Margin="10,0,0,0" Click="btnFilter_Click"/>
+        </Grid>
+        
+        <Grid Margin="10">
+            <ListView x:Name="lvCust">
+                <ListView.Resources>
+                    <!--리스트뷰에서만 해당 스타일 적용됨.-->
+                </ListView.Resources>
+
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn  Width="120" DisplayMemberBinding="{Binding Name}">
+                            <GridViewColumn.Header>
+                                <GridViewColumnHeader Content="성명" Tag="Name" Click="GridViewColumnHeader_Click"></GridViewColumnHeader>
+                            </GridViewColumn.Header>
+                        </GridViewColumn>
+                        <GridViewColumn  Width="80" DisplayMemberBinding="{Binding Age}" >
+                            <GridViewColumn.Header>
+                                <GridViewColumnHeader Content="나이" Tag="Age" Click="GridViewColumnHeader_Click"></GridViewColumnHeader>
+                            </GridViewColumn.Header>
+
+                        </GridViewColumn>
+                        <GridViewColumn  Width="200"  >
+                            <GridViewColumn.Header>
+                                <GridViewColumnHeader Content="이메일" Tag="Email" Click="GridViewColumnHeader_Click"></GridViewColumnHeader>
+                            </GridViewColumn.Header>
+                            <!--DisplayMemberBinding="{Binding Email}"-->
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Email}" TextDecorations="Underline" Foreground="Blue" Cursor="Hand" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+
+                    </GridView>
+                </ListView.View>
+                <ListView.GroupStyle>
+                    <GroupStyle>
+                        <GroupStyle.ContainerStyle>
+                            <Style TargetType="{x:Type GroupItem}">
+                                <Setter Property="Template" >
+                                    <Setter.Value>
+                                        <ControlTemplate>
+                                            <Expander>
+                                                <Expander.Header>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="{Binding Name}" 
+                                                               FontWeight="Bold" Foreground="#333" FontFamily="16"/>
+
+                                                        <TextBlock Text="{Binding ItemCount}" 
+                                                               FontWeight="Bold" Foreground="#333" FontFamily="16" Margin="10,0,0,0"/>
+                                                        <TextBlock>명</TextBlock>
+                                                    </StackPanel>
+                                                </Expander.Header>
+                                                <ItemsPresenter/>
+                                            </Expander>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </GroupStyle.ContainerStyle>
+                        <!--<GroupStyle.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock>
+                                <TextBlock Text="{Binding Name}" FontWeight="Bold" FontSize="16">
+                                 (<TextBlock Text="{Binding ItemCount}" FontWeight="Bold" FontSize="12"/>)
+                                </TextBlock>
+                            </TextBlock>
+                        </DataTemplate>
+                    </GroupStyle.HeaderTemplate>-->
+                    </GroupStyle>
+                </ListView.GroupStyle>
+                <!--<ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="성명: "></TextBlock>
+                        <TextBlock Text="{Binding Name}" FontWeight="Bold"></TextBlock>
+                        <TextBlock Text=" 나이: "></TextBlock>
+                        <TextBlock Text="{Binding Age}"></TextBlock>
+                        <TextBlock Text=" (이메일: "></TextBlock>
+                        <TextBlock Text="{Binding Email}" TextDecorations="Underline" Foreground="Blue"></TextBlock>
+                        <TextBlock Text=")"></TextBlock>
+
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>-->
+            </ListView>
+            <Button Content="추가" Width="100" Height="25" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="Button_Click"></Button>
+        </Grid>
+    </DockPanel>
+    
+</UserControl>

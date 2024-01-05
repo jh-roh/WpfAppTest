@@ -8,6 +8,20 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid Margin="10">
         <ListView x:Name="lvCust">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="성명: "></TextBlock>
+                        <TextBlock Text="{Binding Name}" FontWeight="Bold"></TextBlock>
+                        <TextBlock Text=" 나이: "></TextBlock>
+                        <TextBlock Text="{Binding Age}"></TextBlock>
+                        <TextBlock Text=" (이메일: "></TextBlock>
+                        <TextBlock Text="{Binding Email}" TextDecorations="Underline" Foreground="Blue"></TextBlock>
+                        <TextBlock Text=")"></TextBlock>
+
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
             <!--<ListViewItem>
                 <StackPanel Orientation="Horizontal">
                     <Image Width="32" Height="32" Source="https://cdn4.iconfinder.com/data/icons/radio-buttons-and-switch/512/Bullet_point_green-512.png"></Image>
