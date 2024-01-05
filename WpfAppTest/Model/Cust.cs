@@ -12,6 +12,22 @@ namespace WpfAppTest.Model
 
     public class Cust :INotifyPropertyChanged
     {
+        private int id;
+
+        public int Id
+        {
+            get
+            {
+                return id;
+            }
+            set
+            {
+                id = value;
+                Notify("id");
+            }
+        }
+
+
         private string name;
 
         public String Name
@@ -27,6 +43,21 @@ namespace WpfAppTest.Model
                 Notify("Name");
             }
         
+        }
+
+        private DateTime birthDay;
+
+        public DateTime BirthDay
+        {
+            get
+            {
+                return birthDay;
+            }
+            set
+            {
+                birthDay = value;
+                Notify("BirthDay");
+            }
         }
 
         private string tel;
@@ -98,6 +129,29 @@ namespace WpfAppTest.Model
             {
                 sex = value;
                 Notify("Sex");
+            }
+        }
+
+        public string Memo
+        {
+            get
+            {
+                return Name + "님의 생일은 " + BirthDay.ToShortDateString() + "입니다.";
+            }
+        }
+
+        private string imageUrl;
+
+        public string ImageUrl
+        {
+            get
+            {
+                return imageUrl;
+            }
+            set
+            {
+                imageUrl = value;
+                Notify("ImageUrl");
             }
         }
 

@@ -1,0 +1,164 @@
+﻿<UserControl x:Class="WpfAppTest.View.EventTrigger.EventTriggerTest"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WpfAppTest.View.EventTrigger"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <TextBlock Text="WPF Programming" FontSize="28" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock.Style>
+                <Style TargetType="{x:Type TextBlock}">
+                    <Setter Property="Foreground" Value="Blue"></Setter>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Foreground" Value="Red" ></Setter>
+                            <Setter Property="TextDecorations" Value="Underline" ></Setter>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
+
+        <StackPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <CheckBox x:Name="ChkMail" Content="메일 수신동의?"></CheckBox>
+            <TextBlock HorizontalAlignment="Center" Margin="0,20,0,0" FontSize="35">
+                <TextBlock.Style>
+                    <Style TargetType="{x:Type TextBlock}">
+                        <Setter Property="Text" Value="No"/>
+                        <Setter Property="Foreground" Value="Red"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ElementName=ChkMail, Path=IsChecked}" Value="True">
+                                <Setter Property="Text" Value="Yes"/>
+                                <Setter Property="Foreground" Value="Blue"/>
+                                <Setter Property="FontStyle" Value="Italic" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+
+            <TextBlock Text="WPF Programming" FontSize="28" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock.Style>
+                    <Style TargetType="{x:Type TextBlock}">
+                        <Style.Triggers>
+                            <EventTrigger RoutedEvent="MouseEnter">
+                                <EventTrigger.Actions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Duration="0:0:0.3" 
+                                                             Storyboard.TargetProperty="FontSize"
+                                                              To="28"></DoubleAnimation>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger.Actions>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="MouseLeave">
+                                <EventTrigger.Actions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Duration="0:0:0.3" 
+                                 Storyboard.TargetProperty="FontSize"
+                                  To="18"></DoubleAnimation>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger.Actions>
+                            </EventTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+
+            <TextBox VerticalAlignment="Center" HorizontalAlignment="Center" Text="마우스, 포커스 이동">
+                <TextBox.Style>
+                    <Style TargetType="{x:Type TextBox}" >
+                        <Style.Triggers>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="IsKeyboardFocused" Value="True"/>
+                                    <Condition Property="IsMouseOver" Value="True"/>
+                                    
+                                </MultiTrigger.Conditions>
+                                <MultiTrigger.Setters>
+                                    <Setter Property="Background" Value="#00ffff"></Setter>
+                                </MultiTrigger.Setters>
+                            </MultiTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBox.Style>
+            </TextBox>
+
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <CheckBox x:Name="chkInfo" Content="개인정보 활용 동의"/>
+                <CheckBox x:Name="chkEmail" Content="이메일 수신 동의"/>
+
+                <Button HorizontalAlignment="Center" Margin="0,20,0,0" FontSize="15" Content="다음" Width="100">
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="IsEnabled" Value="False"/>
+
+                            <Style.Triggers>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding ElementName=chkInfo, Path=IsChecked}"  Value="True"/>
+                                        <Condition Binding="{Binding ElementName=chkEmail, Path=IsChecked}" Value="True"/>
+                                    </MultiDataTrigger.Conditions>
+                                    <Setter Property="IsEnabled" Value="True"></Setter>
+                                </MultiDataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+             </StackPanel>
+
+            <Grid>
+                <Border Background="LightBlue" Width="150" Height="150" BorderBrush="Blue">
+                    <Border.Style>
+                        <Style TargetType="{x:Type Border}">
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Trigger.EnterActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <ThicknessAnimation Duration="0:0:0.5" 
+                                                                    Storyboard.TargetProperty="BorderThickness"
+                                                                    To="3"/>
+                                                <DoubleAnimation  BeginTime="0:0:0" Duration="0:0:0.2" 
+                                               Storyboard.TargetProperty="Width" To="200"></DoubleAnimation>
+
+                                                <DoubleAnimation  BeginTime="0:0:0.2" Duration="0:0:0.2" 
+                                                                
+                                                Storyboard.TargetProperty="Height" To="200"></DoubleAnimation>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </Trigger.EnterActions>
+                                    <Trigger.ExitActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <ThicknessAnimation Duration="0:0:0.2" 
+                                                    Storyboard.TargetProperty="BorderThickness"
+                                                    To="0"/>
+                                                <DoubleAnimation Duration="0:0:0.5" 
+                                              Storyboard.TargetProperty="Width" To="150"></DoubleAnimation>
+
+                                                <DoubleAnimation Duration="0:0:0.5" 
+                                               Storyboard.TargetProperty="Height" To="150"></DoubleAnimation>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </Trigger.ExitActions>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+                </Border>
+            </Grid>
+        </StackPanel>
+            
+    </Grid>
+</UserControl>

@@ -7,10 +7,88 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid Margin="10">
-        <TreeView>
-            <TreeViewItem Header="서울" IsExpanded="True">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <TreeView x:Name="trvMain1" Grid.Row="0" Grid.ColumnSpan="2">
+            <TreeView.Resources>
+                <HierarchicalDataTemplate DataType="{x:Type local:Corp}" ItemsSource="{Binding Members}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Name}" FontWeight="Bold"  FontSize="16"/>
+                        <TextBlock Margin="10,0,0,0">[</TextBlock>
+                        <TextBlock Text="{Binding Members.Count}" Foreground="Blue"></TextBlock>
+                        <TextBlock Text="]" />
+                    </StackPanel>
+                </HierarchicalDataTemplate>
+                <DataTemplate DataType="{x:Type local:Emp}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Name}" />
+                        <TextBlock Margin="10,0,0,0">(</TextBlock>
+                        <TextBlock Text="{Binding Age}" Foreground="Green"></TextBlock>
+                        <TextBlock Text=")" />
+                    </StackPanel>
+                </DataTemplate>
+            </TreeView.Resources>
+            
+        </TreeView>
+        <Grid Grid.Row="1" Grid.ColumnSpan="2">
+            <Grid.RowDefinitions>
+                <RowDefinition  Height="Auto"/>
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            
+            <Button x:Name="btnNext" Grid.Row="0" Grid.Column="0" Content="Select Next" Margin="0,0,0,10" Click="btnNext_Click"></Button>
+            <Button x:Name="btnExpansion" Grid.Row="0" Grid.Column="1" Content="Toggle Expansion" Margin="0,0,0,10" Click="btnExpansion_Click"></Button>
+
+            <TreeView x:Name="trvMain2" Grid.Row="1" Grid.ColumnSpan="2" >
+                <TreeView.ItemTemplate>
+                    <HierarchicalDataTemplate ItemsSource="{Binding Children}">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock>■ </TextBlock>
+                            <TextBlock Text="{Binding Title}"/>
+                        </StackPanel>
+                        
+                    </HierarchicalDataTemplate>
+                </TreeView.ItemTemplate>
+                <TreeView.ItemContainerStyle>
+                    <Style TargetType="{x:Type TreeViewItem}">
+                        <Setter Property="IsSelected" Value="{Binding IsSelected}"/>
+                        <Setter Property="IsExpanded" Value="{Binding IsExpanded}"/>
+                    </Style>
+                </TreeView.ItemContainerStyle>
+            </TreeView>
+        </Grid>
+        
+        
+        
+        <!--<TreeView x:Name="trvMenu" >
+            <TreeView.ItemTemplate>
+                <HierarchicalDataTemplate DataType="{x:Type local:MyMenuITem}" ItemsSource="{Binding Items}">
+                    <TextBlock Text="{Binding Title}" />
+                </HierarchicalDataTemplate>
+            </TreeView.ItemTemplate>
+        </TreeView>-->
+        
+        
+        <!--<TreeView>
+            <TreeViewItem  IsExpanded="True">
+                <TreeViewItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Width="20" Height="20" Source="https://cis.seoul.go.kr/ko/totalalimi_new/images/map/map_0.png"/>
+                        <TextBlock Text="서울" />
+                    </StackPanel>
+                </TreeViewItem.Header>
                 <TreeViewItem Header="강남구">
-                    <TreeViewItem Header="역삼동1" />
+                    <TreeViewItem x:Name="tvItem1" Header="역삼동1" />
                     <TreeViewItem Header="역삼동2" />
                 </TreeViewItem>
                 <TreeViewItem Header="강북구" />
@@ -23,7 +101,7 @@
                 <TreeViewItem Header="강북구" />
                 <TreeViewItem Header="강북구" />
             </TreeViewItem>
-        </TreeView>
+        </TreeView>-->
             
         
     </Grid>

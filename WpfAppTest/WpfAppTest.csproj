@@ -129,8 +129,14 @@
     <Compile Include="View\DataBinding\XmlDataProviderBinding.xaml.cs">
       <DependentUpon>XmlDataProviderBinding.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\DataGridControl.xaml.cs">
+      <DependentUpon>DataGridControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\EventRoutingTest.xaml.cs">
       <DependentUpon>EventRoutingTest.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\EventTrigger\EventTriggerTest.xaml.cs">
+      <DependentUpon>EventTriggerTest.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\GridSharedTest.xaml.cs">
       <DependentUpon>GridSharedTest.xaml</DependentUpon>
@@ -206,12 +212,18 @@
     <Compile Include="View\StackPanelControlTest.xaml.cs">
       <DependentUpon>StackPanelControlTest.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\StyleExample\StyleDefault.xaml.cs">
+      <DependentUpon>StyleDefault.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\TestButton.xaml.cs">
       <DependentUpon>TestButton.xaml</DependentUpon>
     </Compile>
     <Compile Include="TestJSon\TestJSonClass.cs" />
     <Compile Include="View\TreeView\TreeViewTest.xaml.cs">
       <DependentUpon>TreeViewTest.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\TreeView\TreeViewWithDriveInfo.xaml.cs">
+      <DependentUpon>TreeViewWithDriveInfo.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\UniformGridTest.xaml.cs">
       <DependentUpon>UniformGridTest.xaml</DependentUpon>
@@ -247,7 +259,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\DataGridControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\EventRoutingTest.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\EventTrigger\EventTriggerTest.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -360,11 +380,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\StyleExample\StyleDefault.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\TestButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\TreeView\TreeViewTest.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\TreeView\TreeViewWithDriveInfo.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
