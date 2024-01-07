@@ -64,6 +64,8 @@
     <None Include="SQLDatabase_ex1\DateTime_example.sql" />
     <None Include="SQLDatabase_ex1\SalesTable.sql" />
     <None Include="SQLDatabase_ex1\NUMERICE_DECIMAL.sql" />
+    <Build Include="SQLDatabase_ex1\부분제거를 위한 SUBSTRING LEN.sql" />
+    <Build Include="SQLDatabase_ex1\쇼핑몰 실습 스크립트 작성.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SQLDatabase_ex1\SQLDatabase_ex2.sql" />
