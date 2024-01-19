@@ -20,7 +20,7 @@
         xmlns:style="clr-namespace:WpfAppTest.View.StyleExample"
         xmlns:eventTrigger="clr-namespace:WpfAppTest.View.EventTrigger"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" >
+        Title="MainWindow" Height="768" Width="1024" >
     <Window.Resources>
         <DataTemplate DataType="{x:Type viewModel:DataTemplateModel}">
             <local:TestButton/>
@@ -64,7 +64,8 @@
             <!--<treeView:TreeViewWithDriveInfo/>-->
             <!--<local:DataGridControl></local:DataGridControl>-->
             <!--<style:StyleDefault></style:StyleDefault>-->
-            <eventTrigger:EventTriggerTest></eventTrigger:EventTriggerTest>
+            <!--<eventTrigger:EventTriggerTest></eventTrigger:EventTriggerTest>-->
+            <local:StockingScreenTest></local:StockingScreenTest>
         </Grid>
     </Grid>
 

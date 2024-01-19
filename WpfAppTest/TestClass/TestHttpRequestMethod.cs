@@ -1,7 +1,5 @@
-﻿using DevExpress.Xpf.Charts;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
