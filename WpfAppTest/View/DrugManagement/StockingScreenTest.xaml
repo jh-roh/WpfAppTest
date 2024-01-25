@@ -10,10 +10,126 @@
              xmlns:model="clr-namespace:WpfAppTest.ViewModel"
              xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800"  DataContext="{dxmvvm:ViewModelSource Type=model:StockingScreenTestModel}">
+             d:DesignHeight="450" d:DesignWidth="800"  DataContext="{dxmvvm:ViewModelSource Type=model:StockingScreenTestModel}" Background="White">
     <Grid>
-        <dxg:GridControl >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="1*"/>
+            
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="100"/>
 
+            </Grid.ColumnDefinitions>
+            <TextBlock TextWrapping="Wrap" FontSize="16" FontWeight="Bold" Margin="5" Grid.Column="0" Text="마약/향정 박스의 바코드를 스캔하여 약품을 입고하여 주십시오. 낱개 약품일 경우 낱개 약품의 바코드를 스캔하여 주십시오."></TextBlock>
+            <Button Grid.Column="1" Content="수동 입력" Margin="5"></Button>
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="400"/>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="1" Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition  Width="90"/>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="90"/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0"  Command="{Binding PreviousMoveDataCommand}">이전 항목</Button>
+                <dxg:LookUpEdit x:Name="lookUpEdit"  Grid.Column="1" ItemsSource="{Binding ItemList, Mode=TwoWay}"  SelectedItem="{Binding SelectedItemInfo, Mode=TwoWay}"
+                                FilterCondition="Contains" DisplayMember="ItemName" ValueMember="HospitalMedicineCode" FindMode="Always" IsTextEditable="False"
+                                ImmediatePopup="True"  PopupMinWidth="500"  AutoPopulateColumns="False" IncrementalFiltering="True"  AutoComplete="False"  >
+                    <dxg:LookUpEdit.StyleSettings>
+                        <dxg:SearchLookUpEditStyleSettings/>
+                    </dxg:LookUpEdit.StyleSettings>
+
+                    <dxg:LookUpEdit.PopupContentTemplate>
+                            <ControlTemplate>
+                                <dxg:GridControl x:Name="PART_GridControl">
+                                    <dxg:GridControl.Columns>
+                                    <dxg:GridColumn Header="약품코드"  FieldName="HospitalMedicineCode"  Width="120" Visible="True">
+                                    </dxg:GridColumn>
+                                        <dxg:GridColumn Header="약품이름"  FieldName="ItemName"  Width="400" Visible="True">
+                                        </dxg:GridColumn>
+                                    </dxg:GridControl.Columns>
+                                    <dxg:GridControl.View>
+                                        <dxg:TableView AutoWidth="True" AllowBestFit="True"  ShowSearchPanelMode="Always" SearchPanelPosition="OverGroupPanel"  RowMinHeight="35" HeaderPanelMinHeight="25"/>
+                                    </dxg:GridControl.View>
+                                </dxg:GridControl>
+                            </ControlTemplate>
+                        </dxg:LookUpEdit.PopupContentTemplate>
+
+
+                    </dxg:LookUpEdit>
+                <Button Grid.Column="2" Command="{Binding NextMoveDataCommand}" >다음 항목</Button>
+
+            </Grid>
+        </Grid>
+        
+        <dxg:GridControl Grid.Row="2" ItemsSource="{Binding StockList, Mode=TwoWay}">
+            <dxg:GridControl.Columns>
+                <dxg:GridColumn MinWidth="50" Header="시퀀스 번호" FieldName="SeqNo"  HorizontalHeaderContentAlignment="Center" AllowEditing="False">
+                    <dxg:GridColumn.EditSettings>
+                        <dxe:TextEditSettings HorizontalContentAlignment="Center" />
+                    </dxg:GridColumn.EditSettings>
+                </dxg:GridColumn>
+                <dxg:GridColumn MinWidth="100" Header="약품코드" FieldName="HospitalMedicineCode"  HorizontalHeaderContentAlignment="Center" AllowEditing="False">
+                    <dxg:GridColumn.EditSettings>
+                        <dxe:TextEditSettings HorizontalContentAlignment="Center" />
+                    </dxg:GridColumn.EditSettings>
+                </dxg:GridColumn>
+                <dxg:GridColumn MinWidth="100" Header="약품이름" FieldName="ItemName"  HorizontalHeaderContentAlignment="Center" AllowEditing="False">
+                    <dxg:GridColumn.EditSettings>
+                        <dxe:TextEditSettings HorizontalContentAlignment="Center" />
+                    </dxg:GridColumn.EditSettings>
+                </dxg:GridColumn>
+                <dxg:GridColumn MinWidth="100" Header="유효기간" FieldName="ExpiredDate"  HorizontalHeaderContentAlignment="Center" AllowEditing="False" Visible="false">
+                    <dxg:GridColumn.EditSettings>
+                        <dxe:TextEditSettings HorizontalContentAlignment="Center" />
+                    </dxg:GridColumn.EditSettings>
+                </dxg:GridColumn>
+                <dxg:GridColumn MinWidth="100" Header="제조번호" FieldName="LotNo"  HorizontalHeaderContentAlignment="Center" AllowEditing="False" Visible="false">
+                    <dxg:GridColumn.EditSettings>
+                        <dxe:TextEditSettings HorizontalContentAlignment="Center" />
+                    </dxg:GridColumn.EditSettings>
+                </dxg:GridColumn>
+                <dxg:GridColumn MinWidth="100" Header="일련번호" FieldName="SerialNo"  HorizontalHeaderContentAlignment="Center" AllowEditing="False">
+                    <dxg:GridColumn.EditSettings>
+                        <dxe:TextEditSettings HorizontalContentAlignment="Center" />
+                    </dxg:GridColumn.EditSettings>
+                </dxg:GridColumn>
+                <dxg:GridColumn MinWidth="70" Header="박스단위 여부" FieldName="BoxUnit"  HorizontalHeaderContentAlignment="Center" AllowEditing="False">
+                    <dxg:GridColumn.EditSettings>
+                        <dxe:TextEditSettings HorizontalContentAlignment="Center" />
+                    </dxg:GridColumn.EditSettings>
+                </dxg:GridColumn>
+                <dxg:GridColumn MinWidth="50" Header="입고수량" FieldName="RefillQty"  HorizontalHeaderContentAlignment="Center" AllowEditing="False">
+                    <dxg:GridColumn.EditSettings>
+                        <dxe:TextEditSettings HorizontalContentAlignment="Center" />
+                    </dxg:GridColumn.EditSettings>
+                </dxg:GridColumn>
+                <dxg:GridColumn MinWidth="50" Header="최종수량" FieldName="CompleteQty"  HorizontalHeaderContentAlignment="Center" AllowEditing="False">
+                    <dxg:GridColumn.EditSettings>
+                        <dxe:TextEditSettings HorizontalContentAlignment="Center" />
+                    </dxg:GridColumn.EditSettings>
+                </dxg:GridColumn>
+                <dxg:GridColumn  MinWidth="100" HorizontalHeaderContentAlignment="Center">
+                    <dxg:GridColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="삭제"  Margin="10" Command="{Binding DataContext.RemoveStockDataCommand, RelativeSource={RelativeSource AncestorType=dxg:GridControl}}" CommandParameter="{Binding RowData.Row}" />
+                        </DataTemplate>
+                    </dxg:GridColumn.CellTemplate>
+                </dxg:GridColumn>
+            </dxg:GridControl.Columns>
+            <dxg:GridControl.View>
+                <dxg:TableView   AllowColumnMoving="False" ShowIndicator="False" FontSize="16"  ShowGroupedColumns="False" ShowGroupPanel="False"  RowMinHeight="35" HeaderPanelMinHeight="25" >
+
+                </dxg:TableView>
+            </dxg:GridControl.View>
         </dxg:GridControl>
     </Grid>
 </UserControl>

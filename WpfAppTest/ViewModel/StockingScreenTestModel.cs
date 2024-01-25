@@ -3,12 +3,26 @@ using DevExpress.Mvvm.DataAnnotations;
 using DevExpress.Mvvm.POCO;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace WpfAppTest.ViewModel
 {
+    [POCOViewModel]
+    public class ItemInfoClass
+    {
+        public virtual string HospitalMedicineCode { get; set; }
+
+        public virtual string ItemName { get; set; }
+
+
+        public ItemInfoClass() { }
+    }
+
+
     [POCOViewModel]
     public class StockingScreen
     {
@@ -31,7 +45,7 @@ namespace WpfAppTest.ViewModel
 
         public virtual int CompleteQty { get; set; } 
 
-        protected StockingScreen() 
+        public StockingScreen() 
         {
         }
 
@@ -44,9 +58,36 @@ namespace WpfAppTest.ViewModel
         {
             return ViewModelSource.Create(() => new StockingScreenTestModel());
         }
-        protected StockingScreenTestModel() { }
+        public StockingScreenTestModel() 
+        {
+            this.AllStockList = new List<StockingScreen>();
+            this.StockList = new ObservableCollection<StockingScreen>();
+            this.ItemList = new ObservableCollection<ItemInfoClass>();
+        }
 
-        public virtual string UserName { get; set; }
+        public virtual List<StockingScreen> AllStockList { get; set; }
+
+        public virtual ObservableCollection<StockingScreen> StockList { get; set; }
+        public virtual ObservableCollection<ItemInfoClass> ItemList { get; set; }
+
+        public virtual ItemInfoClass SelectedItemInfo { get; set; }
+
+        public void RemoveStockData(StockingScreen removeData)
+        {
+            MessageBox.Show($"{removeData.SeqNo} 데이터 삭제");
+        }
+
+        public void PreviousMoveData()
+        {
+            MessageBox.Show("이전 항목");
+
+
+        }
+
+        public void NextMoveData()
+        {
+            MessageBox.Show("다음 항목");
+        }
 
         //public void Login()
         //{
