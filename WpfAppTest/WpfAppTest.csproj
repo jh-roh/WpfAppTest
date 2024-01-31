@@ -103,6 +103,9 @@
     <Compile Include="View\DataGridControl.xaml.cs">
       <DependentUpon>DataGridControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\DrugManagement\PublicControl\DetailInputUserControl.xaml.cs">
+      <DependentUpon>DetailInputUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\EventRoutingTest.xaml.cs">
       <DependentUpon>EventRoutingTest.xaml</DependentUpon>
     </Compile>
@@ -234,6 +237,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\DataGridControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\DrugManagement\PublicControl\DetailInputUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

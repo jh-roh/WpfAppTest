@@ -9,8 +9,87 @@
              xmlns:local="clr-namespace:WpfAppTest.View"
              xmlns:model="clr-namespace:WpfAppTest.ViewModel"
              xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+             xmlns:publicControl="clr-namespace:WpfAppTest.View.DrugManagement.PublicControl"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800"  DataContext="{dxmvvm:ViewModelSource Type=model:StockingScreenTestModel}" Background="White">
+             Width="1024" Height="768"  DataContext="{dxmvvm:ViewModelSource Type=model:StockingScreenTestModel}" Background="White">
+    <UserControl.Resources>
+        
+        <DataTemplate x:Key="dataTemplate_repeatBtn">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <RepeatButton x:Name="repeatBtn_Down" Grid.Column="0" Margin="2,2,0,2" Interval="50" Delay="400" >
+                    <RepeatButton.Template>
+                        <ControlTemplate TargetType="{x:Type RepeatButton}">
+                            <ControlTemplate.Resources>
+                                <Style TargetType="{x:Type TextBlock}">
+                                    <Setter Property="FontSize" Value="30"></Setter>
+                                    <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+                                    <Setter Property="VerticalAlignment" Value="Center"></Setter>
+                                </Style>
+                            </ControlTemplate.Resources>
+                            <Border x:Name="DownBorder" BorderThickness="1" BorderBrush="#FF909092" CornerRadius="0 3 3 0"  >
+                                <TextBlock x:Name="DownArrow" >◀</TextBlock>
+                            </Border>
+
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter TargetName="DownBorder" Property="Background" Value="#afafaf"/>
+                                </Trigger>
+                                <Trigger Property="IsEnabled" Value="false">
+                                    <Setter TargetName="DownBorder" Property="Background" Value="LightGray"/>
+                                    <Setter TargetName="DownArrow" Property="Opacity" Value="0.3"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </RepeatButton.Template>
+                </RepeatButton>
+
+                <dxe:SpinEdit  AllowRoundOutOfRangeValue="True" 
+                            Grid.Column="1" AllowDefaultButton="False" Margin="0 2 0 2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                            Mask="d" MinValue="0" Value="{Binding RowData.Row.RefillQty, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged ,NotifyOnTargetUpdated=True,NotifyOnSourceUpdated=True}"
+                               MaxValue="{Binding RowData.Row.ItemMaxQty, Mode=TwoWay}" >
+
+                </dxe:SpinEdit>
+
+
+                <RepeatButton x:Name="repeatBtn_Up" Grid.Column="2" Margin="0,2,2,2" Width="auto" Height="auto" Interval="50" Delay="400"
+                                                              >
+                    <RepeatButton.Template>
+                        <ControlTemplate TargetType="{x:Type RepeatButton}" >
+                            <ControlTemplate.Resources>
+                                <Style TargetType="{x:Type TextBlock}">
+                                    <Setter Property="FontSize" Value="30"></Setter>
+                                    <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+                                    <Setter Property="VerticalAlignment" Value="Center"></Setter>
+                                </Style>
+                            </ControlTemplate.Resources>
+                            <Border x:Name="UpBorder" BorderThickness="1" BorderBrush="#FF909092" CornerRadius="3 0 0 3"  >
+
+                                <TextBlock x:Name="UpArrow">▶</TextBlock>
+
+                            </Border>
+
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter TargetName="UpBorder" Property="Background" Value="#afafaf"/>
+                                </Trigger>
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter TargetName="UpBorder" Property="Background" Value="LightGray"/>
+                                    <Setter TargetName="UpArrow" Property="Opacity" Value="0.3"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </RepeatButton.Template>
+                </RepeatButton>
+            </Grid>
+        </DataTemplate>
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
@@ -24,8 +103,8 @@
                 <ColumnDefinition Width="100"/>
 
             </Grid.ColumnDefinitions>
-            <TextBlock TextWrapping="Wrap" FontSize="16" FontWeight="Bold" Margin="5" Grid.Column="0" Text="마약/향정 박스의 바코드를 스캔하여 약품을 입고하여 주십시오. 낱개 약품일 경우 낱개 약품의 바코드를 스캔하여 주십시오."></TextBlock>
-            <Button Grid.Column="1" Content="수동 입력" Margin="5"></Button>
+            <TextBlock TextWrapping="Wrap" FontSize="16" FontWeight="Bold" Margin="5" Grid.Column="0" Text="마약/향정 박스의 바코드를 스캔하여 약품을 입고하여 주십시오."></TextBlock>
+            <Button  Command="{Binding DetailInputCommand}" Grid.Column="1" Content="수동 입력" Margin="5"></Button>
         </Grid>
 
         <Grid Grid.Row="1">
@@ -74,48 +153,40 @@
             <dxg:GridControl.Columns>
                 <dxg:GridColumn MinWidth="50" Header="시퀀스 번호" FieldName="SeqNo"  HorizontalHeaderContentAlignment="Center" AllowEditing="False">
                     <dxg:GridColumn.EditSettings>
-                        <dxe:TextEditSettings HorizontalContentAlignment="Center" />
+                        <dxe:TextEditSettings HorizontalContentAlignment="Center" TextWrapping="Wrap" />
                     </dxg:GridColumn.EditSettings>
                 </dxg:GridColumn>
                 <dxg:GridColumn MinWidth="100" Header="약품코드" FieldName="HospitalMedicineCode"  HorizontalHeaderContentAlignment="Center" AllowEditing="False">
                     <dxg:GridColumn.EditSettings>
-                        <dxe:TextEditSettings HorizontalContentAlignment="Center" />
+                        <dxe:TextEditSettings HorizontalContentAlignment="Center" TextWrapping="Wrap" />
                     </dxg:GridColumn.EditSettings>
                 </dxg:GridColumn>
                 <dxg:GridColumn MinWidth="100" Header="약품이름" FieldName="ItemName"  HorizontalHeaderContentAlignment="Center" AllowEditing="False">
                     <dxg:GridColumn.EditSettings>
-                        <dxe:TextEditSettings HorizontalContentAlignment="Center" />
+                        <dxe:TextEditSettings HorizontalContentAlignment="Center" TextWrapping="Wrap" />
                     </dxg:GridColumn.EditSettings>
                 </dxg:GridColumn>
                 <dxg:GridColumn MinWidth="100" Header="유효기간" FieldName="ExpiredDate"  HorizontalHeaderContentAlignment="Center" AllowEditing="False" Visible="false">
                     <dxg:GridColumn.EditSettings>
-                        <dxe:TextEditSettings HorizontalContentAlignment="Center" />
+                        <dxe:TextEditSettings HorizontalContentAlignment="Center" TextWrapping="Wrap" />
                     </dxg:GridColumn.EditSettings>
                 </dxg:GridColumn>
                 <dxg:GridColumn MinWidth="100" Header="제조번호" FieldName="LotNo"  HorizontalHeaderContentAlignment="Center" AllowEditing="False" Visible="false">
                     <dxg:GridColumn.EditSettings>
-                        <dxe:TextEditSettings HorizontalContentAlignment="Center" />
+                        <dxe:TextEditSettings HorizontalContentAlignment="Center" TextWrapping="Wrap" />
                     </dxg:GridColumn.EditSettings>
                 </dxg:GridColumn>
                 <dxg:GridColumn MinWidth="100" Header="일련번호" FieldName="SerialNo"  HorizontalHeaderContentAlignment="Center" AllowEditing="False">
                     <dxg:GridColumn.EditSettings>
-                        <dxe:TextEditSettings HorizontalContentAlignment="Center" />
+                        <dxe:TextEditSettings HorizontalContentAlignment="Center" TextWrapping="Wrap" />
                     </dxg:GridColumn.EditSettings>
                 </dxg:GridColumn>
-                <dxg:GridColumn MinWidth="70" Header="박스단위 여부" FieldName="BoxUnit"  HorizontalHeaderContentAlignment="Center" AllowEditing="False">
+                <dxg:GridColumn MinWidth="50" Header="박스수량" FieldName="RefillQty"  HorizontalHeaderContentAlignment="Center" AllowEditing="False" >
                     <dxg:GridColumn.EditSettings>
-                        <dxe:TextEditSettings HorizontalContentAlignment="Center" />
+                        <dxe:TextEditSettings HorizontalContentAlignment="Center" TextWrapping="Wrap" />
                     </dxg:GridColumn.EditSettings>
                 </dxg:GridColumn>
-                <dxg:GridColumn MinWidth="50" Header="입고수량" FieldName="RefillQty"  HorizontalHeaderContentAlignment="Center" AllowEditing="False">
-                    <dxg:GridColumn.EditSettings>
-                        <dxe:TextEditSettings HorizontalContentAlignment="Center" />
-                    </dxg:GridColumn.EditSettings>
-                </dxg:GridColumn>
-                <dxg:GridColumn MinWidth="50" Header="최종수량" FieldName="CompleteQty"  HorizontalHeaderContentAlignment="Center" AllowEditing="False">
-                    <dxg:GridColumn.EditSettings>
-                        <dxe:TextEditSettings HorizontalContentAlignment="Center" />
-                    </dxg:GridColumn.EditSettings>
+                <dxg:GridColumn MinWidth="50" Header="낱개수량" FieldName="CompleteQty"  HorizontalHeaderContentAlignment="Center" AllowEditing="False" CellTemplate="{StaticResource dataTemplate_repeatBtn}">
                 </dxg:GridColumn>
                 <dxg:GridColumn  MinWidth="100" HorizontalHeaderContentAlignment="Center">
                     <dxg:GridColumn.CellTemplate>
@@ -131,5 +202,7 @@
                 </dxg:TableView>
             </dxg:GridControl.View>
         </dxg:GridControl>
+        <publicControl:DetailInputUserControl Visibility="{Binding IsVisibleDetailInputControl, Converter={dxmvvm:BooleanToVisibilityConverter}}" Grid.Row="0" Grid.RowSpan="3" Width="500" Height="400" ></publicControl:DetailInputUserControl>
+       
     </Grid>
 </UserControl>

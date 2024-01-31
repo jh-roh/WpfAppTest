@@ -1,4 +1,5 @@
-﻿using DevExpress.Mvvm;
+﻿using DevExpress.Data.TreeList;
+using DevExpress.Mvvm;
 using DevExpress.Mvvm.DataAnnotations;
 using DevExpress.Mvvm.POCO;
 using System;
@@ -63,6 +64,7 @@ namespace WpfAppTest.ViewModel
             this.AllStockList = new List<StockingScreen>();
             this.StockList = new ObservableCollection<StockingScreen>();
             this.ItemList = new ObservableCollection<ItemInfoClass>();
+            this.IsVisibleDetailInputControl = false;
         }
 
         public virtual List<StockingScreen> AllStockList { get; set; }
@@ -71,6 +73,8 @@ namespace WpfAppTest.ViewModel
         public virtual ObservableCollection<ItemInfoClass> ItemList { get; set; }
 
         public virtual ItemInfoClass SelectedItemInfo { get; set; }
+
+        public virtual bool IsVisibleDetailInputControl { get; set; }
 
         public void RemoveStockData(StockingScreen removeData)
         {
@@ -87,6 +91,11 @@ namespace WpfAppTest.ViewModel
         public void NextMoveData()
         {
             MessageBox.Show("다음 항목");
+        }
+
+        public void DetailInput()
+        {
+            IsVisibleDetailInputControl = true;
         }
 
         //public void Login()

@@ -53,7 +53,5 @@ namespace WpfAppTest.View
                 model.StockList.Add(stock);
             }
         }
-
-
     }
 }
