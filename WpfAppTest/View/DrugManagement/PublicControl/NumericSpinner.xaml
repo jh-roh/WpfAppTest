@@ -1,0 +1,66 @@
+﻿<UserControl x:Class="WpfAppTest.View.DrugManagement.PublicControl.NumericSpinner"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WpfAppTest.View.DrugManagement.PublicControl"
+             xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+             mc:Ignorable="d" 
+             d:DesignHeight="30" d:DesignWidth="100" MaxWidth="200" MinWidth="100" MaxHeight="80" MinHeight="20">
+    <Grid Width="auto" Background="Transparent">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <RepeatButton x:Name="repeatBtn_Down" Grid.Column="0" Margin="2,2,0,2" Interval="50" Delay="400" Click="repeatBtn_Down_Click"
+                      IsEnabled="{Binding Enabled}">
+            <RepeatButton.Template>
+                <ControlTemplate TargetType="{x:Type RepeatButton}">
+                    <Border x:Name="DownBorder" Background="#f0f0f0" BorderBrush="#FFBDBDBD" BorderThickness="1" CornerRadius="2,0,0,2">
+                        <TextBlock x:Name="DownArrow" HorizontalAlignment="Center" VerticalAlignment="Center">▼</TextBlock>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="DownBorder" Property="Background" Value="#afafaf"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter TargetName="DownBorder" Property="Background" Value="LightGray"/>
+                            <Setter TargetName="DownArrow" Property="Opacity" Value="0.3"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </RepeatButton.Template>
+        </RepeatButton>
+
+        <dxe:SpinEdit x:Name="Value_SpinEdit" Grid.Column="1" AllowDefaultButton="False" Margin="0 2 0 2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Mask="d" 
+                      Value="{Binding CurrentValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MinValue="{Binding MinValue}" MaxValue="{Binding MaxValue}" AllowRoundOutOfRangeValue="True">
+
+        </dxe:SpinEdit>
+
+
+        <RepeatButton x:Name="repeatBtn_Up" Grid.Column="2" Margin="0,2,2,2" Width="auto" Height="auto" Interval="50" Delay="400" Click="repeatBtn_Up_Click"
+                      IsEnabled="{Binding Enabled}">
+            <RepeatButton.Template>
+                <ControlTemplate TargetType="{x:Type RepeatButton}">
+                    <Border x:Name="UpBorder" Background="#f0f0f0" BorderBrush="#FFBDBDBD" BorderThickness="1" CornerRadius="0,2,2,0">
+                        <TextBlock x:Name="UpArrow" HorizontalAlignment="Center" VerticalAlignment="Center">▲</TextBlock>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="UpBorder" Property="Background" Value="#afafaf"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="UpBorder" Property="Background" Value="LightGray"/>
+                            <Setter TargetName="UpArrow" Property="Opacity" Value="0.3"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </RepeatButton.Template>
+        </RepeatButton>
+
+    </Grid>
+</UserControl>

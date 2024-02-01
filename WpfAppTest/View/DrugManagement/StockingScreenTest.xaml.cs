@@ -23,22 +23,27 @@ namespace WpfAppTest.View
     /// </summary>
     public partial class StockingScreenTest : UserControl
     {
+
+        object eventLock = new object();
+        StockingScreenTestModel model = null;
+
+
         public StockingScreenTest()
         {
             InitializeComponent();
 
-            StockingScreenTestModel model = (StockingScreenTestModel)this.DataContext;
+            model = (StockingScreenTestModel)this.DataContext;
 
             model.AllStockList.Add(new StockingScreen() { SeqNo = 1, HospitalMedicineCode="ADrug", ItemName = "A마약", 
                                                        ExpiredDate = DateTime.MaxValue, LotNo = "LotNo1_ADrug", SerialNo = "SerialNo1_ADrug"
-                                                       , BoxUnit = "박스 단위", RefillQty = 1, CompleteQty = 10});
+                                                       , BaseUnit = 10, RefillQty = 1 /*, BoxQtyString = "0Box, 1EA"*/});
             model.AllStockList.Add(new StockingScreen() { SeqNo = 2, HospitalMedicineCode="ADrug", ItemName = "A마약", 
                                                        ExpiredDate = DateTime.MaxValue, LotNo = "LotNo2_ADrug", SerialNo = "SerialNo2_ADrug"
-                                                       , BoxUnit = "낱개 단위", RefillQty = 3, CompleteQty = 3});
+                                                       , BaseUnit = 10, RefillQty = 3 /*, BoxQtyString = "0Box, 3EA"*/});
 
             model.AllStockList.Add(new StockingScreen() { SeqNo =3, HospitalMedicineCode="BDrug", ItemName = "B마약", 
                                                        ExpiredDate = DateTime.MaxValue, LotNo = "LotNo1_BDrug", SerialNo = "SerialNo1_BDrug"
-                                                       , BoxUnit = "낱개 단위", RefillQty = 3, CompleteQty = 3});
+                                                       , BaseUnit = 10, RefillQty = 3, /*BoxQtyString = "0Box, 3EA"*/});
 
 
 
@@ -51,6 +56,36 @@ namespace WpfAppTest.View
             foreach (var stock in model.AllStockList.Where(p => p.HospitalMedicineCode == model.SelectedItemInfo.HospitalMedicineCode))
             {
                 model.StockList.Add(stock);
+            }
+        }
+
+
+        private void repeatBtn_Down_Click(object sender, RoutedEventArgs e)
+        {
+            lock (eventLock)
+            {
+                if (model.FocusedItem.RefillQty > 0)
+                {
+                    model.FocusedItem.RefillQty--;
+                }
+
+                gridControl_StockList.View.CommitEditing(true);
+                gridControl_StockList.RefreshRow(gridControl_StockList.View.FocusedRowHandle);
+            }
+
+        }
+
+        private void repeatBtn_Up_Click(object sender, RoutedEventArgs e)
+        {
+            lock (eventLock)
+            {
+                if (model.FocusedItem.RefillQty < model.FocusedItem.BaseUnit)
+                {
+                    model.FocusedItem.RefillQty++;
+                }
+
+                gridControl_StockList.View.CommitEditing(true);
+                gridControl_StockList.RefreshRow(gridControl_StockList.View.FocusedRowHandle);
             }
         }
     }
