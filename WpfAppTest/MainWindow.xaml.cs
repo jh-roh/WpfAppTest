@@ -16,6 +16,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WpfAppTest.Model;
 using WpfAppTest.Model.Oracle;
+using WpfAppTest.ServiceFunction;
 using WpfAppTest.TestClass;
 using WpfAppTest.TestJSon;
 using WpfAppTest.ViewModel;
@@ -32,7 +33,7 @@ namespace WpfAppTest
         public MainWindow()
         {
             InitializeComponent();
-            
+
 
             #region 각종 테스트 관련 함수
             //var dataTemplateVM = new DataTemplateModel();
@@ -95,6 +96,27 @@ namespace WpfAppTest
             #endregion
 
             //테스트 처방
+
+            string IP = "localhost";
+
+            string address = $"net.tcp://{IP}/TestService/InterfaceService.svc";
+            using (InterfaceTestService interfaceConnection = new InterfaceTestService())
+            {
+                try
+                {
+                    var channel = interfaceConnection.Open(address);
+
+                    var result = channel.GetDataFromWebServiceJSON("", "GetAllMachineItem", "");
+
+                    interfaceConnection.Close();
+
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+            }
         }
 
         private void button_DoorAging_Click(object sender, RoutedEventArgs e)

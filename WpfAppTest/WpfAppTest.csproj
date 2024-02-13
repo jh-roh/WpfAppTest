@@ -55,6 +55,7 @@
     <Reference Include="System.Runtime">
       <HintPath>D:\TFS\JSW\INTIPharm\Branch\R3\INTIPharmMain\packages\Microsoft.Bcl.1.1.10\lib\net40\System.Runtime.dll</HintPath>
     </Reference>
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -78,6 +79,8 @@
       <DependentUpon>dsWpf.xsd</DependentUpon>
     </Compile>
     <Compile Include="Model\CustList.cs" />
+    <Compile Include="ServiceFunction\IInterfaceService.cs" />
+    <Compile Include="ServiceFunction\InterfaceTestService.cs" />
     <Compile Include="ViewModel\StockingScreenTestModel.cs" />
     <Compile Include="View\CanvasViewBoxTest.xaml.cs">
       <DependentUpon>CanvasViewBoxTest.xaml</DependentUpon>
