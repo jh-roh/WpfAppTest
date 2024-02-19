@@ -454,5 +454,11 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WcfClassTestLibrary\WcfClassTestLibrary.csproj">
+      <Project>{dfc89ba9-6130-47e3-a28c-18b7dd154a3a}</Project>
+      <Name>WcfClassTestLibrary</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

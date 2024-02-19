@@ -19,6 +19,10 @@ Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "SQLDataBase", "SQLDataBase\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BenchmarkExample", "BenchmarkExample\BenchmarkExample.csproj", "{61FB81D9-4DB3-4726-8827-1128C7ABA628}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WcfAppTest", "WcfAppTest\WcfAppTest.csproj", "{CC7D79AC-927D-4E14-8DFC-38CB65E9DAA5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WcfClassTestLibrary", "WcfClassTestLibrary\WcfClassTestLibrary.csproj", "{DFC89BA9-6130-47E3-A28C-18B7DD154A3A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -59,6 +63,14 @@ Global
 		{61FB81D9-4DB3-4726-8827-1128C7ABA628}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{61FB81D9-4DB3-4726-8827-1128C7ABA628}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{61FB81D9-4DB3-4726-8827-1128C7ABA628}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC7D79AC-927D-4E14-8DFC-38CB65E9DAA5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC7D79AC-927D-4E14-8DFC-38CB65E9DAA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC7D79AC-927D-4E14-8DFC-38CB65E9DAA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC7D79AC-927D-4E14-8DFC-38CB65E9DAA5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DFC89BA9-6130-47E3-A28C-18B7DD154A3A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DFC89BA9-6130-47E3-A28C-18B7DD154A3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DFC89BA9-6130-47E3-A28C-18B7DD154A3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DFC89BA9-6130-47E3-A28C-18B7DD154A3A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

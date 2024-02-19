@@ -6,6 +6,8 @@ EF-CodeFirst/bin/
 Sales/bin/
 SQLDataBase/bin/
 BenchmarkExample/bin/
+WcfAppTest/bin/
+WcfClassTestLibrary/bin/
 
 WpfAppTest/obj/
 WinformAppTest/obj/
@@ -15,6 +17,9 @@ EF-CodeFirst/obj/
 Sales/obj/
 SQLDataBase/obj/
 BenchmarkExample/obj/
+WcfAppTest/obj/
+WcfClassTestLibrary/obj/
+
 .vs/
 SQLDataBase/SQLDataBase.dbmdl
 SQLDataBase/SQLDataBase.jfm

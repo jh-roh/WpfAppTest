@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.ServiceModel;
+using System.ServiceModel.Description;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -14,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WcfClassTestLibrary;
 using WpfAppTest.Model;
 using WpfAppTest.Model.Oracle;
 using WpfAppTest.ServiceFunction;
@@ -97,26 +100,39 @@ namespace WpfAppTest
 
             //테스트 처방
 
-            string IP = "localhost";
 
-            string address = $"net.tcp://{IP}/TestService/InterfaceService.svc";
-            using (InterfaceTestService interfaceConnection = new InterfaceTestService())
-            {
-                try
-                {
-                    var channel = interfaceConnection.Open(address);
+            #region WCF Test Service Fucntion
+            //string IP = "localhost";
 
-                    var result = channel.GetDataFromWebServiceJSON("", "GetAllMachineItem", "");
+            //string address = $"net.tcp://{IP}/TestService/InterfaceService.svc";
+            //using (InterfaceTestService interfaceConnection = new InterfaceTestService())
+            //{
+            //    try
+            //    {
+            //        var channel = interfaceConnection.Open(address);
 
-                    interfaceConnection.Close();
+            //        var result = channel.GetDataFromWebServiceJSON("", "GetAllMachineItem", "");
 
-                }
-                catch (Exception ex)
-                {
+            //        interfaceConnection.Close();
 
-                }
+            //    }
+            //    catch (Exception ex)
+            //    {
 
-            }
+            //    }
+            //}
+            Uri uri = new Uri("http://localhost/wcf/example/hellowworldservice");
+
+            ServiceEndpoint ep = new ServiceEndpoint(ContractDescription.GetContract(typeof(IHelloWorld)), new BasicHttpBinding(), new EndpointAddress(uri));
+
+
+
+
+
+
+
+
+            #endregion
         }
 
         private void button_DoorAging_Click(object sender, RoutedEventArgs e)
