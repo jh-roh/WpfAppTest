@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace WcfClassTestLibrary
 {
     //서비스 계약 선언
-    [ServiceContract(Namespace="http://localhost/wcf/example/hellowworldservice")]
+    [ServiceContract(Namespace="http://www.simpleisbest.net/wcf/helloworld")]
     public interface IHelloWorld
     {
         [OperationContract]

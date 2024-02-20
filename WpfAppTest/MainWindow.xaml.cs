@@ -121,14 +121,9 @@ namespace WpfAppTest
 
             //    }
             //}
-            Uri uri = new Uri("http://localhost/wcf/example/hellowworldservice");
 
-            ServiceEndpoint ep = new ServiceEndpoint(ContractDescription.GetContract(typeof(IHelloWorld)), new BasicHttpBinding(), new EndpointAddress(uri));
-
-
-
-
-
+            WcfAppTestService a = new WcfAppTestService();
+            a.TestServiceFunction();
 
 
 
