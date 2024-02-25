@@ -62,12 +62,48 @@ namespace WpfAppTest.ServiceFunction
 
         }
 
+        public void InvokeUsingHttpWithConfiguration()
+        {
+            ChannelFactory<IHelloWorld> factory = new ChannelFactory<IHelloWorld>("HttpHelloWorld");
+
+            var binding = factory.Endpoint.Binding as BasicHttpBinding;
+
+            if(binding != null)
+            {
+                binding.MessageEncoding = WSMessageEncoding.Text;
+            }
+
+
+
+            IHelloWorld proxy = factory.CreateChannel();
+            string result = proxy.sayHello();
+            (proxy as IDisposable).Dispose();
+            Console.WriteLine(result);
+        }
+
+        public void InvokeUsingTcpWithConfiguration()
+        {
+            ChannelFactory<IHelloWorld> factory = new ChannelFactory<IHelloWorld>("TcpHelloWorld");
+            IHelloWorld proxy = factory.CreateChannel();
+            string result = proxy.sayHello();
+            (proxy as IDisposable).Dispose();
+            Console.WriteLine(result);
+        }
 
         public void TestServiceFunction()
         {
-            InvokeUsingHttp();
+            InvokeUsingHttpWithConfiguration();
 
-            InvokeUsingTCP();
+
+            InvokeUsingTcpWithConfiguration();
+
+
+
+
+
+            //InvokeUsingHttp();
+
+            //InvokeUsingTCP();
 
 
 
