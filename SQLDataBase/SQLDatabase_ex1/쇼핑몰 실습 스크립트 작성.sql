@@ -120,3 +120,123 @@ insert into dbo.tbl_members values('batman', N'배트맨', N'부산', 'America', '010
 insert into dbo.tbl_sales1 values(1001,'2000-12-25 15:22:10', 'batman');
 insert into dbo.tbl_sales1 values(1002,'2000-12-25 15:22:10', 'antman');
 insert into dbo.tbl_sales1 values(1003,'2000-12-25 15:22:10', 'batman');
+
+
+
+--참조 무결성 수정(변경) 테스트
+--테이블과 테이블간의 관계를 맺게되면(외래키 지정) 참조하는 테이블열의 값이 아닌 다른 값이 들어올 수 없다.
+--역시 입력된 값도 참조하는 테이블 열의 값이 아닌 다른값으로 수정, 변경할 수도 없다.
+--데이터베이스 시스템이 일관성있게 유지될 수 있도록 관리한다.
+
+
+
+--수정/변경
+UPDATE dbo.tbl_sales1
+SET m_id = 'superman'
+where s1_num = '1001'
+
+
+--------------------------------------------------------------------------
+-- INSERT DATA
+--------------------------------------------------------------------------
+--[ 1 ] dbo.tbl_members
+--강의예제상 날짜, 포인트
+select * from dbo.tbl_members;
+
+--기본 입력
+Insert into dbo.tbl_members values('antman', '앤트맨', '서울', 'America', '010-1234-5678', 'antman@antman.com');
+
+Insert into dbo.tbl_members(m_id, m_name, m_address, m_country, m_tel, m_email)
+			values('batman','배트맨', '춘천', 'Korea', '010-1234-5678', 'batman@batman.com')
+
+--다중 입력
+insert into dbo.tbl_members(m_id, m_name, m_address, m_country, m_tel, m_email)
+			 values
+				('superman', '슈퍼맨', '인천', 'Canada', '010-1234-5678', 'superman@superman.com'),
+				('skyman', '하늘맨', '제주', 'Russia', '010-1234-5678', 'skyman@skyman.com'),
+				('brickman', '벽돌맨', '부산', 'China', '010-1234-5678', 'brickman@brickman.com');
+
+
+insert into dbo.tbl_members values('bookman', '도서맨', '전주', '한국', '010-1234-0000', 'bookman@bookman.com');
+insert into dbo.tbl_members values('flowerman', '화분맨', '청주', '한국', '010-1234-0000', 'flowerman@flowerman.com');
+
+
+insert into dbo.tbl_members(m_id,m_name,m_tel,m_email)
+			values ('abcman', 'ABC맨', '010-1234-5678', 'abcman@abcman.com')
+
+--[2] dbo.tbl_products
+select * from dbo.tbl_products
+
+insert into dbo.tbl_products (p_id, p_name, p_price, p_detail, v_id)
+			values ('GS101', '텔레비전', 90000, '커브드형의 미래지향적 최신형 모델', '럭키금성'),
+				    ('GS102', '냉장고', 770000, '얼음물에 얼린듯한 그 느낌의 냉장고', '애플'),
+					('GS103', '김치냉장고', 550000, '김치는 역시 김치냉장고가 최고', '엘지'),
+					('GS104', '오디오', 440000, '오디오의 명가에서 만든 최고의 오디오', '불티나'),
+					('GS105', '컴퓨터', 2200000, '세계에서 최고로 가벼운 컴퓨터 그램', '그램');
+						
+
+--[3] dbo.tbl_sales1
+
+select * from dbo.tbl_sales1
+select * from dbo.tbl_sales2
+
+
+delete from dbo.tbl_sales1 where s1_num = '1006'
+insert into dbo.tbl_sales1(s1_num, s1_date,m_id)
+			values
+					(1004,'2006-12-28 20:21:20', 'skyman'),
+					(1005,'2006-12-29 22:11:10', 'brickman'),
+					(1006,'2006-12-29', 'superman');
+
+--다중입력
+insert into dbo.tbl_sales2(s2_num, s2_orderitem, p_id, qty, otem_price)
+			values
+					(1001,1, 'GS101', 1, 990000),
+					(1001,2, 'GS102', 1, 770000),
+					(1001,3, 'GS103', 1, 550000);
+					
+
+--단일입력
+insert into dbo.tbl_sales2 VALUES(1002,1,'GS101', 1, 990000);
+insert into dbo.tbl_sales2 VALUES(1003,1,'GS103', 1, 550000);
+insert into dbo.tbl_sales2 VALUES(1004,1,'GS102', 1, 770000);
+insert into dbo.tbl_sales2 VALUES(1005,1,'GS104', 1, 440000);
+insert into dbo.tbl_sales2 VALUES(1005,2,'GS105', 1, 2200000);
+
+
+-- 결제한 회원에 대한 이름, 주소, 이메일을 보고자 한다면?
+
+select * from dbo.tbl_members;
+select * from dbo.tbl_sales1;
+
+
+select m_name, m_address, m_email 
+from tbl_members, tbl_sales1
+where tbl_members.m_id = tbl_sales1.m_id
+
+
+--위 쿼리를 별칭을 사용하여 출력해본다.
+select m.m_id,m_name, m_address, m_email
+from tbl_members m, tbl_sales1 s
+where m.m_id = s.m_id
+
+--위 쿼리를 별칭을 사용하여 출력해본다.
+select m.m_id as '사람_ID',m_name, m_address, m_email
+from tbl_members as m, tbl_sales1 as s1
+where m.m_id = s1.m_id
+
+
+----------------------------------------
+-- JOIN (3개 이상 테이블 조인 실습)
+----------------------------------------
+--Q. 김치 냉장고(GS103)를 구매한 고객의 아이디와 이름을 알고 싶다면?
+
+
+select * from dbo.tbl_sales1
+select * from dbo.tbl_sales2
+
+select tb_m.m_id, tb_m.m_name, tb_s2.p_id
+from tbl_members as tb_m, tbl_sales1 as tb_s1, tbl_sales2 as tb_s2
+where tb_m.m_id = tb_s1.m_id
+   and tb_s1.s1_num = tb_s2.s2_num
+   and p_id = 'GS103'

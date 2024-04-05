@@ -122,12 +122,28 @@ namespace WpfAppTest
             //    }
             //}
 
-            WcfAppTestService a = new WcfAppTestService();
-            a.TestServiceFunction();
+            //WcfAppTestService a = new WcfAppTestService();
+            //a.TestServiceFunction();
 
+            //Action<int> action = (p) => { Console.Write("test"); };
 
-
+            //int waitTimeout = 1000;
+            //if (action != null
+            //    && waitTimeout != 0)
+            //{
+            //    action(waitTimeout);
+            //    Console.Write("test");
+            //}
             #endregion
+
+
+
+            //string a = "ERCP 후\r\n3시간 동안";
+
+            //var b = a.Replace("\r\n", " ");
+
+
+
         }
 
         private void button_DoorAging_Click(object sender, RoutedEventArgs e)
