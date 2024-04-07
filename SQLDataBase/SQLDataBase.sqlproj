@@ -69,5 +69,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="SQLDatabase_ex1\SQLDatabase_ex2.sql" />
+    <None Include="SQLDatabase_ex1\SystemView 및 Transaction.sql" />
   </ItemGroup>
 </Project>

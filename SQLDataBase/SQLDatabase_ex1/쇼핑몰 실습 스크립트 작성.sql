@@ -240,3 +240,49 @@ from tbl_members as tb_m, tbl_sales1 as tb_s1, tbl_sales2 as tb_s2
 where tb_m.m_id = tb_s1.m_id
    and tb_s1.s1_num = tb_s2.s2_num
    and p_id = 'GS103'
+
+
+----------------------------------------------------------------------
+-- View
+----------------------------------------------------------------------
+-- 하나 이상의 테이블에 들어 있는 데이터를 가상 테이블로 엮는다.
+-- 여러개의 테이블을 묶어서 뷰를 만드는 경우 '복합뷰' 라고도 부른다.
+
+SELECT * from dbo.tbl_members;
+
+-----------------------------------------------------------------
+-- [1] VIEW 생성 및 삭제 그리고 사용 : 기본
+
+
+CREATE VIEW MembersSelectAll
+	AS
+		SELECT * from dbo.tbl_members;
+
+select * from MembersSelectAll
+
+--------------------------------------------------------------------
+-- [2] VIEW 생성 및 삭제 그리고 사용 : 재활용
+--------------------------------------------------------------------
+--뷰 생성
+
+DROP VIEW MembersSales1Sales2;
+CREATE VIEW MembersSales1Sales2
+	AS
+		--뷰로 묶을 쿼리문 작성
+		--뷰는 쿼리로 작성하는 가상 테이블
+		SELECT M.m_id, m_name, m_address, m_tel, m_email	
+			FROM dbo.tbl_members M, dbo.tbl_sales1 S1, dbo.tbl_sales2 S2
+			WHERE
+				S1.m_id = M.m_id
+			AND
+				S1.s1_num = S2.s2_num
+			AND
+				S2.p_id = 'GS102'
+
+
+select * from MembersSales1Sales2 where m_id = 'skyman'
+
+select * from MembersSelectAll
+
+
+
