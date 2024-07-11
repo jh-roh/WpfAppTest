@@ -142,7 +142,17 @@ namespace WpfAppTest
 
             //var b = a.Replace("\r\n", " ");
 
+            string PRCPDD = "20240405";
+            string PRCPDD2 = String.Empty;
+            //PRCPDD 변수를 DateTIme으로 변환
+            DateTime PRCPDD_DateTime = DateTime.ParseExact(PRCPDD, "yyyyMMdd", null);
 
+            //PRCPDD_DateTime 변수의 값이 10일보다 이전일 경우를 소스로 작성
+            if (PRCPDD_DateTime < DateTime.Now.AddDays(-10))
+            {
+                PRCPDD2 = DateTime.Now.Date.ToString("yyyy-MM-dd");
+                //10일 이전일 경우
+            }
 
         }
 

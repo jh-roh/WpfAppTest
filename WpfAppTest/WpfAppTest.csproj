@@ -157,6 +157,9 @@
     <Compile Include="View\HeaderContentControlTest.xaml.cs">
       <DependentUpon>HeaderContentControlTest.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\ItemControlPanelTest.xaml.cs">
+      <DependentUpon>ItemControlPanelTest.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\KeyboardHandling\KeyboardTest.xaml.cs">
       <DependentUpon>KeyboardTest.xaml</DependentUpon>
     </Compile>
@@ -296,6 +299,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\HeaderContentControlTest.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ItemControlPanelTest.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

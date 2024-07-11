@@ -33,8 +33,8 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         
-        <local:DerivedModule Visibility="Collapsed"/>
-
+        <!--<local:DerivedModule Visibility="Collapsed"/>-->
+        
 
         <Grid>
             <!--<local:HeaderContentControlTest></local:HeaderContentControlTest>-->
@@ -65,7 +65,8 @@
             <!--<local:DataGridControl></local:DataGridControl>-->
             <!--<style:StyleDefault></style:StyleDefault>-->
             <!--<eventTrigger:EventTriggerTest></eventTrigger:EventTriggerTest>-->
-            <local:StockingScreenTest></local:StockingScreenTest>
+            <!--<local:StockingScreenTest></local:StockingScreenTest>-->
+            <local:ItemControlPanelTest></local:ItemControlPanelTest>
         </Grid>
     </Grid>
 
