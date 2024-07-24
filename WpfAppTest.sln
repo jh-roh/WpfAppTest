@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WcfAppTest", "WcfAppTest\Wc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WcfClassTestLibrary", "WcfClassTestLibrary\WcfClassTestLibrary.csproj", "{DFC89BA9-6130-47E3-A28C-18B7DD154A3A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeDomTest", "CodeDomTest\CodeDomTest.csproj", "{4CDF472F-32E9-4635-98B7-E5168D434556}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -71,6 +73,10 @@ Global
 		{DFC89BA9-6130-47E3-A28C-18B7DD154A3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DFC89BA9-6130-47E3-A28C-18B7DD154A3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DFC89BA9-6130-47E3-A28C-18B7DD154A3A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4CDF472F-32E9-4635-98B7-E5168D434556}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4CDF472F-32E9-4635-98B7-E5168D434556}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4CDF472F-32E9-4635-98B7-E5168D434556}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4CDF472F-32E9-4635-98B7-E5168D434556}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
