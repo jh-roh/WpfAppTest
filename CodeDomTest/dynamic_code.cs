@@ -8,11 +8,14 @@ public class MyType
 {
     public void Print(object obj)
     {
+        if (System.Diagnostics.Debugger.IsAttached)
+            System.Diagnostics.Debugger.Break();
+
         StringBuilder sb = new StringBuilder();
         sb.Append(
             DateTime.Now
         );
 
-        Console.WriteLine(sb.ToString());
+        Console.WriteLine($"{obj.ToString()} {sb.ToString()}");
     }
 }

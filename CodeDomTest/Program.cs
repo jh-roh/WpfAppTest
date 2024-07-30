@@ -1,14 +1,12 @@
 ﻿using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis;
 using System;
-using System.CodeDom;
-using System.CodeDom.Compiler;
 using System.IO;
 using Microsoft.CodeAnalysis.Emit;
 using System.Linq;
-using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.Loader;
+using System.Text.Json;
 
 namespace CodeDomTest
 {
@@ -16,45 +14,58 @@ namespace CodeDomTest
     {
         static void Main(string[] args)
         {
+            string jsonString = @"
+        {
+            ""StartTime"": ""2020-08-01T00:00:00"",
+            ""EndTime"": ""2022-11-06T00:00:00"",
+            ""SearchText"": """",
+            ""Language"": 1,
+            ""PageNumber"": 1,
+            ""PageSize"": 10000
+        }";
 
-            string codeToCompile = File.ReadAllText("dynamic_code.cs");
-            string assemblyName = "MyAssembly";
+            SearchRequest searchRequest = JsonSerializer.Deserialize<SearchRequest>(jsonString);
 
-            SyntaxTree syntaxTree = CSharpSyntaxTree.ParseText(codeToCompile);
 
-            var refPaths = new[] {
-                typeof(System.Object).GetTypeInfo().Assembly.Location,
-                typeof(Console).GetTypeInfo().Assembly.Location,
-                Path.Combine(Path.GetDirectoryName(typeof(System.Runtime.GCSettings).GetTypeInfo().Assembly.Location), "System.Runtime.dll")
-            };
-            MetadataReference[] references = refPaths.Select(r => MetadataReference.CreateFromFile(r)).ToArray();
+            #region Roslyn 사용하여 코드돔 기능 구현
+            //    string codeToCompile = File.ReadAllText("dynamic_code.cs");
+            //    string assemblyName = "MyAssembly";
 
-            //CSharpCompilationOptions options = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary);
-            CSharpCompilationOptions options = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary, optimizationLevel:OptimizationLevel.Debug);
+            //    SyntaxTree syntaxTree = CSharpSyntaxTree.ParseText(codeToCompile);
 
-            CSharpCompilation compilation = CSharpCompilation.Create(
-                assemblyName,
-                syntaxTrees: new[] { syntaxTree },
-                references: references,
-                options: options);
+            //    var refPaths = new[] {
+            //        typeof(System.Object).GetTypeInfo().Assembly.Location,
+            //        typeof(Console).GetTypeInfo().Assembly.Location,
+            //        Path.Combine(Path.GetDirectoryName(typeof(System.Runtime.GCSettings).GetTypeInfo().Assembly.Location), "System.Runtime.dll")
+            //    };
+            //    MetadataReference[] references = refPaths.Select(r => MetadataReference.CreateFromFile(r)).ToArray();
 
-            using (var ms = new MemoryStream())
-            {
-                var emitOptions = new EmitOptions(debugInformationFormat: DebugInformationFormat.Embedded);
-                EmitResult result = compilation.Emit(ms,
-        options: emitOptions);
-                if (result.Success)
-                {
-                    ms.Seek(0, SeekOrigin.Begin);
+            //    //CSharpCompilationOptions options = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary);
+            //    CSharpCompilationOptions options = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary, optimizationLevel:OptimizationLevel.Debug);
 
-                    Assembly assembly = AssemblyLoadContext.Default.LoadFromStream(ms);
-                    var type = assembly.GetType("MyType");
-                    var instance = assembly.CreateInstance("MyType");
-                    var meth = type.GetMember("Print").First() as MethodInfo;
-                    meth.Invoke(instance, new[] { "World" });
-                }
-            }
+            //    CSharpCompilation compilation = CSharpCompilation.Create(
+            //        assemblyName,
+            //        syntaxTrees: new[] { syntaxTree },
+            //        references: references,
+            //        options: options);
 
+            //    using (var ms = new MemoryStream())
+            //    {
+            //        var emitOptions = new EmitOptions(debugInformationFormat: DebugInformationFormat.Embedded);
+            //        EmitResult result = compilation.Emit(ms,
+            //options: emitOptions);
+            //        if (result.Success)
+            //        {
+            //            ms.Seek(0, SeekOrigin.Begin);
+
+            //            Assembly assembly = AssemblyLoadContext.Default.LoadFromStream(ms);
+            //            var type = assembly.GetType("MyType");
+            //            var instance = assembly.CreateInstance("MyType");
+            //            var meth = type.GetMember("Print").First() as MethodInfo;
+            //            meth.Invoke(instance, new[] { "World" });
+            //        }
+            //    }
+            #endregion
 
             #region Helloworld.cs 파일 생성 코드돔
 
@@ -207,6 +218,31 @@ namespace CodeDomTest
             //}
             #endregion
 
+        }
+    }
+
+    public struct SearchRequest
+    {
+        public string StartTime { get; set; }
+
+        public string EndTime { get; set; }
+
+        public string SearchText { get; set; }
+
+        public int Language { get; set; }
+
+        public int PageNumber { get; set; }
+
+        public int PageSize { get; set; }
+
+        public SearchRequest(string startTime, string endTime, string searchText, int language, int pageNumber, int pageSize)
+        {
+            StartTime = startTime;
+            EndTime = endTime;
+            SearchText = searchText;
+            Language = language;
+            PageNumber = pageNumber;
+            PageSize = pageSize;
         }
     }
 }
