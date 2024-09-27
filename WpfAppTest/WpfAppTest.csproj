@@ -82,6 +82,7 @@
     <Compile Include="ServiceFunction\IInterfaceService.cs" />
     <Compile Include="ServiceFunction\InterfaceTestService.cs" />
     <Compile Include="ServiceFunction\WcfAppTestService.cs" />
+    <Compile Include="TestClass\TestReflection.cs" />
     <Compile Include="ViewModel\StockingScreenTestModel.cs" />
     <Compile Include="View\CanvasViewBoxTest.xaml.cs">
       <DependentUpon>CanvasViewBoxTest.xaml</DependentUpon>

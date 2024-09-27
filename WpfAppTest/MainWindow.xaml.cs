@@ -38,6 +38,13 @@ namespace WpfAppTest
             InitializeComponent();
 
 
+            //object o = new object();
+            //object o1 = new object();
+            //bool b = o.isSameType(o);
+
+            TestReflection.TestMethod2();
+
+
             #region 각종 테스트 관련 함수
             //var dataTemplateVM = new DataTemplateModel();
 

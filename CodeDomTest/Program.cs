@@ -14,57 +14,57 @@ namespace CodeDomTest
     {
         static void Main(string[] args)
         {
-            string jsonString = @"
-        {
-            ""StartTime"": ""2020-08-01T00:00:00"",
-            ""EndTime"": ""2022-11-06T00:00:00"",
-            ""SearchText"": """",
-            ""Language"": 1,
-            ""PageNumber"": 1,
-            ""PageSize"": 10000
-        }";
+        //    string jsonString = @"
+        //{
+        //    ""StartTime"": ""2020-08-01T00:00:00"",
+        //    ""EndTime"": ""2022-11-06T00:00:00"",
+        //    ""SearchText"": """",
+        //    ""Language"": 1,
+        //    ""PageNumber"": 1,
+        //    ""PageSize"": 10000
+        //}";
 
-            SearchRequest searchRequest = JsonSerializer.Deserialize<SearchRequest>(jsonString);
+        //    SearchRequest searchRequest = JsonSerializer.Deserialize<SearchRequest>(jsonString);
 
 
             #region Roslyn 사용하여 코드돔 기능 구현
-            //    string codeToCompile = File.ReadAllText("dynamic_code.cs");
-            //    string assemblyName = "MyAssembly";
+            string codeToCompile = File.ReadAllText("dynamic_code.cs");
+            string assemblyName = "MyAssembly";
 
-            //    SyntaxTree syntaxTree = CSharpSyntaxTree.ParseText(codeToCompile);
+            SyntaxTree syntaxTree = CSharpSyntaxTree.ParseText(codeToCompile);
 
-            //    var refPaths = new[] {
-            //        typeof(System.Object).GetTypeInfo().Assembly.Location,
-            //        typeof(Console).GetTypeInfo().Assembly.Location,
-            //        Path.Combine(Path.GetDirectoryName(typeof(System.Runtime.GCSettings).GetTypeInfo().Assembly.Location), "System.Runtime.dll")
-            //    };
-            //    MetadataReference[] references = refPaths.Select(r => MetadataReference.CreateFromFile(r)).ToArray();
+            var refPaths = new[] {
+                    typeof(System.Object).GetTypeInfo().Assembly.Location,
+                    typeof(Console).GetTypeInfo().Assembly.Location,
+                    Path.Combine(Path.GetDirectoryName(typeof(System.Runtime.GCSettings).GetTypeInfo().Assembly.Location), "System.Runtime.dll")
+                };
+            MetadataReference[] references = refPaths.Select(r => MetadataReference.CreateFromFile(r)).ToArray();
 
-            //    //CSharpCompilationOptions options = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary);
-            //    CSharpCompilationOptions options = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary, optimizationLevel:OptimizationLevel.Debug);
+            //CSharpCompilationOptions options = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary);
+            CSharpCompilationOptions options = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary, optimizationLevel: OptimizationLevel.Debug);
 
-            //    CSharpCompilation compilation = CSharpCompilation.Create(
-            //        assemblyName,
-            //        syntaxTrees: new[] { syntaxTree },
-            //        references: references,
-            //        options: options);
+            CSharpCompilation compilation = CSharpCompilation.Create(
+                assemblyName,
+                syntaxTrees: new[] { syntaxTree },
+                references: references,
+                options: options);
 
-            //    using (var ms = new MemoryStream())
-            //    {
-            //        var emitOptions = new EmitOptions(debugInformationFormat: DebugInformationFormat.Embedded);
-            //        EmitResult result = compilation.Emit(ms,
-            //options: emitOptions);
-            //        if (result.Success)
-            //        {
-            //            ms.Seek(0, SeekOrigin.Begin);
+            using (var ms = new MemoryStream())
+            {
+                var emitOptions = new EmitOptions(debugInformationFormat: DebugInformationFormat.Embedded);
+                EmitResult result = compilation.Emit(ms,
+        options: emitOptions);
+                if (result.Success)
+                {
+                    ms.Seek(0, SeekOrigin.Begin);
 
-            //            Assembly assembly = AssemblyLoadContext.Default.LoadFromStream(ms);
-            //            var type = assembly.GetType("MyType");
-            //            var instance = assembly.CreateInstance("MyType");
-            //            var meth = type.GetMember("Print").First() as MethodInfo;
-            //            meth.Invoke(instance, new[] { "World" });
-            //        }
-            //    }
+                    Assembly assembly = AssemblyLoadContext.Default.LoadFromStream(ms);
+                    var type = assembly.GetType("MyType");
+                    var instance = assembly.CreateInstance("MyType");
+                    var meth = type.GetMember("Print").First() as MethodInfo;
+                    meth.Invoke(instance, new[] { "World" });
+                }
+            }
             #endregion
 
             #region Helloworld.cs 파일 생성 코드돔
