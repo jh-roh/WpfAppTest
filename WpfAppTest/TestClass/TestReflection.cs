@@ -102,5 +102,45 @@ namespace WpfAppTest.TestClass
             ei.RemoveEventHandler(obj, eh);
         }
 
+        public static void TestMethod3()
+        {
+            /*------------------------ 인스턴스 생성 ------------------------------*/
+            object[] args = new object[] { "Befor Enter Constructor of SomeType" };
+
+            Console.WriteLine(args[0]);
+
+            object obj = Activator.CreateInstance(typeof(SomeType), args);
+
+            Console.WriteLine(args[0]);
+
+            /*------------------------ delegate로 메서드 호출 ------------------------------*/
+
+            MethodInfo mi = obj.GetType().GetTypeInfo().GetDeclaredMethod("SomePrivateMethod");
+
+            var del = (Func<string>)mi.CreateDelegate(typeof(Func<string>), obj);
+
+            string s = del();
+
+            Console.WriteLine(s);
+
+            /*------------------------ 속성 ---------------------------*/
+            PropertyInfo pi = obj.GetType().GetTypeInfo().GetDeclaredProperty("someProperty");
+            var setSomeProp = pi.SetMethod.CreateDelegate(typeof(Action<string>), obj) as Action<string>;
+
+            var getSomeProp = pi.GetMethod.CreateDelegate(typeof(Func<string>), obj) as Func<string>;
+            
+
+            setSomeProp("PropertyInfo.Delegate");
+            Console.WriteLine(getSomeProp());
+
+            /*------------------------ 이벤트 ---------------------------*/
+            EventInfo ei = obj.GetType().GetTypeInfo().GetDeclaredEvent("SomeEvent");
+
+            var addSomeEvent = ei.AddMethod.CreateDelegate(typeof(Action<EventHandler>), obj) as Action<EventHandler>;
+
+            var removeSomeEvent = ei.RemoveMethod.CreateDelegate(typeof(Action<EventHandler>), obj) as Action<EventHandler>;
+
+        
+        }
     }
 }

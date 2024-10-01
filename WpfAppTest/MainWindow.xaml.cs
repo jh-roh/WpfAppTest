@@ -42,7 +42,7 @@ namespace WpfAppTest
             //object o1 = new object();
             //bool b = o.isSameType(o);
 
-            TestReflection.TestMethod2();
+            TestReflection.TestMethod3();
 
 
             #region 각종 테스트 관련 함수
