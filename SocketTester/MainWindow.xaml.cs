@@ -25,7 +25,7 @@ namespace SocketTester
         {
             InitializeComponent();
 
-            Log.LogPath = "D:\\Log\\SocketTester";
+            Log.LogPath = "C:\\Log\\SocketTester";
 
 
 
