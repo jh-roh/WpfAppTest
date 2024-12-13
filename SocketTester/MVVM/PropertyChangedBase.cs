@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace SocketTester.Model
+namespace SocketTester.MVVM
 {
     public class PropertyChangedBase : INotifyPropertyChanged
     {

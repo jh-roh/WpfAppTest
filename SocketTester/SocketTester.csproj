@@ -55,6 +55,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Services\SocketServerManager.cs" />
+    <Compile Include="Services\SocketClientManager.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -70,8 +72,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainWindowModel.cs" />
-    <Compile Include="Model\PropertyChangedBase.cs" />
-    <Compile Include="Model\RelayCommand.cs" />
+    <Compile Include="MVVM\PropertyChangedBase.cs" />
+    <Compile Include="MVVM\RelayCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -102,6 +104,9 @@
       <Project>{ae4dab37-c4bf-40f5-8b3f-29a5087d5f80}</Project>
       <Name>CommonUtil</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Interfaces\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

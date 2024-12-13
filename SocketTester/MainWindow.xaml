@@ -31,11 +31,11 @@
                     </TabPanel>
                     <TabPanel Grid.Row="2">
                         <Border Width="5" />
-                        <ListBox Width="300" Height="150">
+                        <!--<ListBox Width="300" Height="150">
                             <ListBoxItem>Client 1</ListBoxItem>
                             <ListBoxItem>Client 2</ListBoxItem>
                             <ListBoxItem>Client 3</ListBoxItem>
-                        </ListBox>
+                        </ListBox>-->
                     </TabPanel>
                 </Grid>
             </TabItem>
@@ -61,7 +61,35 @@
                         <Border Width="5" />
                         <Button Content="Disconnect" MinWidth="100" Command="{Binding ClientDisconnectCommand}" />
                     </TabPanel>
-                    <TabPanel Grid.Row="2">
+                    <TabPanel Grid.Row="1" Margin="0,5">
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="IP Address" />
+                            <TextBox  MinWidth="100" />
+                        </StackPanel>
+                        <Border Width="5" />
+                        <StackPanel Orientation="Horizontal" >
+                            <Label Content="Port" />
+                            <TextBox Width="100" />
+                        </StackPanel>
+                        <Border Width="5" />
+                        <Button Content="Connect" MinWidth="80"  Command="{Binding ClientConnectCommand}"/>
+                        <Border Width="5" />
+                        <Button Content="Disconnect" MinWidth="100" Command="{Binding ClientDisconnectCommand}" />
+                    </TabPanel>
+                    <TabPanel Grid.Row="2" Margin="0,5">
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="IP Address" />
+                            <TextBox  MinWidth="100" />
+                        </StackPanel>
+                        <Border Width="5" />
+                        <StackPanel Orientation="Horizontal" >
+                            <Label Content="Port" />
+                            <TextBox Width="100" />
+                        </StackPanel>
+                        <Border Width="5" />
+                        <Button Content="Connect" MinWidth="80"  Command="{Binding ClientConnectCommand}"/>
+                        <Border Width="5" />
+                        <Button Content="Disconnect" MinWidth="100" Command="{Binding ClientDisconnectCommand}" />
                     </TabPanel>
                 </Grid>
                 
