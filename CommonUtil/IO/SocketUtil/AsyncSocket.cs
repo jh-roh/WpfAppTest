@@ -516,6 +516,8 @@ namespace CommonUtil.IO.SocketUtil
                 AsyncSocketConnectionEventArgs cev = new AsyncSocketConnectionEventArgs(this.id);
 
                 Closed(cev);
+
+                client.Dispose();
             }
             catch (System.Exception e)
             {

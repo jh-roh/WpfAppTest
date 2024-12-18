@@ -1,4 +1,7 @@
-﻿using SocketTester.MVVM;
+﻿using SocketTester.Helper;
+using SocketTester.MVVM;
+using SocketTester.Services;
+using System;
 using System.Windows;
 using System.Windows.Input;
 
@@ -6,41 +9,46 @@ namespace SocketTester
 {
     public class MainWindowModel : PropertyChangedBase
     {
-        private string _ipAddress;
+        object _lock = new object();
 
-        public string IpAddress
+        private string _ipAddress1;
+
+        public string IpAddress1
         {
-            get { return _ipAddress; }
+            get { return _ipAddress1; }
             set
             {
-                _ipAddress = value;
+                _ipAddress1 = value;
                 OnPropertyChanged();
             }
         }
 
-        private int _port;
-        public int Port
+        private int _port1;
+        public int Port1
         {
-            get { return _port; }
+            get { return _port1; }
             set
             {
-                _port = value;
+                _port1 = value;
                 OnPropertyChanged();
             }
         }
 
-        
-        private RelayCommand _serverStartCommand;
-        public ICommand ServerStartCommand
+        private bool _connectedHost1;
+
+        public bool ConnectedHost1
         {
-            get { return _serverStartCommand ?? (_serverStartCommand = new RelayCommand(this.ServerStartMethod)); }
+            get { return _connectedHost1; }
+            set
+            {
+                _connectedHost1 = value;
+                OnPropertyChanged();
+            }
         }
 
-        private RelayCommand _serverStopCommand;
-
-        public ICommand ServerStopCommand
+        public MainWindowModel()
         {
-            get { return _serverStopCommand ?? (_serverStopCommand = new RelayCommand(this.ServerStopMethod)); }
+            SocketMediator.RegisterClient(1, SocketManageHandler);
         }
 
         private RelayCommand _clientConnectCommand;
@@ -60,32 +68,40 @@ namespace SocketTester
         private void ClientDisconnectMethod(object obj)
         {
             MessageBox.Show("Client Disconnect Click");
-
+            SocketMediator.DisconnectClient(1);
         }
 
         private void ClientConnectMethod(object obj)
         {
+            
             MessageBox.Show("Client Connect Click");
-
+            SocketMediator.ConnectClient(1, IpAddress1, Port1);
         }
 
-        private void ServerStopMethod(object obj)
+        private void SocketManageHandler(object sender, SocketClientEventArgs e)
         {
-            MessageBox.Show("Stop Server Click");
+            lock (_lock)
+            {
+                try
+                {
+                
+                    switch (e.HandlerType)
+                    {
+                        case SocketHandlerType.Close:
+                            break;
 
+                        case SocketHandlerType.Connect:
+                            break;
+
+                        case SocketHandlerType.Receive:
+                            break;
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
         }
-
-        private void ServerStartMethod(object obj)
-        {
-            MessageBox.Show("Start Server Click");
-
-
-        }
-
-        public MainWindowModel()
-        {
-        }
-
-
     }
 }

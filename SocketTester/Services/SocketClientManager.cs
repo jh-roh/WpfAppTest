@@ -22,10 +22,12 @@ namespace SocketTester.Services
 
     public class SocketClientEventArgs : EventArgs
     {
+        public int ClientId { get; set; }
         public SocketHandlerType HandlerType { get; }
 
-        public SocketClientEventArgs(SocketHandlerType handlerType)
+        public SocketClientEventArgs(int clientId, SocketHandlerType handlerType)
         {
+            ClientId = clientId;
             HandlerType = handlerType;
         }
     }
@@ -35,9 +37,13 @@ namespace SocketTester.Services
 
     public class SocketClientManager : IDisposable
     {
-        private int MaxClients = 100;
-       
-        
+        private int _clientId;
+
+        public int ClientId
+        {
+            get { return _clientId; }
+        }
+
         private AsyncSocketClient Socket;
 
         // 연결 완료 이벤트
@@ -52,12 +58,12 @@ namespace SocketTester.Services
         // 닫기 타임아웃 (밀리초)
         public int CloseTimeout = 2000;
 
-
         private BlockingCollection<byte[]> SendQueue;
         private BlockingCollection<byte[]> ReceiveQueue;
 
         private Thread SendLoopThread;
         private Thread ReceiveLoopThread;
+
         private CancellationTokenSource SendCts = new CancellationTokenSource();
         private CancellationTokenSource ReceiveCts = new CancellationTokenSource();
 
@@ -78,22 +84,18 @@ namespace SocketTester.Services
             set { _isConnected = value; }
         }
 
-
-
         public SocketClientManager()
         {
-            
+            InitProcessThread();
+        }
+
+        public void InitProcessThread()
+        {
             SendQueue = new BlockingCollection<byte[]>();
             ReceiveQueue = new BlockingCollection<byte[]>();
             IsSendWorkThread = true;
             IsReceiveWorkThread = true;
 
-
-            Socket = new AsyncSocketClient(1);
-            Socket.OnClose += Socket_OnClose;
-            Socket.OnConnect += Socket_OnConnect;
-            Socket.OnError += Socket_OnError;
-            Socket.OnReceive += Socket_OnReceive;
 
             //SendQueue 처리 쓰레드
             SendLoopThread = new Thread(() =>
@@ -138,7 +140,7 @@ namespace SocketTester.Services
                 {
                     var receiveData = ReceiveQueue.Take(ReceiveCts.Token);
 
-                    ManageHandler(this, new SocketClientEventArgs(SocketHandlerType.Receive));
+                    ManageHandler(this, new SocketClientEventArgs(_clientId ,SocketHandlerType.Receive));
                 }
 
             });
@@ -146,30 +148,44 @@ namespace SocketTester.Services
             ReceiveLoopThread.IsBackground = true;
             ReceiveLoopThread.SetApartmentState(ApartmentState.STA);
             ReceiveLoopThread.Start();
+        }
 
+        public void SetSocketClient(int? clientId)
+        {
+            _clientId = (int)clientId;
+            Socket = new AsyncSocketClient((int)clientId);
+            Socket.OnClose += Socket_OnClose;
+            Socket.OnConnect += Socket_OnConnect;
+            Socket.OnError += Socket_OnError;
+            Socket.OnReceive += Socket_OnReceive;
         }
 
         public void Connect(string host, int port)
         {
             ConnectionCompleted.Reset();
 
-           
-                Socket.Connect(host, port);
+            Log.Info2("METHOD", "CONNECT", "Connection Try", ApplicationConfig.SocketTesterLogFileName);
 
-            if(ConnectionCompleted.WaitOne(ConnectionTimeout) == false)
-            {
+            Socket.Connect(host, port);
 
-            }
-            else
-            {
+            ConnectionCompleted.WaitOne(ConnectionTimeout);
+            
+        }
 
-            }
+        public void SendDataToQueue(byte[] data)
+        {
+            SendQueue.Add(data);
         }
 
         public void Close()
         {
+            CloseCompleted.Reset();
+
+            Log.Info2("METHOD", "CLOSE", "Close Try", ApplicationConfig.SocketTesterLogFileName);
+            
             Socket.Close();
-            Dispose(true);
+            
+            CloseCompleted.WaitOne(CloseTimeout);
         }
 
         private void Socket_OnReceive(object sender, AsyncSocketReceiveEventArgs e)
@@ -197,21 +213,25 @@ namespace SocketTester.Services
 
         private void Socket_OnConnect(object sender, AsyncSocketConnectionEventArgs e)
         {
+            Log.Info2("EVENT", "CONNECT", "Connection Complete", ApplicationConfig.SocketTesterLogFileName);
+
             IsConnected = true;
 
             ConnectionCompleted.Set();
 
-            ManageHandler(this, new SocketClientEventArgs(SocketHandlerType.Connect));
+            ManageHandler(this, new SocketClientEventArgs(_clientId,SocketHandlerType.Connect));
 
         }
 
         private void Socket_OnClose(object sender, AsyncSocketConnectionEventArgs e)
         {
+            Log.Info2("EVENT", "CLOSE", "Connection Close", ApplicationConfig.SocketTesterLogFileName);
+
             IsConnected = false;
 
             CloseCompleted.Set();
 
-            ManageHandler(this, new SocketClientEventArgs(SocketHandlerType.Close));
+            ManageHandler(this, new SocketClientEventArgs(_clientId, SocketHandlerType.Close));
         }
 
         protected virtual void Dispose(bool disposing)

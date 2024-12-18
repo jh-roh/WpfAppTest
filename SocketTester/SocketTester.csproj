@@ -56,7 +56,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Globals\ApplicationConfig.cs" />
-    <Compile Include="Services\SocketServerManager.cs" />
+    <Compile Include="Helper\SocketMediator.cs" />
     <Compile Include="Services\SocketClientManager.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
