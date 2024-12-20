@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SocketTester"
         xmlns:viewmodel="clr-namespace:SocketTester"
+        xmlns:command="clr-namespace:SocketTester.Robot"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Window.DataContext>
@@ -38,36 +39,14 @@
                         <Border Width="5" />
                         <Button Content="Disconnect" MinWidth="100" Command="{Binding ClientDisconnectCommand}" />
                     </TabPanel>
-                    <!--<TabPanel Grid.Row="1" Margin="0,5">
-                        <StackPanel Orientation="Horizontal">
-                            <Label Content="IP Address" />
-                            <TextBox  MinWidth="100" />
-                        </StackPanel>
+                    <TabPanel Grid.Row="1" Margin="0,5">
                         <Border Width="5" />
-                        <StackPanel Orientation="Horizontal" >
-                            <Label Content="Port" />
-                            <TextBox Width="100" />
-                        </StackPanel>
+                        <Button Content="Robot 호출 수신 응답" MinWidth="80"  Command="{Binding SendClientCommand}" CommandParameter="{x:Static command:CommandProcessor.ROBOT_CALL_RECEPTION_RESPONSE}"/>
                         <Border Width="5" />
-                        <Button Content="Connect" MinWidth="80"  Command="{Binding ClientConnectCommand}"/>
+                        <Button Content="Robot 진입 가능 여부" MinWidth="100" Command="{Binding SendClientCommand}" CommandParameter="{x:Static command:CommandProcessor.ROBOT_ENTRY_POSSIBLE}" />
                         <Border Width="5" />
-                        <Button Content="Disconnect" MinWidth="100" Command="{Binding ClientDisconnectCommand}" />
+                        <Button Content="Keep Alive" MinWidth="100" Command="{Binding SendClientCommand}" CommandParameter="{x:Static command:CommandProcessor.ROBOT_KEEP_ALIVE}" />
                     </TabPanel>
-                    <TabPanel Grid.Row="2" Margin="0,5">
-                        <StackPanel Orientation="Horizontal">
-                            <Label Content="IP Address" />
-                            <TextBox  MinWidth="100" />
-                        </StackPanel>
-                        <Border Width="5" />
-                        <StackPanel Orientation="Horizontal" >
-                            <Label Content="Port" />
-                            <TextBox Width="100" />
-                        </StackPanel>
-                        <Border Width="5" />
-                        <Button Content="Connect" MinWidth="80"  Command="{Binding ClientConnectCommand}"/>
-                        <Border Width="5" />
-                        <Button Content="Disconnect" MinWidth="100" Command="{Binding ClientDisconnectCommand}" />
-                    </TabPanel>-->
                 </Grid>
                 
             </TabItem>

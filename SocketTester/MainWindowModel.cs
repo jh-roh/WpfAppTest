@@ -1,7 +1,9 @@
 ﻿using SocketTester.Helper;
 using SocketTester.MVVM;
+using SocketTester.Robot;
 using SocketTester.Services;
 using System;
+using System.Threading;
 using System.Windows;
 using System.Windows.Input;
 
@@ -48,7 +50,26 @@ namespace SocketTester
 
         public MainWindowModel()
         {
-            SocketMediator.RegisterClient(1, SocketManageHandler);
+            IpAddress1 = "192.168.125.171";
+
+            Port1 = 4001;
+
+            SocketMediator.RegisterClient(1);
+
+            var receiveProcessThread = new Thread(() =>
+            {
+                while (true)
+                {
+                    var receiveData = SocketMediator.ClientRobotIoResult[1].Take();
+
+                    Console.WriteLine(receiveData);
+                }
+
+            });
+
+            receiveProcessThread.IsBackground = true;
+            receiveProcessThread.SetApartmentState(ApartmentState.STA);
+            receiveProcessThread.Start();
         }
 
         private RelayCommand _clientConnectCommand;
@@ -65,6 +86,41 @@ namespace SocketTester
             get { return _clientDisconnectCommand ?? (_clientDisconnectCommand = new RelayCommand(this.ClientDisconnectMethod)); }
         }
 
+        private RelayCommand _sendClientCommand;
+
+        public ICommand SendClientCommand
+        {
+            get { return _sendClientCommand ?? (_sendClientCommand = new RelayCommand(this.SendClientCommandMethod)); }
+        }
+
+        private void SendClientCommandMethod(object obj)
+        {
+            int command = Convert.ToInt32(obj);
+
+            RobotIOSend? robotIOSend = null;
+
+            switch(command)
+            {
+                case CommandProcessor.ROBOT_CALL_RECEPTION_RESPONSE:
+                    robotIOSend = CommadParser.RequestRobotCallReception();
+                    break;
+
+                case CommandProcessor.ROBOT_ENTRY_POSSIBLE:
+                    robotIOSend = CommadParser.ResponseRobotEntryPossible();
+                    break;
+
+                case CommandProcessor.ROBOT_KEEP_ALIVE:
+                    robotIOSend = CommadParser.RequestRobotKeepAlive();
+                    break;
+
+            }
+
+            if (robotIOSend != null)
+            {
+                SocketMediator.SendMessageToServer(1, CommandProcessor.ConstructRobot((RobotIOSend)robotIOSend));
+            }
+        }
+
         private void ClientDisconnectMethod(object obj)
         {
             MessageBox.Show("Client Disconnect Click");
@@ -78,30 +134,6 @@ namespace SocketTester
             SocketMediator.ConnectClient(1, IpAddress1, Port1);
         }
 
-        private void SocketManageHandler(object sender, SocketClientEventArgs e)
-        {
-            lock (_lock)
-            {
-                try
-                {
-                
-                    switch (e.HandlerType)
-                    {
-                        case SocketHandlerType.Close:
-                            break;
-
-                        case SocketHandlerType.Connect:
-                            break;
-
-                        case SocketHandlerType.Receive:
-                            break;
-                    }
-                }
-                catch (Exception ex)
-                {
-
-                }
-            }
-        }
+        
     }
 }

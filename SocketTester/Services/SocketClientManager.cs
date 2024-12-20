@@ -20,15 +20,18 @@ namespace SocketTester.Services
         Receive
     }
 
-    public class SocketClientEventArgs : EventArgs
+    public struct SocketClientEventArgs 
     {
         public int ClientId { get; set; }
-        public SocketHandlerType HandlerType { get; }
+        public SocketHandlerType HandlerType { get; set; }
 
-        public SocketClientEventArgs(int clientId, SocketHandlerType handlerType)
+        public byte[] ReceiveDatas { get; set; }
+
+        public SocketClientEventArgs(int clientId, SocketHandlerType handlerType, byte[] receiveDatas)
         {
             ClientId = clientId;
             HandlerType = handlerType;
+            ReceiveDatas = receiveDatas.ToArray();
         }
     }
 
@@ -140,7 +143,7 @@ namespace SocketTester.Services
                 {
                     var receiveData = ReceiveQueue.Take(ReceiveCts.Token);
 
-                    ManageHandler(this, new SocketClientEventArgs(_clientId ,SocketHandlerType.Receive));
+                    ManageHandler(this, new SocketClientEventArgs(_clientId ,SocketHandlerType.Receive, receiveData));
                 }
 
             });
@@ -219,7 +222,7 @@ namespace SocketTester.Services
 
             ConnectionCompleted.Set();
 
-            ManageHandler(this, new SocketClientEventArgs(_clientId,SocketHandlerType.Connect));
+            ManageHandler(this, new SocketClientEventArgs(_clientId,SocketHandlerType.Connect, null));
 
         }
 
@@ -231,7 +234,7 @@ namespace SocketTester.Services
 
             CloseCompleted.Set();
 
-            ManageHandler(this, new SocketClientEventArgs(_clientId, SocketHandlerType.Close));
+            ManageHandler(this, new SocketClientEventArgs(_clientId, SocketHandlerType.Close, null));
         }
 
         protected virtual void Dispose(bool disposing)

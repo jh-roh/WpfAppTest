@@ -1,5 +1,7 @@
-﻿using SocketTester.Services;
+﻿using SocketTester.Robot;
+using SocketTester.Services;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Net.Http.Headers;
 using System.Runtime.InteropServices;
@@ -13,16 +15,23 @@ namespace SocketTester.Helper
         
         private static object _lock = new object();
 
-        public static void RegisterClient(int? clientId, SocketClientManagerEventHandler handler)
+        public static readonly Dictionary<int?, BlockingCollection<RobotIOResult>> ClientRobotIoResult = new Dictionary<int?, BlockingCollection<RobotIOResult>>();
+
+        public static void RegisterClient(int? clientId)
         {
             lock (_lock)
             {
                 if (clientId == null)
                     throw new ArgumentException("Client ID cannot be null or empty.", nameof(clientId));
 
-                _clients[clientId] = new SocketClientManager();
-                _clients[clientId].SetSocketClient(clientId);
-                _clients[clientId].ManageHandler += handler;
+                if (_clients.ContainsKey(clientId) == false)
+                {
+                    _clients[clientId] = new SocketClientManager();
+                    _clients[clientId].SetSocketClient(clientId);
+                    _clients[clientId].ManageHandler += ManageClientHandler;
+
+                    ClientRobotIoResult.Add(clientId, new BlockingCollection<RobotIOResult>());
+                }
             }
         }
 
@@ -58,7 +67,7 @@ namespace SocketTester.Helper
         }
 
         // 클라이언트 등록 해제 메서드 (옵션)
-        public static void UnregisterClient(int? clientId, SocketClientManagerEventHandler handler)
+        public static void UnregisterClient(int? clientId)
         {
             lock (_lock)
             {
@@ -68,7 +77,7 @@ namespace SocketTester.Helper
 
                 if (_clients.ContainsKey(clientId))
                 {
-                    _clients[clientId].ManageHandler -= handler;
+                    _clients[clientId].ManageHandler -= ManageClientHandler;
                     _clients[clientId].Close();
                     _clients[clientId].Dispose();
                     _clients.Remove(clientId);
@@ -80,6 +89,39 @@ namespace SocketTester.Helper
         public static IReadOnlyDictionary<int?, SocketClientManager> GetAllClients()
         {
             return _clients;
+        }
+
+        public static void ManageClientHandler(object sender, SocketClientEventArgs e)
+        {
+            lock (_lock)
+            {
+                try
+                {
+                    switch (e.HandlerType)
+                    {
+                        case SocketHandlerType.Close:
+                            break;
+
+                        case SocketHandlerType.Connect:
+                            break;
+
+                        case SocketHandlerType.Receive:
+                            var ioResult = CommandAnalyer.AnalyzeRobot(e.ReceiveDatas);
+                            ioResult.ClientId = e.ClientId;
+                            ioResult.buffer = e.ReceiveDatas;
+
+                            if(ClientRobotIoResult.TryGetValue(ioResult.ClientId, out var robotIOResults))
+                            {
+                                robotIOResults.Add(ioResult);
+                            }
+                            break;
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
         }
     }
 }
