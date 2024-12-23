@@ -14,8 +14,8 @@ namespace SocketTester.Helper
         private static readonly Dictionary<int?, SocketClientManager> _clients = new Dictionary<int?, SocketClientManager>();
         
         private static object _lock = new object();
-
-        public static readonly Dictionary<int?, BlockingCollection<RobotIOResult>> ClientRobotIoResult = new Dictionary<int?, BlockingCollection<RobotIOResult>>();
+        
+        public static readonly BlockingCollection<RobotIOResult> RobotIoResult = new BlockingCollection<RobotIOResult>();
 
         public static void RegisterClient(int? clientId)
         {
@@ -29,8 +29,6 @@ namespace SocketTester.Helper
                     _clients[clientId] = new SocketClientManager();
                     _clients[clientId].SetSocketClient(clientId);
                     _clients[clientId].ManageHandler += ManageClientHandler;
-
-                    ClientRobotIoResult.Add(clientId, new BlockingCollection<RobotIOResult>());
                 }
             }
         }
@@ -97,25 +95,19 @@ namespace SocketTester.Helper
             {
                 try
                 {
+                    RobotIOResult iOResult = new RobotIOResult();
+
                     switch (e.HandlerType)
                     {
-                        case SocketHandlerType.Close:
-                            break;
-
-                        case SocketHandlerType.Connect:
-                            break;
-
                         case SocketHandlerType.Receive:
-                            var ioResult = CommandAnalyer.AnalyzeRobot(e.ReceiveDatas);
-                            ioResult.ClientId = e.ClientId;
-                            ioResult.buffer = e.ReceiveDatas;
-
-                            if(ClientRobotIoResult.TryGetValue(ioResult.ClientId, out var robotIOResults))
-                            {
-                                robotIOResults.Add(ioResult);
-                            }
+                            iOResult = CommandAnalyer.AnalyzeRobot(e.ReceiveDatas);
+                            iOResult.buffer = e.ReceiveDatas;
                             break;
                     }
+
+                    iOResult.HandlerType = e.HandlerType;
+                    iOResult.ClientId = e.ClientId;
+                    RobotIoResult.Add(iOResult);
                 }
                 catch (Exception ex)
                 {

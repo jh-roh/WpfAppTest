@@ -5,6 +5,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
@@ -31,7 +32,7 @@ namespace SocketTester.Services
         {
             ClientId = clientId;
             HandlerType = handlerType;
-            ReceiveDatas = receiveDatas.ToArray();
+            ReceiveDatas = receiveDatas != null ? receiveDatas.ToArray() : null;
         }
     }
 
@@ -87,6 +88,55 @@ namespace SocketTester.Services
             set { _isConnected = value; }
         }
 
+        public String IpAddress
+        {
+            get
+            {
+                try
+                {
+                    if (Socket.Connection != null)
+                    {
+                        IPEndPoint ipEndPoint = Socket.Connection.RemoteEndPoint as IPEndPoint;
+
+                        return ipEndPoint.Address.ToString();
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return null;
+                }
+            }
+        }
+
+        public int? Port
+        {
+            get
+            {
+                try
+                {
+                    if (Socket.Connection != null)
+                    {
+                        IPEndPoint ipEndPoint = Socket.Connection.RemoteEndPoint as IPEndPoint;
+
+                        return ipEndPoint.Port;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return null;
+                }
+            }
+        }
+
+
         public SocketClientManager()
         {
             InitProcessThread();
@@ -123,7 +173,7 @@ namespace SocketTester.Services
                             Socket.Send(sendData);
                         }
 
-                        Log.Info2("SEND", "DATA", sb.ToString(), ApplicationConfig.SocketTesterLogFileName);
+                        Log.Info2("SEND", $"Client{_clientId},{IpAddress},{Port}", sb.ToString(), ApplicationConfig.SocketTesterLogFileName);
                     }
                     catch (Exception ex)
                     {
@@ -167,7 +217,7 @@ namespace SocketTester.Services
         {
             ConnectionCompleted.Reset();
 
-            Log.Info2("METHOD", "CONNECT", "Connection Try", ApplicationConfig.SocketTesterLogFileName);
+            Log.Info2("CONNECT", $"Client{_clientId},{host},{port}", "Trying to connect", ApplicationConfig.SocketTesterLogFileName);
 
             Socket.Connect(host, port);
 
@@ -182,13 +232,16 @@ namespace SocketTester.Services
 
         public void Close()
         {
-            CloseCompleted.Reset();
+            if (Socket.Connection != null)
+            {
+                CloseCompleted.Reset();
 
-            Log.Info2("METHOD", "CLOSE", "Close Try", ApplicationConfig.SocketTesterLogFileName);
-            
-            Socket.Close();
-            
-            CloseCompleted.WaitOne(CloseTimeout);
+                Log.Info2("CLOSE", $"Client{_clientId},{IpAddress},{Port}", "Trying to close", ApplicationConfig.SocketTesterLogFileName);
+
+                Socket.Close();
+
+                CloseCompleted.WaitOne(CloseTimeout);
+            }
         }
 
         private void Socket_OnReceive(object sender, AsyncSocketReceiveEventArgs e)
@@ -202,7 +255,7 @@ namespace SocketTester.Services
                     sb.Append($"{e.ReceiveData[i]:X2} ");
                 }
 
-                Log.Info2("RECV", "DATA", sb.ToString(), ApplicationConfig.SocketTesterLogFileName);
+                Log.Info2("RECV", $"Client{_clientId},{IpAddress},{Port}", sb.ToString(), ApplicationConfig.SocketTesterLogFileName);
 
                 ReceiveQueue.Add(e.ReceiveData);
 
@@ -215,8 +268,8 @@ namespace SocketTester.Services
         }
 
         private void Socket_OnConnect(object sender, AsyncSocketConnectionEventArgs e)
-        {
-            Log.Info2("EVENT", "CONNECT", "Connection Complete", ApplicationConfig.SocketTesterLogFileName);
+        { 
+            Log.Info2("CLOSE", $"Client{_clientId},{IpAddress},{Port}", "Connection Complete", ApplicationConfig.SocketTesterLogFileName);
 
             IsConnected = true;
 
@@ -228,7 +281,7 @@ namespace SocketTester.Services
 
         private void Socket_OnClose(object sender, AsyncSocketConnectionEventArgs e)
         {
-            Log.Info2("EVENT", "CLOSE", "Connection Close", ApplicationConfig.SocketTesterLogFileName);
+            Log.Info2("CLOSE", $"Client{_clientId},{IpAddress},{Port}", "Close Complete", ApplicationConfig.SocketTesterLogFileName);
 
             IsConnected = false;
 

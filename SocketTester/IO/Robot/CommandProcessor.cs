@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SocketTester.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -16,6 +17,8 @@ namespace SocketTester.Robot
 
     public struct RobotIOResult
     {
+        public SocketHandlerType HandlerType;
+
         public int ClientId;
 
         public int DataLength;

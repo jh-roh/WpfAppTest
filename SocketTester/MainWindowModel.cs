@@ -1,8 +1,11 @@
 ﻿using SocketTester.Helper;
+using SocketTester.Model;
 using SocketTester.MVVM;
 using SocketTester.Robot;
 using SocketTester.Services;
 using System;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading;
 using System.Windows;
 using System.Windows.Input;
@@ -13,56 +16,74 @@ namespace SocketTester
     {
         object _lock = new object();
 
-        private string _ipAddress1;
-
-        public string IpAddress1
+        private ObservableCollection<ClientModel> _clients;
+        public ObservableCollection<ClientModel> Clients
         {
-            get { return _ipAddress1; }
-            set
+            get
             {
-                _ipAddress1 = value;
-                OnPropertyChanged();
+                return _clients;
             }
-        }
-
-        private int _port1;
-        public int Port1
-        {
-            get { return _port1; }
             set
             {
-                _port1 = value;
-                OnPropertyChanged();
-            }
-        }
-
-        private bool _connectedHost1;
-
-        public bool ConnectedHost1
-        {
-            get { return _connectedHost1; }
-            set
-            {
-                _connectedHost1 = value;
+                _clients = value;
                 OnPropertyChanged();
             }
         }
 
         public MainWindowModel()
         {
-            IpAddress1 = "192.168.125.171";
+            Clients = new ObservableCollection<ClientModel>();
+            Clients.Add(new ClientModel
+            {
+                ClientId = 1,
+                IpAddress = "192.168.125.171", // 기본값
+                Port = 4001,           // 기본값
+                ConnectCommand = new RelayCommand(this.ClientConnectMethod),
+                DisconnectCommand = new RelayCommand(this.ClientDisconnectMethod),
+                IsConnected = false
+            });
 
-            Port1 = 4001;
+            Clients.Add(new ClientModel
+            {
+                ClientId = 2,
+                IpAddress = "192.168.125.172", // 기본값
+                Port = 4001,           // 기본값
+                ConnectCommand = new RelayCommand(this.ClientConnectMethod),
+                DisconnectCommand = new RelayCommand(this.ClientDisconnectMethod),
+                IsConnected =false
+            });
 
-            SocketMediator.RegisterClient(1);
+            foreach (var item in Clients)
+            {
+                SocketMediator.RegisterClient(item.ClientId);
+
+            }
 
             var receiveProcessThread = new Thread(() =>
             {
                 while (true)
                 {
-                    var receiveData = SocketMediator.ClientRobotIoResult[1].Take();
+                    var iOResult = SocketMediator.RobotIoResult.Take();
 
-                    Console.WriteLine(receiveData);
+                    switch(iOResult.HandlerType)
+                    {
+                        case SocketHandlerType.Close:
+                        case SocketHandlerType.Connect:
+                            var client = Clients.FirstOrDefault(p => p.ClientId == iOResult.ClientId);
+
+                            if (client != null)
+                            {
+                                client.IsConnected = iOResult.HandlerType  == SocketHandlerType.Connect ? true : false;
+                            }
+
+                            break;
+
+
+                        case SocketHandlerType.Receive:
+
+                            break;
+                    }
+
                 }
 
             });
@@ -72,18 +93,11 @@ namespace SocketTester
             receiveProcessThread.Start();
         }
 
-        private RelayCommand _clientConnectCommand;
+        private RelayCommand _addNewClientCommand;
 
-        public ICommand ClientConnectCommand
+        public ICommand AddNewClientCommand
         {
-            get { return _clientConnectCommand ?? (_clientConnectCommand = new RelayCommand(this.ClientConnectMethod)); }
-        }
-
-        private RelayCommand _clientDisconnectCommand;
-
-        public ICommand ClientDisconnectCommand
-        {
-            get { return _clientDisconnectCommand ?? (_clientDisconnectCommand = new RelayCommand(this.ClientDisconnectMethod)); }
+            get { return _addNewClientCommand ?? (_addNewClientCommand = new RelayCommand(this.AddNewClientMethod)); }
         }
 
         private RelayCommand _sendClientCommand;
@@ -93,13 +107,18 @@ namespace SocketTester
             get { return _sendClientCommand ?? (_sendClientCommand = new RelayCommand(this.SendClientCommandMethod)); }
         }
 
+
+
         private void SendClientCommandMethod(object obj)
         {
-            int command = Convert.ToInt32(obj);
+            int[] parameter = (int[])obj;
+
+            int clientId = parameter[0];
+            byte command = (byte)parameter[1];
 
             RobotIOSend? robotIOSend = null;
 
-            switch(command)
+            switch (parameter[1])
             {
                 case CommandProcessor.ROBOT_CALL_RECEPTION_RESPONSE:
                     robotIOSend = CommadParser.RequestRobotCallReception();
@@ -117,23 +136,53 @@ namespace SocketTester
 
             if (robotIOSend != null)
             {
-                SocketMediator.SendMessageToServer(1, CommandProcessor.ConstructRobot((RobotIOSend)robotIOSend));
+                SocketMediator.SendMessageToServer(clientId, CommandProcessor.ConstructRobot((RobotIOSend)robotIOSend));
             }
         }
 
         private void ClientDisconnectMethod(object obj)
         {
-            MessageBox.Show("Client Disconnect Click");
-            SocketMediator.DisconnectClient(1);
+            int clientId = Convert.ToInt32(obj);
+
+            var client = Clients.FirstOrDefault(p => p.ClientId == clientId);
+
+            if (client != null)
+            {
+                SocketMediator.DisconnectClient(clientId);
+            }
+            
         }
 
         private void ClientConnectMethod(object obj)
         {
-            
-            MessageBox.Show("Client Connect Click");
-            SocketMediator.ConnectClient(1, IpAddress1, Port1);
+            int clientId = Convert.ToInt32(obj);
+
+            var client = Clients.FirstOrDefault(p => p.ClientId == clientId);
+
+            if(client != null)
+            {
+                SocketMediator.ConnectClient(client.ClientId, client.IpAddress, client.Port);
+            }
         }
 
-        
+
+
+        private void AddNewClientMethod(object obj)
+        {
+            int maxId = Clients.Max(p => p.ClientId);
+
+            maxId += 1;
+
+            Clients.Add(new ClientModel
+            {
+                ClientId = maxId,
+                IpAddress = "",      // 기본값
+                Port = 0,           // 기본값
+                ConnectCommand = new RelayCommand(this.ClientConnectMethod),
+                DisconnectCommand = new RelayCommand(this.ClientDisconnectMethod),
+            });
+
+        }
+
     }
 }
