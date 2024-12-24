@@ -173,7 +173,7 @@ namespace SocketTester.Services
                             Socket.Send(sendData);
                         }
 
-                        Log.Info2("SEND", $"Client{_clientId},{IpAddress},{Port}", sb.ToString(), ApplicationConfig.SocketTesterLogFileName);
+                        Log.Info2("SEND", $"Client{_clientId},{IpAddress},{Port}", sb.ToString(), ApplicationConfig.RobotIORawDataFileName);
                     }
                     catch (Exception ex)
                     {
@@ -217,7 +217,7 @@ namespace SocketTester.Services
         {
             ConnectionCompleted.Reset();
 
-            Log.Info2("CONNECT", $"Client{_clientId},{host},{port}", "Trying to connect", ApplicationConfig.SocketTesterLogFileName);
+            Log.Info2("CONNECT", $"Client{_clientId},{host},{port}", "Trying to connect", ApplicationConfig.RobotIORawDataFileName);
 
             Socket.Connect(host, port);
 
@@ -236,7 +236,7 @@ namespace SocketTester.Services
             {
                 CloseCompleted.Reset();
 
-                Log.Info2("CLOSE", $"Client{_clientId},{IpAddress},{Port}", "Trying to close", ApplicationConfig.SocketTesterLogFileName);
+                Log.Info2("CLOSE", $"Client{_clientId},{IpAddress},{Port}", "Trying to close", ApplicationConfig.RobotIORawDataFileName);
 
                 Socket.Close();
 
@@ -255,7 +255,7 @@ namespace SocketTester.Services
                     sb.Append($"{e.ReceiveData[i]:X2} ");
                 }
 
-                Log.Info2("RECV", $"Client{_clientId},{IpAddress},{Port}", sb.ToString(), ApplicationConfig.SocketTesterLogFileName);
+                Log.Info2("RECV", $"Client{_clientId},{IpAddress},{Port}", sb.ToString(), ApplicationConfig.RobotIORawDataFileName);
 
                 ReceiveQueue.Add(e.ReceiveData);
 
@@ -269,7 +269,7 @@ namespace SocketTester.Services
 
         private void Socket_OnConnect(object sender, AsyncSocketConnectionEventArgs e)
         { 
-            Log.Info2("CLOSE", $"Client{_clientId},{IpAddress},{Port}", "Connection Complete", ApplicationConfig.SocketTesterLogFileName);
+            Log.Info2("CLOSE", $"Client{_clientId},{IpAddress},{Port}", "Connection Complete", ApplicationConfig.RobotIORawDataFileName);
 
             IsConnected = true;
 
@@ -281,7 +281,7 @@ namespace SocketTester.Services
 
         private void Socket_OnClose(object sender, AsyncSocketConnectionEventArgs e)
         {
-            Log.Info2("CLOSE", $"Client{_clientId},{IpAddress},{Port}", "Close Complete", ApplicationConfig.SocketTesterLogFileName);
+            Log.Info2("CLOSE", $"Client{_clientId},{IpAddress},{Port}", "Close Complete", ApplicationConfig.RobotIORawDataFileName);
 
             IsConnected = false;
 

@@ -5,8 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SocketTester"
         xmlns:viewmodel="clr-namespace:SocketTester"
-        xmlns:command="clr-namespace:SocketTester.Robot"
+        xmlns:command="clr-namespace:SocketTester.IO.Robot"
         xmlns:converter="clr-namespace:SocketTester.UI.Converter"
+        xmlns:behavior="clr-namespace:SocketTester.UI.Behavior"
         mc:Ignorable="d"
         Title="MainWindow" Height="786" Width="1024">
     <Window.Resources>
@@ -30,35 +31,49 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-                    <TabPanel>
-                        <Border Width="5" />
-                        <Button Content="Add new client"  Command="{Binding AddNewClientCommand}" ></Button>
+                    <GroupBox Header="Client Add and Remove">
+                        <TabPanel>
+                            <Border Width="5" />
+                            <Button Content="Add new client"  Command="{Binding AddNewClientCommand}" ></Button>
 
-                    </TabPanel>
-                    <ItemsControl ItemsSource="{Binding Clients}" Grid.Row="1">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <TabPanel Margin="0,5">
-                                    <Border Width="5" />
-                                    <StackPanel Orientation="Horizontal">
-                                        <Label Content="Client" FontWeight="Bold"></Label>
-                                        <Label Content="{Binding ClientId}" FontWeight="Bold"></Label>
-                                        <Label Content="IP Address" />
-                                        <TextBox  MinWidth="100" Text="{Binding IpAddress}" />
-                                    </StackPanel>
-                                    <Border Width="5" />
-                                    <StackPanel Orientation="Horizontal" >
-                                        <Label Content="Port" />
-                                        <TextBox Width="100" Text="{Binding Port}"/>
-                                    </StackPanel>
-                                    <Border Width="5" />
-                                    <Button Content="Connect" MinWidth="80"  Command="{Binding ConnectCommand}" CommandParameter="{Binding ClientId}"  IsEnabled="{Binding IsConnected, Converter={StaticResource InverseBooleanConverter}}" />
-                                    <Border Width="5" />
-                                    <Button Content="Disconnect" MinWidth="100" Command="{Binding DisconnectCommand}"  CommandParameter="{Binding ClientId}"/>
-                                </TabPanel>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                        </TabPanel>
+                    </GroupBox>
+                    <GroupBox  Grid.Row="1" Header="Client IP Setting">
+                        <ScrollViewer>
+                            <ItemsControl ItemsSource="{Binding Clients}" >
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel Orientation="Horizontal"/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border BorderBrush="Gray" BorderThickness="1" Padding="10" Margin="5">
+                                            <TabPanel Margin="0,5">
+                                                <Border Width="5" />
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Label Content="Client" FontWeight="Bold"></Label>
+                                                    <Label Content="{Binding ClientId}" FontWeight="Bold"></Label>
+                                                    <Label Content="IP Address" />
+                                                    <TextBox  MinWidth="100" Text="{Binding IpAddress}" />
+                                                </StackPanel>
+                                                <Border Width="5" />
+                                                <StackPanel Orientation="Horizontal" >
+                                                    <Label Content="Port" />
+                                                    <TextBox Width="100" Text="{Binding Port}"/>
+                                                </StackPanel>
+                                                <Border Width="5" />
+                                                <Button Content="Connect" MinWidth="80"  Command="{Binding ConnectCommand}" CommandParameter="{Binding ClientId}"  IsEnabled="{Binding IsConnected, Converter={StaticResource InverseBooleanConverter}}" />
+                                                <Border Width="5" />
+                                                <Button Content="Disconnect" MinWidth="100" Command="{Binding DisconnectCommand}"  CommandParameter="{Binding ClientId}"/>
+                                            </TabPanel>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+                    </GroupBox>
+                    
                     <Grid Grid.Row="2" Margin="0,5">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="210" />
@@ -107,12 +122,12 @@
                         </ListBox>
                         <TabPanel Grid.Column="1" >
                             <Border Width="5" />
-                            <!--<Button Content="Robot call reception response" MinWidth="80"  Command="{Binding SendClientCommand}" CommandParameter="{x:Static command:CommandProcessor.ROBOT_CALL_RECEPTION_RESPONSE}"/>-->
+                            <!--<Button Content="Robot call reception response" MinWidth="80"  Command="{Binding SendClientCommand}" CommandParameter="{x:Static command:RobotProtocolProcessor.ROBOT_CALL_RECEPTION_RESPONSE}"/>-->
                             <Button Content="Robot call reception response" MinWidth="80" Height="40"  Command="{Binding SendClientCommand}" >
                                 <Button.CommandParameter>
                                     <MultiBinding Converter="{StaticResource MultiValueIntArrayConverter}">
                                         <Binding Path="SelectedItem.ClientId" ElementName="ClientsListBox" />
-                                        <Binding Source="{x:Static command:CommandProcessor.ROBOT_CALL_RECEPTION_RESPONSE}"/>
+                                        <Binding Source="{x:Static command:RobotIOConstant.IO_CMD_ROBOT_CALL_RECEPTION_RESPONSE}"/>
                                     </MultiBinding>
                                 </Button.CommandParameter>
                             </Button>
@@ -121,7 +136,7 @@
                                 <Button.CommandParameter>
                                     <MultiBinding Converter="{StaticResource MultiValueIntArrayConverter}">
                                         <Binding Path="SelectedItem.ClientId" ElementName="ClientsListBox" />
-                                        <Binding Source="{x:Static command:CommandProcessor.ROBOT_ENTRY_POSSIBLE}"/>
+                                        <Binding Source="{x:Static command:RobotIOConstant.IO_CMD_ROBOT_ENTRY_POSSIBLE}"/>
                                     </MultiBinding>
                                 </Button.CommandParameter>
                             </Button>
@@ -130,7 +145,7 @@
                                 <Button.CommandParameter>
                                     <MultiBinding Converter="{StaticResource MultiValueIntArrayConverter}">
                                         <Binding Path="SelectedItem.ClientId" ElementName="ClientsListBox" />
-                                        <Binding Source="{x:Static command:CommandProcessor.ROBOT_KEEP_ALIVE}"/>
+                                        <Binding Source="{x:Static command:RobotIOConstant.IO_CMD_ROBOT_KEEP_ALIVE_SW}"/>
                                     </MultiBinding>
                                 </Button.CommandParameter>
                             </Button>
@@ -139,5 +154,7 @@
                 </Grid>
             </TabItem>
         </TabControl>
+
+        <TextBox Grid.Row="1" MaxLength="{Binding ProcessMessageMaxLength}" ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.CanContentScroll="True" IsReadOnly="True" Text="{Binding ProcessMessage}" behavior:TextBoxScrollBehavior.AutoScroll="True"></TextBox>
     </Grid>
 </Window>

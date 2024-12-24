@@ -1,4 +1,5 @@
 ﻿using SocketTester.Helper;
+using SocketTester.IO.Robot;
 using SocketTester.Model;
 using SocketTester.MVVM;
 using SocketTester.Robot;
@@ -6,6 +7,7 @@ using SocketTester.Services;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Windows;
 using System.Windows.Input;
@@ -30,8 +32,43 @@ namespace SocketTester
             }
         }
 
+        private String _processMessage;
+
+        public String ProcessMessage
+        {
+            get
+            {
+                return _processMessage;
+            }
+            set
+            {
+                _processMessage = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private int _processMessageMaxLength;
+
+        public int ProcessMessageMaxLength
+        {
+            get
+            {
+                return _processMessageMaxLength;
+            }
+            set
+            {
+                _processMessageMaxLength = value;
+                OnPropertyChanged();
+            }
+        }
         public MainWindowModel()
         {
+            ProcessMessageMaxLength = 65535;
+            ProcessMessage = "";
+            ProtocolMessageManager.NotifyProtocolMessage();
+            ProtocolMessageManager.MessageNotify += ProtocolMessageManager_MessageNotify;
+
+
             Clients = new ObservableCollection<ClientModel>();
             Clients.Add(new ClientModel
             {
@@ -93,6 +130,14 @@ namespace SocketTester
             receiveProcessThread.Start();
         }
 
+        private void ProtocolMessageManager_MessageNotify(string e)
+        {
+            StringBuilder message = new StringBuilder();
+            message.AppendLine(e);
+            if(ProcessMessage.Length > ProcessMessageMaxLength) { ProcessMessage = ""; }
+            ProcessMessage += message.ToString();
+        }
+
         private RelayCommand _addNewClientCommand;
 
         public ICommand AddNewClientCommand
@@ -116,28 +161,8 @@ namespace SocketTester
             int clientId = parameter[0];
             byte command = (byte)parameter[1];
 
-            RobotIOSend? robotIOSend = null;
-
-            switch (parameter[1])
-            {
-                case CommandProcessor.ROBOT_CALL_RECEPTION_RESPONSE:
-                    robotIOSend = CommadParser.RequestRobotCallReception();
-                    break;
-
-                case CommandProcessor.ROBOT_ENTRY_POSSIBLE:
-                    robotIOSend = CommadParser.ResponseRobotEntryPossible();
-                    break;
-
-                case CommandProcessor.ROBOT_KEEP_ALIVE:
-                    robotIOSend = CommadParser.RequestRobotKeepAlive();
-                    break;
-
-            }
-
-            if (robotIOSend != null)
-            {
-                SocketMediator.SendMessageToServer(clientId, CommandProcessor.ConstructRobot((RobotIOSend)robotIOSend));
-            }
+            SocketMediator.SendMessageToServer(clientId, command);
+            
         }
 
         private void ClientDisconnectMethod(object obj)

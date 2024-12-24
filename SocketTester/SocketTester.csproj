@@ -56,10 +56,14 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Globals\ApplicationConfig.cs" />
-    <Compile Include="Helper\SocketMediator.cs" />
-    <Compile Include="IO\Robot\CommandProcessor.cs" />
+    <Compile Include="Helper\UtilHelper.cs" />
+    <Compile Include="IO\Robot\SocketMediator.cs" />
+    <Compile Include="IO\Robot\ProtocolMessageManager.cs" />
+    <Compile Include="IO\Robot\RobotProtocolProcessor.cs" />
+    <Compile Include="IO\Robot\RobotDefinitions.cs" />
     <Compile Include="Model\ClientModel.cs" />
     <Compile Include="Services\SocketClientManager.cs" />
+    <Compile Include="UI\Behavior\AttachedBehavior.cs" />
     <Compile Include="UI\Converter\ValueConverter.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

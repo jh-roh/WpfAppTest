@@ -1,4 +1,5 @@
 ﻿using CommonUtil;
+using SocketTester.Robot;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +27,6 @@ namespace SocketTester
             InitializeComponent();
 
             Log.LogPath = "C:\\Log\\SocketTester";
-
 
 
         }

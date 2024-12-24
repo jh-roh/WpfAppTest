@@ -8,7 +8,8 @@ namespace SocketTester.Globals
 {
     public static class ApplicationConfig
     {
-        public static String SocketTesterLogFileName = "SocketTester_IOLog";
+        public static String RobotIORawDataFileName = "SocketTester_IO_RawData";
+        public static String RobotIOParserFileName = "SocketTester_IO_Parser";
 
 
     }
