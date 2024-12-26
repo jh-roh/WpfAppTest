@@ -9,7 +9,7 @@
         xmlns:converter="clr-namespace:SocketTester.UI.Converter"
         xmlns:behavior="clr-namespace:SocketTester.UI.Behavior"
         mc:Ignorable="d"
-        Title="MainWindow" Height="786" Width="1024">
+        Title="Socket IO Tester" Height="786" Width="1100">
     <Window.Resources>
         <converter:InverseBooleanConverter x:Key="InverseBooleanConverter" />
         <converter:MultiValueIntArrayConverter x:Key="MultiValueIntArrayConverter" />
@@ -23,12 +23,12 @@
             <RowDefinition />
         </Grid.RowDefinitions>
         <TabControl>
-            <TabItem Header="TCP Client">
+            <TabItem Header="MiddleWare Client">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="1*" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <GroupBox Header="Client Add and Remove">
@@ -39,8 +39,8 @@
                         </TabPanel>
                     </GroupBox>
                     <GroupBox  Grid.Row="1" Header="Client IP Setting">
-                        <ScrollViewer>
-                            <ItemsControl ItemsSource="{Binding Clients}" >
+                        <ScrollViewer Height="110">
+                            <ItemsControl ItemsSource="{Binding ClientRepository.Items}" >
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <WrapPanel Orientation="Horizontal"/>
@@ -48,25 +48,27 @@
                                 </ItemsControl.ItemsPanel>
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
-                                        <Border BorderBrush="Gray" BorderThickness="1" Padding="10" Margin="5">
-                                            <TabPanel Margin="0,5">
-                                                <Border Width="5" />
-                                                <StackPanel Orientation="Horizontal">
+                                        <Border BorderBrush="Gray" BorderThickness="1" Padding="10" Margin="3" Width="470">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition Width="140"/>
+                                                </Grid.ColumnDefinitions>
+                                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                                                     <Label Content="Client" FontWeight="Bold"></Label>
                                                     <Label Content="{Binding ClientId}" FontWeight="Bold"></Label>
                                                     <Label Content="IP Address" />
-                                                    <TextBox  MinWidth="100" Text="{Binding IpAddress}" />
-                                                </StackPanel>
-                                                <Border Width="5" />
-                                                <StackPanel Orientation="Horizontal" >
+                                                    <TextBox Width="100"   Text="{Binding IpAddress}" />
                                                     <Label Content="Port" />
-                                                    <TextBox Width="100" Text="{Binding Port}"/>
+                                                    <TextBox Width="50" Text="{Binding Port}"/>
                                                 </StackPanel>
-                                                <Border Width="5" />
-                                                <Button Content="Connect" MinWidth="80"  Command="{Binding ConnectCommand}" CommandParameter="{Binding ClientId}"  IsEnabled="{Binding IsConnected, Converter={StaticResource InverseBooleanConverter}}" />
-                                                <Border Width="5" />
-                                                <Button Content="Disconnect" MinWidth="100" Command="{Binding DisconnectCommand}"  CommandParameter="{Binding ClientId}"/>
-                                            </TabPanel>
+                                                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
+                                                    <Button  Content="Connect" Width="60"  Command="{Binding ConnectCommand}" CommandParameter="{Binding ClientId}"  IsEnabled="{Binding IsConnected, Converter={StaticResource InverseBooleanConverter}}" />
+                                                    <Border Width="10"></Border>
+                                                    <Button  Content="Disconnect" Width="70" Command="{Binding DisconnectCommand}"  CommandParameter="{Binding ClientId}"/>
+                                                </StackPanel>
+                                                
+                                            </Grid>
                                         </Border>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
@@ -76,80 +78,192 @@
                     
                     <Grid Grid.Row="2" Margin="0,5">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="210" />
+                            <ColumnDefinition Width="440" />
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
-                        <ListBox x:Name="ClientsListBox" Width="200" Height="300" ItemsSource="{Binding Clients}" SelectedIndex="0">
-                            <ListBox.ItemTemplate>
-                                <DataTemplate>
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition/>
-                                            <ColumnDefinition/>
-                                        </Grid.ColumnDefinitions>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition/>
-                                            <RowDefinition/>
-                                        </Grid.RowDefinitions>
-                                        <StackPanel Orientation="Horizontal">
-                                            <Label Content="Client" FontWeight="Bold"/>
-                                            <Label Content="{Binding ClientId}" FontWeight="Bold"/>
-                                            <Label>
-                                                <Label.Style>
-                                                    <Style TargetType="{x:Type Label}">
-                                                        <Setter Property="Content" Value="Disconnected"/>
-                                                        <Setter Property="Foreground" Value="Red"/>
-                                                        <Setter Property="FontWeight" Value="Bold"/>
-                                                        <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding IsConnected}" Value="True">
-                                                                <Setter Property="Content" Value="Connected"/>
-                                                                <Setter Property="Foreground" Value="Blue"/>
-                                                            </DataTrigger>
-                                                        </Style.Triggers>
-                                                    </Style>
+                        <GroupBox Grid.Column="0" Header="Send Client commands ">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="210"/>
+                                    <ColumnDefinition Width="210"/>
+                                </Grid.ColumnDefinitions>
+                                <ListBox x:Name="ClientsListBox" Width="200" ItemsSource="{Binding ClientRepository.Items}" SelectedIndex="0">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition/>
+                                                    <ColumnDefinition/>
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition/>
+                                                    <RowDefinition/>
+                                                </Grid.RowDefinitions>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Label Content="Client" FontWeight="Bold"/>
+                                                    <Label Content="{Binding ClientId}" FontWeight="Bold"/>
+                                                    <Label>
+                                                        <Label.Style>
+                                                            <Style TargetType="{x:Type Label}">
+                                                                <Setter Property="Content" Value="Disconnected"/>
+                                                                <Setter Property="Foreground" Value="Red"/>
+                                                                <Setter Property="FontWeight" Value="Bold"/>
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding IsConnected}" Value="True">
+                                                                        <Setter Property="Content" Value="Connected"/>
+                                                                        <Setter Property="Foreground" Value="Blue"/>
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
 
-                                                </Label.Style>
-                                            </Label>
+                                                        </Label.Style>
+                                                    </Label>
 
-                                        </StackPanel>
-                                        <StackPanel Grid.Row="1" Orientation="Horizontal">
-                                            <Label Content="{Binding IpAddress}"/>
-                                            <Label Content="{Binding Port}"/>
-                                        </StackPanel>
-                                    </Grid>
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                        </ListBox>
-                        <TabPanel Grid.Column="1" >
-                            <Border Width="5" />
-                            <!--<Button Content="Robot call reception response" MinWidth="80"  Command="{Binding SendClientCommand}" CommandParameter="{x:Static command:RobotProtocolProcessor.ROBOT_CALL_RECEPTION_RESPONSE}"/>-->
-                            <Button Content="Robot call reception response" MinWidth="80" Height="40"  Command="{Binding SendClientCommand}" >
-                                <Button.CommandParameter>
-                                    <MultiBinding Converter="{StaticResource MultiValueIntArrayConverter}">
-                                        <Binding Path="SelectedItem.ClientId" ElementName="ClientsListBox" />
-                                        <Binding Source="{x:Static command:RobotIOConstant.IO_CMD_ROBOT_CALL_RECEPTION_RESPONSE}"/>
-                                    </MultiBinding>
-                                </Button.CommandParameter>
-                            </Button>
-                            <Border Width="5" />
-                            <Button Content="Robot entry possible" MinWidth="100" Height="40" Command="{Binding SendClientCommand}" >
-                                <Button.CommandParameter>
-                                    <MultiBinding Converter="{StaticResource MultiValueIntArrayConverter}">
-                                        <Binding Path="SelectedItem.ClientId" ElementName="ClientsListBox" />
-                                        <Binding Source="{x:Static command:RobotIOConstant.IO_CMD_ROBOT_ENTRY_POSSIBLE}"/>
-                                    </MultiBinding>
-                                </Button.CommandParameter>
-                            </Button>
-                            <Border Width="5" />
-                            <Button Content="Keep Alive" MinWidth="100" Height="40" Command="{Binding SendClientCommand}" >
-                                <Button.CommandParameter>
-                                    <MultiBinding Converter="{StaticResource MultiValueIntArrayConverter}">
-                                        <Binding Path="SelectedItem.ClientId" ElementName="ClientsListBox" />
-                                        <Binding Source="{x:Static command:RobotIOConstant.IO_CMD_ROBOT_KEEP_ALIVE_SW}"/>
-                                    </MultiBinding>
-                                </Button.CommandParameter>
-                            </Button>
-                        </TabPanel>
+                                                </StackPanel>
+                                                <StackPanel Grid.Row="1" Orientation="Horizontal">
+                                                    <Label Content="{Binding IpAddress}"/>
+                                                    <Label Content="{Binding Port}"/>
+                                                </StackPanel>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                                <StackPanel Orientation="Vertical" Grid.Column="1"  >
+                                    <Border Width="5" />
+                                    <!--<Button Content="Robot call reception response" MinWidth="80"  Command="{Binding SendClientCommand}" CommandParameter="{x:Static command:RobotProtocolProcessor.ROBOT_CALL_RECEPTION_RESPONSE}"/>-->
+                                    <Button Content="Robot call request response(0x61)" MinWidth="80" Height="40"  Command="{Binding SendClientCommand}" >
+                                        <Button.CommandParameter>
+                                            <MultiBinding Converter="{StaticResource MultiValueIntArrayConverter}">
+                                                <Binding Path="SelectedItem.ClientId" ElementName="ClientsListBox" />
+                                                <Binding Source="{x:Static command:RobotIOConstant.IO_CMD_ROBOT_CALL_REQUEST}"/>
+                                            </MultiBinding>
+                                        </Button.CommandParameter>
+                                    </Button>
+                                    <Border Width="5" Height="5" />
+                                    <Button Content="Robot approach request(0x62)" MinWidth="100" Height="40" Command="{Binding SendClientCommand}" >
+                                        <Button.CommandParameter>
+                                            <MultiBinding Converter="{StaticResource MultiValueIntArrayConverter}">
+                                                <Binding Path="SelectedItem.ClientId" ElementName="ClientsListBox" />
+                                                <Binding Source="{x:Static command:RobotIOConstant.IO_CMD_ROBOT_APPROACH_REQUEST}"/>
+                                            </MultiBinding>
+                                        </Button.CommandParameter>
+                                    </Button>
+                                    <Border Width="5" Height="5" />
+
+                                    <Button Content="Robot IN Completed Event(0x63)" MinWidth="100" Height="40" Command="{Binding SendClientCommand}" >
+                                        <Button.CommandParameter>
+                                            <MultiBinding Converter="{StaticResource MultiValueIntArrayConverter}">
+                                                <Binding Path="SelectedItem.ClientId" ElementName="ClientsListBox" />
+                                                <Binding Source="{x:Static command:RobotIOConstant.IO_CMD_ROBOT_IN_COMPLETED_EVENT}"/>
+                                            </MultiBinding>
+                                        </Button.CommandParameter>
+                                    </Button>
+                                    <Border Width="5" Height="5" />
+
+                                    <Button Content="Robot Out Completed Event(0x64)" MinWidth="100" Height="40" Command="{Binding SendClientCommand}" >
+                                        <Button.CommandParameter>
+                                            <MultiBinding Converter="{StaticResource MultiValueIntArrayConverter}">
+                                                <Binding Path="SelectedItem.ClientId" ElementName="ClientsListBox" />
+                                                <Binding Source="{x:Static command:RobotIOConstant.IO_CMD_ROBOT_OUT_COMPLETED_EVENT}"/>
+                                            </MultiBinding>
+                                        </Button.CommandParameter>
+                                    </Button>
+                                    <Border Width="5" Height="5" />
+                                    <Button Content="Keep Alive" MinWidth="100" Height="40" Command="{Binding SendClientCommand}" Visibility="Collapsed" >
+                                        <Button.CommandParameter>
+                                            <MultiBinding Converter="{StaticResource MultiValueIntArrayConverter}">
+                                                <Binding Path="SelectedItem.ClientId" ElementName="ClientsListBox" />
+                                                <Binding Source="{x:Static command:RobotIOConstant.IO_CMD_ROBOT_KEEP_ALIVE_SW}"/>
+                                            </MultiBinding>
+                                        </Button.CommandParameter>
+                                    </Button>
+                                </StackPanel>
+                            </Grid>
+                        </GroupBox>
+                        <GroupBox Header="Server response" Grid.Column="1">
+                            <DataGrid RowHeight="50" ItemsSource="{Binding RobotRepository.Items}" AutoGenerateColumns="False" IsReadOnly="True">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="ID" Width="40" Binding="{Binding ClientId}" />
+                                    <DataGridTextColumn Width="90" Binding="{Binding ButtonPressResult}">
+                                        <DataGridTextColumn.Header>
+                                            <TextBlock>
+                                                <Run>Button(0x60)</Run>
+                                                <LineBreak/>
+                                                <Run>Press Result</Run>
+                                            </TextBlock>
+                                        </DataGridTextColumn.Header>
+                                    </DataGridTextColumn>
+                                    
+                                    <DataGridTemplateColumn  Width="120">
+                                        <DataGridTemplateColumn.Header>
+                                            <TextBlock>
+                                                <Run>Robot Call(0x61)</Run>
+                                                <LineBreak/>
+                                                <Run>Request Result</Run>
+                                            </TextBlock>
+                                        </DataGridTemplateColumn.Header>
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding RobotCallRequestResult}" TextWrapping="Wrap"></TextBlock>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    
+                                    <DataGridTemplateColumn Width="120">
+                                        <DataGridTemplateColumn.Header>
+                                            <TextBlock>
+                                                <Run>Robot Approach</Run>
+                                                <LineBreak/>
+                                                <Run>Request Result</Run>
+                                                <LineBreak/>
+                                                <Run>Event(0x62)</Run>
+                                            </TextBlock>
+                                        </DataGridTemplateColumn.Header>
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding RobotApproachRequestResult}" TextWrapping="Wrap"></TextBlock>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+
+                                    <DataGridTemplateColumn Width="120">
+                                        <DataGridTemplateColumn.Header>
+                                            <TextBlock>
+                                                <Run>Robot In</Run>
+                                                <LineBreak/>
+                                                <Run>Completed Result</Run>
+                                                <LineBreak/>
+                                                <Run>Event(0x63)</Run>
+                                            </TextBlock>
+                                        </DataGridTemplateColumn.Header>
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding RobotInCompletedResult}" TextWrapping="Wrap"></TextBlock>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+
+                                    <DataGridTemplateColumn Width="120" >
+                                        <DataGridTemplateColumn.Header>
+                                            <TextBlock>
+                                                <Run>Robot Out</Run>
+                                                <LineBreak/>
+                                                <Run>Completed Result</Run>
+                                                <LineBreak/>
+                                                <Run>Event(0x64)</Run>
+                                            </TextBlock>
+                                        </DataGridTemplateColumn.Header>
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding RobotOutCompletedResult}" TextWrapping="Wrap"></TextBlock>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    
+                                    
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </GroupBox>
                     </Grid>
                 </Grid>
             </TabItem>

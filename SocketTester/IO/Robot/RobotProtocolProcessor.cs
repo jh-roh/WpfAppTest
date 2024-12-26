@@ -65,25 +65,44 @@ namespace SocketTester.Robot
                 DataLength = 0,
                 DataArray = null,
             };
-
         }
 
-
-        public static RobotIOSend RequestRobotCallReception()
+        public static RobotIOSend RequestRobotInCompletedEvent()
         {
             return new RobotIOSend
             {
-                Command = RobotIOConstant.IO_CMD_ROBOT_CALL_RECEPTION_RESPONSE,
+                Command = RobotIOConstant.IO_CMD_ROBOT_IN_COMPLETED_EVENT,
                 DataLength = 0,
-                DataArray = null
+                DataArray = null,
             };
         }
 
-        public static RobotIOSend ResponseRobotEntryPossible()
+        public static RobotIOSend RequestRobotOutCompletedEvent()
         {
             return new RobotIOSend
             {
-                Command = RobotIOConstant.IO_CMD_ROBOT_ENTRY_POSSIBLE,
+                Command = RobotIOConstant.IO_CMD_ROBOT_OUT_COMPLETED_EVENT,
+                DataLength = 0,
+                DataArray = null,
+            };
+        }
+        public static RobotIOSend RequestRobotCall()
+        {
+            byte[] datas = new byte[] { 0x00 };
+
+            return new RobotIOSend
+            {
+                Command = RobotIOConstant.IO_CMD_ROBOT_CALL_REQUEST,
+                DataLength = (byte)datas.Length,
+                DataArray = datas.ToArray()
+            };
+        }
+
+        public static RobotIOSend RequestRobotAppraoch()
+        {
+            return new RobotIOSend
+            {
+                Command = RobotIOConstant.IO_CMD_ROBOT_APPROACH_REQUEST,
                 DataLength = 0,
                 DataArray = null
             };
@@ -162,10 +181,12 @@ namespace SocketTester.Robot
                     ioResult.ResponseActionResult = (IO_ROBOT_RESPONSE_ACTION_RESULT)receiveDatas[_commandPosition + 1];
                     break;
 
-                case RobotIOConstant.IO_CMD_ROBOT_ENTRY_POSSIBLE:
+                case RobotIOConstant.IO_CMD_ROBOT_APPROACH_REQUEST:
+                    ioResult.ResponseActionResult = (IO_ROBOT_RESPONSE_ACTION_RESULT)receiveDatas[_commandPosition + 1];
+
                     break;
 
-                case RobotIOConstant.IO_CMD_ROBOT_CALL_RECEPTION_RESPONSE:
+                case RobotIOConstant.IO_CMD_ROBOT_CALL_REQUEST:
                     break;
             }
 

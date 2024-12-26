@@ -65,17 +65,28 @@ namespace SocketTester.Helper
 
                 switch (command)
                 {
-                    case RobotIOConstant.IO_CMD_ROBOT_CALL_RECEPTION_RESPONSE:
-                        robotIOSend = RobotProtocolProcessor.RequestRobotCallReception();
+                    case RobotIOConstant.IO_CMD_ROBOT_CALL_REQUEST:
+                        robotIOSend = RobotProtocolProcessor.RequestRobotCall();
                         break;
 
-                    case RobotIOConstant.IO_CMD_ROBOT_ENTRY_POSSIBLE:
-                        robotIOSend = RobotProtocolProcessor.ResponseRobotEntryPossible();
+                    case RobotIOConstant.IO_CMD_ROBOT_APPROACH_REQUEST:
+                        robotIOSend = RobotProtocolProcessor.RequestRobotAppraoch();
                         break;
 
                     case RobotIOConstant.IO_CMD_ROBOT_KEEP_ALIVE_SW:
                         robotIOSend = RobotProtocolProcessor.RequestRobotKeepAlive();
                         break;
+
+                    case RobotIOConstant.IO_CMD_ROBOT_IN_COMPLETED_EVENT:
+                        robotIOSend = RobotProtocolProcessor.RequestRobotInCompletedEvent();
+
+                        break;
+
+                    case RobotIOConstant.IO_CMD_ROBOT_OUT_COMPLETED_EVENT:
+                        robotIOSend = RobotProtocolProcessor.RequestRobotOutCompletedEvent();
+
+                        break;
+
 
                 }
 
@@ -166,8 +177,6 @@ namespace SocketTester.Helper
                                 iOResult.ClientId = e.ClientId;
                                 iOResult.buffer = data.ToArray();
 
-                                RobotIoResult.Add(iOResult);
-
                                 foreach (var item in iOResult.buffer)
                                 {
                                     receveLog.Append($"{item:X2} ");
@@ -189,6 +198,8 @@ namespace SocketTester.Helper
                                 if (iOResult.Command != RobotIOConstant.IO_CMD_ROBOT_KEEP_ALIVE_HW
                                 && iOResult.Command != RobotIOConstant.IO_CMD_ROBOT_KEEP_ALIVE_SW)
                                 {
+                                    RobotIoResult.Add(iOResult);
+
                                     ProtocolMessageManager.AddProcessMessage($"[RECV][Client{e.ClientId}][{commandName}(0x{iOResult.Command:X2})][DATA : {dataString}](RawData){receveLog.ToString()}");
                                 }
                             }

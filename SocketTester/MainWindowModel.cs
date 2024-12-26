@@ -9,6 +9,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
@@ -18,19 +19,36 @@ namespace SocketTester
     {
         object _lock = new object();
 
-        private ObservableCollection<ClientModel> _clients;
-        public ObservableCollection<ClientModel> Clients
+        private ClientRepository<ClientModel> _clientRepository;
+
+        public ClientRepository<ClientModel> ClientRepository
         {
             get
             {
-                return _clients;
+                return _clientRepository;
             }
             set
             {
-                _clients = value;
+                _clientRepository = value;
                 OnPropertyChanged();
             }
         }
+
+        private ClientRepository<RobotResultModel> _robotRepository;
+
+        public ClientRepository<RobotResultModel> RobotRepository
+        {
+            get
+            {
+                return _robotRepository;
+            }
+            set
+            {
+                _robotRepository = value;
+                OnPropertyChanged();
+            }
+        }
+
 
         private String _processMessage;
 
@@ -67,10 +85,10 @@ namespace SocketTester
             ProcessMessage = "";
             ProtocolMessageManager.NotifyProtocolMessage();
             ProtocolMessageManager.MessageNotify += ProtocolMessageManager_MessageNotify;
+            ClientRepository = new ClientRepository<ClientModel>();
+            RobotRepository = new ClientRepository<RobotResultModel>();
 
-
-            Clients = new ObservableCollection<ClientModel>();
-            Clients.Add(new ClientModel
+            ClientRepository.Add(new ClientModel
             {
                 ClientId = 1,
                 IpAddress = "192.168.125.171", // 기본값
@@ -80,7 +98,7 @@ namespace SocketTester
                 IsConnected = false
             });
 
-            Clients.Add(new ClientModel
+            ClientRepository.Add(new ClientModel
             {
                 ClientId = 2,
                 IpAddress = "192.168.125.172", // 기본값
@@ -90,10 +108,13 @@ namespace SocketTester
                 IsConnected =false
             });
 
-            foreach (var item in Clients)
+            foreach (var item in ClientRepository.GetAllItems())
             {
+                RobotRepository.Add(new RobotResultModel()
+                {
+                    ClientId = item.ClientId,
+                });
                 SocketMediator.RegisterClient(item.ClientId);
-
             }
 
             var receiveProcessThread = new Thread(() =>
@@ -101,23 +122,81 @@ namespace SocketTester
                 while (true)
                 {
                     var iOResult = SocketMediator.RobotIoResult.Take();
+                    var client = ClientRepository.GetAllItems().FirstOrDefault(p => p.ClientId == iOResult.ClientId);
 
-                    switch(iOResult.HandlerType)
+                    switch (iOResult.HandlerType)
                     {
                         case SocketHandlerType.Close:
                         case SocketHandlerType.Connect:
-                            var client = Clients.FirstOrDefault(p => p.ClientId == iOResult.ClientId);
-
+                            
                             if (client != null)
                             {
-                                client.IsConnected = iOResult.HandlerType  == SocketHandlerType.Connect ? true : false;
+                                client.IsConnected = iOResult.HandlerType == SocketHandlerType.Connect ? true : false;
+                                ClientRepository.Update(client, (item) => 
+                                {
+                                    item.IsConnected = true;
+                                });
                             }
 
                             break;
 
 
                         case SocketHandlerType.Receive:
+                            {
 
+                                client?.Enqueue(() =>
+                                {
+                                    var robotResult = RobotRepository.GetAllItems().FirstOrDefault(p => p.ClientId == iOResult.ClientId);
+
+                                    switch (iOResult.Command)
+                                    {
+                                        case RobotIOConstant.IO_CMD_ROBOT_APPROACH_REQUEST:
+                                            if (robotResult != null)
+                                            {
+                                                RobotRepository.Update(robotResult, (item) =>
+                                                {
+                                                    item.RobotApproachRequestResult = iOResult.ResponseActionResult?.ToTrimmedString();
+                                                });
+                                            }
+                                            break;
+                                        case RobotIOConstant.IO_CMD_ROBOT_IN_COMPLETED_EVENT:
+                                            if (robotResult != null)
+                                            {
+                                                RobotRepository.Update(robotResult, (item) =>
+                                                {
+                                                    item.RobotInCompletedResult = iOResult.ResponseActionResult?.ToTrimmedString();
+                                                });
+                                            }
+                                            break;
+                                        case RobotIOConstant.IO_CMD_ROBOT_OUT_COMPLETED_EVENT:
+                                            if (robotResult != null)
+                                            {
+                                                RobotRepository.Update(robotResult, (item) =>
+                                                {
+                                                    item.RobotOutCompletedResult = iOResult.ResponseActionResult?.ToTrimmedString();
+                                                });
+                                            }
+                                            break;
+
+                                        case RobotIOConstant.IO_CMD_ROBOT_BUTTON_PRESS_EVENT:
+                                            if (robotResult != null)
+                                            {
+                                                RobotRepository.Update(robotResult, (item) =>
+                                                {
+                                                    item.ButtonPressResult = iOResult.ButtonPressResult?.ToTrimmedString();
+                                                });
+                                            }
+                                            break;
+
+                                        case RobotIOConstant.IO_CMD_ROBOT_CALL_REQUEST:
+                                            break;
+
+                                       
+                                    }
+
+                                    return Task.CompletedTask;
+                                });
+                            }
                             break;
                     }
 
@@ -169,7 +248,7 @@ namespace SocketTester
         {
             int clientId = Convert.ToInt32(obj);
 
-            var client = Clients.FirstOrDefault(p => p.ClientId == clientId);
+            var client = ClientRepository.GetAllItems().FirstOrDefault(p => p.ClientId == clientId);
 
             if (client != null)
             {
@@ -182,7 +261,7 @@ namespace SocketTester
         {
             int clientId = Convert.ToInt32(obj);
 
-            var client = Clients.FirstOrDefault(p => p.ClientId == clientId);
+            var client = ClientRepository.GetAllItems().FirstOrDefault(p => p.ClientId == clientId);
 
             if(client != null)
             {
@@ -194,11 +273,11 @@ namespace SocketTester
 
         private void AddNewClientMethod(object obj)
         {
-            int maxId = Clients.Max(p => p.ClientId);
+            int maxId = ClientRepository.GetAllItems().Max(p => p.ClientId);
 
             maxId += 1;
 
-            Clients.Add(new ClientModel
+            ClientRepository.Add(new ClientModel
             {
                 ClientId = maxId,
                 IpAddress = "",      // 기본값
@@ -207,6 +286,10 @@ namespace SocketTester
                 DisconnectCommand = new RelayCommand(this.ClientDisconnectMethod),
             });
 
+            RobotRepository.Add(new RobotResultModel()
+            {
+                ClientId = maxId,
+            });
         }
 
     }

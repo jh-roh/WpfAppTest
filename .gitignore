@@ -11,6 +11,7 @@ WcfClassTestLibrary/bin/
 CodeDomTest/bin/
 CommonUtil/bin/
 SocketTester/bin/
+ThreadTaskTest/bin/
 
 WpfAppTest/obj/
 WinformAppTest/obj/
@@ -25,6 +26,7 @@ WcfClassTestLibrary/obj/
 CodeDomTest/obj/
 CommonUtil/obj/
 SocketTester/obj/
+ThreadTaskTest/obj/
 
 .vs/
 SQLDataBase/SQLDataBase.dbmdl

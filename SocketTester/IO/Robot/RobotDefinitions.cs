@@ -17,10 +17,10 @@ namespace SocketTester.IO.Robot
         public const byte IO_CMD_ROBOT_KEEP_ALIVE_HW = 0x46;
 
         //Robot 호출 수신 응답
-        public const byte IO_CMD_ROBOT_CALL_RECEPTION_RESPONSE = 0x61;
+        public const byte IO_CMD_ROBOT_CALL_REQUEST = 0x61;
 
         //Robot 진입 가능 여부
-        public const byte IO_CMD_ROBOT_ENTRY_POSSIBLE = 0x62;               //ROBOT 진입 요청 응답
+        public const byte IO_CMD_ROBOT_APPROACH_REQUEST = 0x62;               //ROBOT 진입 요청 응답
 
         //Button 누름 Event
         public const byte IO_CMD_ROBOT_BUTTON_PRESS_EVENT = 0x60;
