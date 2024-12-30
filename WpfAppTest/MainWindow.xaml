@@ -19,6 +19,7 @@
         xmlns:treeView="clr-namespace:WpfAppTest.View.TreeView"
         xmlns:style="clr-namespace:WpfAppTest.View.StyleExample"
         xmlns:eventTrigger="clr-namespace:WpfAppTest.View.EventTrigger"
+        xmlns:graphic="clr-namespace:WpfAppTest.View.Graphic"
         mc:Ignorable="d"
         Title="MainWindow" Height="768" Width="1024" >
     <Window.Resources>
@@ -66,7 +67,15 @@
             <!--<style:StyleDefault></style:StyleDefault>-->
             <!--<eventTrigger:EventTriggerTest></eventTrigger:EventTriggerTest>-->
             <!--<local:StockingScreenTest></local:StockingScreenTest>-->
-            <local:ItemControlPanelTest></local:ItemControlPanelTest>
+            <!--<local:ItemControlPanelTest></local:ItemControlPanelTest>-->
+            <!--<graphic:RectangleEx />-->
+            <!--<graphic:GraphicSizingEx />-->
+
+            <!--<graphic:ViewBoxEx/>-->
+            <!--<graphic:LineEx/>-->
+            <!--<graphic:PolyLineEx/>-->
+            <!--<graphic:PolygonEx />-->
+            <graphic:LineCapLineJoinEx/>
         </Grid>
     </Grid>
 

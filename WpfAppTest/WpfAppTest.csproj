@@ -120,6 +120,27 @@
     <Compile Include="View\EventTrigger\EventTriggerTest.xaml.cs">
       <DependentUpon>EventTriggerTest.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Graphic\GraphicSizingEx.xaml.cs">
+      <DependentUpon>GraphicSizingEx.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Graphic\LineCapLineJoinEx.xaml.cs">
+      <DependentUpon>LineCapLineJoinEx.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Graphic\LineEx.xaml.cs">
+      <DependentUpon>LineEx.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Graphic\PolygonEx.xaml.cs">
+      <DependentUpon>PolygonEx.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Graphic\PolyLineEx.xaml.cs">
+      <DependentUpon>PolyLineEx.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Graphic\RectangleEx.xaml.cs">
+      <DependentUpon>RectangleEx.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Graphic\ViewBoxEx.xaml.cs">
+      <DependentUpon>ViewBoxEx.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\GridSharedTest.xaml.cs">
       <DependentUpon>GridSharedTest.xaml</DependentUpon>
     </Compile>
@@ -264,6 +285,34 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\EventTrigger\EventTriggerTest.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Graphic\GraphicSizingEx.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Graphic\LineCapLineJoinEx.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Graphic\LineEx.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Graphic\PolygonEx.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Graphic\PolyLineEx.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Graphic\RectangleEx.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Graphic\ViewBoxEx.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
