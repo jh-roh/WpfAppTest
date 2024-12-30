@@ -131,10 +131,9 @@ namespace SocketTester
                             
                             if (client != null)
                             {
-                                client.IsConnected = iOResult.HandlerType == SocketHandlerType.Connect ? true : false;
                                 ClientRepository.Update(client, (item) => 
                                 {
-                                    item.IsConnected = true;
+                                    item.IsConnected = iOResult.HandlerType == SocketHandlerType.Connect ? true : false; ;
                                 });
                             }
 

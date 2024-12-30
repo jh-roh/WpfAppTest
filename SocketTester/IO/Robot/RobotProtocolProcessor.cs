@@ -108,6 +108,15 @@ namespace SocketTester.Robot
             };
         }
 
+        public static RobotIOSend RequestRobotKeepAliveHW()
+        {
+            return new RobotIOSend
+            {
+                Command = RobotIOConstant.IO_CMD_ROBOT_KEEP_ALIVE_HW,
+                DataLength = 0,
+                DataArray = null,
+            };
+        }
 
         /**********************도킹 관련 Board 쪽에서 명령 응답*************/
 

@@ -87,24 +87,32 @@ namespace SocketTester.Helper
 
                         break;
 
+                    case RobotIOConstant.IO_CMD_ROBOT_KEEP_ALIVE_HW:
+                        robotIOSend = RobotProtocolProcessor.RequestRobotKeepAliveHW();
+                        break;
+
 
                 }
 
                 var sendData = RobotProtocolProcessor.ConstructRobot((RobotIOSend)robotIOSend);
                 manager.SendDataToQueue(sendData);
 
-                StringBuilder sendLog= new StringBuilder();
-
-                string commandName = UtilHelper.GetConstantName(typeof(RobotIOConstant), command);
-                string dataString = "NONE";
-                sendLog.Append($"[SEND][Client{clientId}][{commandName}(0x{command:X2})][DATA : {dataString}](RawData)");
-
-                foreach (var item in sendData)
+                if (command != RobotIOConstant.IO_CMD_ROBOT_KEEP_ALIVE_HW
+                 && command != RobotIOConstant.IO_CMD_ROBOT_KEEP_ALIVE_SW)
                 {
-                    sendLog.Append($"{item:X2} ");
-                }
+                    StringBuilder sendLog = new StringBuilder();
 
-                ProtocolMessageManager.AddProcessMessage(sendLog.ToString());
+                    string commandName = UtilHelper.GetConstantName(typeof(RobotIOConstant), command);
+                    string dataString = "NONE";
+                    sendLog.Append($"[SEND][Client{clientId}][{commandName}(0x{command:X2})][DATA : {dataString}](RawData)");
+
+                    foreach (var item in sendData)
+                    {
+                        sendLog.Append($"{item:X2} ");
+                    }
+
+                    ProtocolMessageManager.AddProcessMessage(sendLog.ToString());
+                }
             }
         }
 
@@ -170,37 +178,42 @@ namespace SocketTester.Helper
                             var parseDatas = RobotProtocolProcessor.ParseProtocol(e.ReceiveDatas);
                             foreach (var data in parseDatas)
                             {
-                                StringBuilder receveLog = new StringBuilder();
-                                
                                 RobotIOResult iOResult = RobotProtocolProcessor.AnalyzeRobot(data);
                                 iOResult.HandlerType = e.HandlerType;
                                 iOResult.ClientId = e.ClientId;
                                 iOResult.buffer = data.ToArray();
-
-                                foreach (var item in iOResult.buffer)
-                                {
-                                    receveLog.Append($"{item:X2} ");
-                                }
-
-                                StringBuilder dataString = new StringBuilder();
-                                dataString.Append("NONE");
-                                if (iOResult.Datas != null)
-                                {
-                                    dataString.Clear();
-
-                                    foreach (var item in iOResult.Datas)
-                                    {
-                                        dataString.Append($"0x{item:X2} ");
-                                    }
-                                }
-                                string commandName = UtilHelper.GetConstantName(typeof(RobotIOConstant), iOResult.Command);
 
                                 if (iOResult.Command != RobotIOConstant.IO_CMD_ROBOT_KEEP_ALIVE_HW
                                 && iOResult.Command != RobotIOConstant.IO_CMD_ROBOT_KEEP_ALIVE_SW)
                                 {
                                     RobotIoResult.Add(iOResult);
 
+                                    StringBuilder receveLog = new StringBuilder();
+                                    foreach (var item in iOResult.buffer)
+                                    {
+                                        receveLog.Append($"{item:X2} ");
+                                    }
+
+                                    StringBuilder dataString = new StringBuilder();
+                                    dataString.Append("NONE");
+                                    if (iOResult.Datas != null)
+                                    {
+                                        dataString.Clear();
+
+                                        foreach (var item in iOResult.Datas)
+                                        {
+                                            dataString.Append($"0x{item:X2} ");
+                                        }
+                                    }
+                                    string commandName = UtilHelper.GetConstantName(typeof(RobotIOConstant), iOResult.Command);
+
+
                                     ProtocolMessageManager.AddProcessMessage($"[RECV][Client{e.ClientId}][{commandName}(0x{iOResult.Command:X2})][DATA : {dataString}](RawData){receveLog.ToString()}");
+                                }
+
+                                if(iOResult.Command == RobotIOConstant.IO_CMD_ROBOT_KEEP_ALIVE_HW)
+                                {
+                                    SocketMediator.SendMessageToServer(e.ClientId, RobotIOConstant.IO_CMD_ROBOT_KEEP_ALIVE_HW);
                                 }
                             }
 

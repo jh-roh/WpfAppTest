@@ -269,7 +269,7 @@ namespace SocketTester.Services
 
         private void Socket_OnConnect(object sender, AsyncSocketConnectionEventArgs e)
         { 
-            Log.Info2("CLOSE", $"Client{_clientId},{IpAddress},{Port}", "Connection Complete", ApplicationConfig.RobotIORawDataFileName);
+            Log.Info2("CONNECT", $"Client{_clientId},{IpAddress},{Port}", "Connection Complete", ApplicationConfig.RobotIORawDataFileName);
 
             IsConnected = true;
 
