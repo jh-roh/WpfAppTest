@@ -75,8 +75,18 @@
             <!--<graphic:LineEx/>-->
             <!--<graphic:PolyLineEx/>-->
             <!--<graphic:PolygonEx />-->
-            <graphic:LineCapLineJoinEx/>
+            <!--<graphic:LineCapLineJoinEx/>-->
+            <!--<graphic:SolidColorBrushEx/>-->
+
+            <!--<graphic:LinearGradientBrushEx />-->
+            <!--<graphic:RadialGradientBrushEx/>-->
+            <!--<graphic:ImageBrushEx/>-->
+            <!--<graphic:VisualBrushEx/>-->
+            <!--<graphic:RotateTransformEx/>-->
+            <!--<graphic:LayoutRenderTransformEx/>-->
+            <graphic:TransparencyEx/>
         </Grid>
+
     </Grid>
 
 

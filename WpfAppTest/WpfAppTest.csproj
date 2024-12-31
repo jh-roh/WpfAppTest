@@ -123,6 +123,15 @@
     <Compile Include="View\Graphic\GraphicSizingEx.xaml.cs">
       <DependentUpon>GraphicSizingEx.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Graphic\ImageBrushEx.xaml.cs">
+      <DependentUpon>ImageBrushEx.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Graphic\LayoutRenderTransformEx.xaml.cs">
+      <DependentUpon>LayoutRenderTransformEx.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Graphic\LinearGradientBrushEx.xaml.cs">
+      <DependentUpon>LinearGradientBrushEx.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Graphic\LineCapLineJoinEx.xaml.cs">
       <DependentUpon>LineCapLineJoinEx.xaml</DependentUpon>
     </Compile>
@@ -135,11 +144,26 @@
     <Compile Include="View\Graphic\PolyLineEx.xaml.cs">
       <DependentUpon>PolyLineEx.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Graphic\RadialGradientBrushEx.xaml.cs">
+      <DependentUpon>RadialGradientBrushEx.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Graphic\RectangleEx.xaml.cs">
       <DependentUpon>RectangleEx.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Graphic\RotateTransformEx.xaml.cs">
+      <DependentUpon>RotateTransformEx.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Graphic\SolidColorBrushEx.xaml.cs">
+      <DependentUpon>SolidColorBrushEx.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Graphic\TransparencyEx.xaml.cs">
+      <DependentUpon>TransparencyEx.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Graphic\ViewBoxEx.xaml.cs">
       <DependentUpon>ViewBoxEx.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Graphic\VisualBrushEx.xaml.cs">
+      <DependentUpon>VisualBrushEx.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\GridSharedTest.xaml.cs">
       <DependentUpon>GridSharedTest.xaml</DependentUpon>
@@ -292,6 +316,18 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\Graphic\ImageBrushEx.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Graphic\LayoutRenderTransformEx.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Graphic\LinearGradientBrushEx.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Graphic\LineCapLineJoinEx.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -308,11 +344,31 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\Graphic\RadialGradientBrushEx.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Graphic\RectangleEx.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\Graphic\RotateTransformEx.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Graphic\SolidColorBrushEx.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Graphic\TransparencyEx.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Graphic\ViewBoxEx.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Graphic\VisualBrushEx.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
