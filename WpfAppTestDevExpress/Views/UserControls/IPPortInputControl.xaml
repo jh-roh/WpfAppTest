@@ -8,6 +8,7 @@
              xmlns:local="clr-namespace:WpfAppTestDevExpress.Views.UserControls"
              mc:Ignorable="d" 
              d:DesignHeight="120" d:DesignWidth="300">
+
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -25,7 +26,7 @@
                       Mask="###.###.###.###" 
                       MaskType="Simple"
                       ToolTip="Enter a valid IP Address. Example: 192.168.0.1"/>-->
-            <dxe:TextEdit EditValue="{Binding IP}"
+            <dxe:TextEdit EditValue="{Binding IpAddress}"
             Mask="([1-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(\.([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])){3}"
             MaskType="RegEx" Width="200" ToolTip="Enter a valid IP Address. Example: 192.168.0.1">
                 <dxe:TextEdit.ErrorToolTipContentTemplate>
@@ -47,9 +48,9 @@
                       MaxLength="5"
                       ToolTip="Enter a valid port number (0-65535)."/>-->
 
-            <dxe:SpinEdit AllowDefaultButton="False" Mask="D" MaskType="Numeric" MaxValue="65535" MinValue="1" AllowRoundOutOfRangeValue="True" Width="200" HorizontalContentAlignment="Left"/>
+            <dxe:SpinEdit EditValue="{Binding Port}" AllowDefaultButton="False" Mask="D" MaskType="Numeric" MaxValue="65535" MinValue="1" AllowRoundOutOfRangeValue="True" Width="200" HorizontalContentAlignment="Left"/>
 
         </StackPanel>
-        <Button Grid.Row="2" Content="Validation"></Button>
+        <Button Grid.Row="2" Content="Validation" Click="Button_Click"></Button>
     </Grid>
 </UserControl>

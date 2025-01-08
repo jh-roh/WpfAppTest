@@ -63,7 +63,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ViewModels\UserControls\IPPortInputControlViewModel.cs" />
     <Compile Include="Views\UserControls\IPPortInputControl.xaml.cs">
       <DependentUpon>IPPortInputControl.xaml</DependentUpon>
     </Compile>
@@ -121,6 +120,9 @@
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\packages\DevExpress.Mvvm.CodeGenerators.22.1.1\analyzers\dotnet\cs\DevExpress.Mvvm.CodeGenerators.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ViewModels\UserControls\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

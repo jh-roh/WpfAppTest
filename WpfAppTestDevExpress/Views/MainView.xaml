@@ -4,12 +4,14 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    
     xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" 
     xmlns:ViewModels="clr-namespace:WpfAppTestDevExpress.ViewModels"
+    xmlns:local="clr-namespace:WpfAppTestDevExpress.Views.UserControls"
     mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.DataContext>
         <ViewModels:MainViewModel/>
     </UserControl.DataContext>
-    
+    <Grid>
+        <local:IPPortInputControl IpAddress="192.168.135.111" Port="123"/>
+    </Grid>
 </UserControl>
