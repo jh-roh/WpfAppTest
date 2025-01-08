@@ -58,9 +58,11 @@
                                                     <Label Content="Client" FontWeight="Bold"></Label>
                                                     <Label Content="{Binding ClientId}" FontWeight="Bold"></Label>
                                                     <Label Content="IP Address" />
-                                                    <TextBox Width="100"   Text="{Binding IpAddress}" />
+                                                    <TextBox Width="100"   Text="{Binding IpAddress, ValidatesOnDataErrors=True}" ToolTip="{Binding RelativeSource={x:Static RelativeSource.Self},
+                                                            Path=(Validation.Errors)[0].ErrorContent}"  />
                                                     <Label Content="Port" />
-                                                    <TextBox Width="50" Text="{Binding Port}"/>
+                                                    <TextBox Width="50" Text="{Binding Port, ValidatesOnDataErrors=True}" ToolTip="{Binding RelativeSource={x:Static RelativeSource.Self},
+                                                            Path=(Validation.Errors)[0].ErrorContent}"/>
                                                 </StackPanel>
                                                 <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
                                                     <Button  Content="Connect" Width="60"  Command="{Binding ConnectCommand}" CommandParameter="{Binding ClientId}"  IsEnabled="{Binding IsConnected, Converter={StaticResource InverseBooleanConverter}}" />

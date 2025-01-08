@@ -264,6 +264,13 @@ namespace SocketTester
 
             if(client != null)
             {
+                if(client.ValidationError != null 
+                && client.ValidationError.Length > 0)
+                {
+                    MessageBox.Show(client.ValidationError);
+                    return;
+                }
+                    
                 SocketMediator.ConnectClient(client.ClientId, client.IpAddress, client.Port);
             }
         }

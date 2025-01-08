@@ -2,6 +2,7 @@
 using SocketTester.MVVM;
 using System;
 using System.Collections.Concurrent;
+using System.ComponentModel;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -9,7 +10,7 @@ using System.Windows.Input;
 
 namespace SocketTester.Model
 {
-    public class ClientModel : PropertyChangedBase, IDisposable
+    public class ClientModel : PropertyChangedBase, IDisposable, IDataErrorInfo
     {
         private int _clientId;
         public int ClientId 
@@ -60,6 +61,39 @@ namespace SocketTester.Model
         public ICommand ConnectCommand { get; set; }
         public ICommand DisconnectCommand { get; set; }
 
+        public string Error => null;
+
+        private string _validationError;
+        public string ValidationError
+        {
+            get { return _validationError; }
+            set
+            {
+                _validationError = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string this[string columnName]
+        {
+            get
+            {
+                string error = string.Empty;
+                if (columnName == nameof(IpAddress))
+                {
+                    if (string.IsNullOrWhiteSpace(IpAddress) || !IsValidIpAddress(IpAddress))
+                        error = "Invalid IP Address. Example: 192.168.0.1";
+                }
+                else if (columnName == nameof(Port))
+                {
+                    if (!IsValidPort(Port))
+                        error = "Invalid Port Number. Must be between 0 and 65535.";
+                }
+
+                ValidationError = error;
+                return error;
+            }
+        }
 
         private readonly BlockingCollection<Func<Task>> _taskQueue = new BlockingCollection<Func<Task>>(); // 작업 큐
         private readonly CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
@@ -68,6 +102,17 @@ namespace SocketTester.Model
         public ClientModel()
         {
             _workerTask = Task.Run(() => ProcessTasks(_cancellationTokenSource.Token));
+        }
+
+        private bool IsValidIpAddress(string ip)
+        {
+            if (string.IsNullOrWhiteSpace(ip)) return false;
+            return System.Net.IPAddress.TryParse(ip, out _);
+        }
+
+        private bool IsValidPort(int port)
+        {
+            return port > 0 && port <= 65535;
         }
 
         public void Enqueue(Func<Task> taskGenerator)
