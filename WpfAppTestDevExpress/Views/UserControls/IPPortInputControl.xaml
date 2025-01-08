@@ -1,0 +1,55 @@
+﻿<UserControl x:Class="WpfAppTestDevExpress.Views.UserControls.IPPortInputControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+             xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+             xmlns:local="clr-namespace:WpfAppTestDevExpress.Views.UserControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="120" d:DesignWidth="300">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- IP Address Input -->
+        <StackPanel Orientation="Horizontal" Margin="0 0 0 10">
+            <Label Content="IP Address:" VerticalAlignment="Center" Width="80"/>
+            <!--<dxe:TextEdit x:Name="IpAddressEdit" 
+                      Width="200" 
+                      HorizontalAlignment="Left"
+                      Mask="###.###.###.###" 
+                      MaskType="Simple"
+                      ToolTip="Enter a valid IP Address. Example: 192.168.0.1"/>-->
+            <dxe:TextEdit EditValue="{Binding IP}"
+            Mask="([1-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(\.([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])){3}"
+            MaskType="RegEx" Width="200" ToolTip="Enter a valid IP Address. Example: 192.168.0.1">
+                <dxe:TextEdit.ErrorToolTipContentTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="The IP address value is incorrect."/>
+                    </DataTemplate>
+                </dxe:TextEdit.ErrorToolTipContentTemplate>
+            </dxe:TextEdit>
+        </StackPanel>
+
+        <!-- Port Input -->
+        <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="0 0 0 10">
+            <Label Content="Port:" VerticalAlignment="Center" Width="80"/>
+            <!--<dxe:TextEdit x:Name="PortEdit" 
+                      Width="200" 
+                      HorizontalAlignment="Left"
+                      Mask="00000"
+                      MaskType="Numeric"
+                      MaxLength="5"
+                      ToolTip="Enter a valid port number (0-65535)."/>-->
+
+            <dxe:SpinEdit AllowDefaultButton="False" Mask="D" MaskType="Numeric" MaxValue="65535" MinValue="1" AllowRoundOutOfRangeValue="True" Width="200" HorizontalContentAlignment="Left"/>
+
+        </StackPanel>
+        <Button Grid.Row="2" Content="Validation"></Button>
+    </Grid>
+</UserControl>

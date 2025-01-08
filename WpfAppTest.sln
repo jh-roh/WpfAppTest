@@ -31,6 +31,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocketTester", "SocketTeste
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThreadTaskTest", "ThreadTaskTest\ThreadTaskTest.csproj", "{9CFF54B7-B007-495A-AA28-6EAF1EE141C1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfAppTestDevExpress", "WpfAppTestDevExpress\WpfAppTestDevExpress.csproj", "{144670CB-6396-488C-A76D-2E03A3B69E78}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -95,6 +97,10 @@ Global
 		{9CFF54B7-B007-495A-AA28-6EAF1EE141C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9CFF54B7-B007-495A-AA28-6EAF1EE141C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9CFF54B7-B007-495A-AA28-6EAF1EE141C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{144670CB-6396-488C-A76D-2E03A3B69E78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{144670CB-6396-488C-A76D-2E03A3B69E78}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{144670CB-6396-488C-A76D-2E03A3B69E78}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{144670CB-6396-488C-A76D-2E03A3B69E78}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

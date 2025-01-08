@@ -12,6 +12,8 @@ CodeDomTest/bin/
 CommonUtil/bin/
 SocketTester/bin/
 ThreadTaskTest/bin/
+WpfAppTestDevExpress/bin/
+
 
 WpfAppTest/obj/
 WinformAppTest/obj/
@@ -27,6 +29,7 @@ CodeDomTest/obj/
 CommonUtil/obj/
 SocketTester/obj/
 ThreadTaskTest/obj/
+WpfAppTestDevExpress/obj/
 
 .vs/
 SQLDataBase/SQLDataBase.dbmdl
