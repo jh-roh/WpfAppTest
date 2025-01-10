@@ -7,6 +7,7 @@ using SocketTester.Robot;
 using SocketTester.Services;
 using SocketTester.UI.Enums;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
@@ -99,9 +100,6 @@ namespace SocketTester
             }
         }
 
-        public readonly ManualResetEvent[,] IAPFunctionCheckEvnet = new ManualResetEvent[12, 10];
-
-
         private void UpdateSelection(bool isSelected)
         {
             foreach(var item in ClientRepository.GetAllItems())
@@ -123,14 +121,6 @@ namespace SocketTester
             ClientRepository = new ClientRepository<ClientModel>();
             RobotRepository = new ClientRepository<RobotResultModel>();
 
-            for (int i = 0; i < 12; i++)
-            {
-                for (int j = 0; j < 10; j++)
-                {
-                    IAPFunctionCheckEvnet[i, j] = new ManualResetEvent(false);
-                }
-            }
-
             ClientRepository.Add(new ClientModel
             {
                 ClientId = 1,
@@ -140,6 +130,12 @@ namespace SocketTester
                 DisconnectCommand = new RelayCommand(this.ClientDisconnectMethod),
                 IsConnected = false
             });
+
+            //IAPFunctionCheckEvnet.Add((1,RobotIOConstant.IO_SUB_CMD_IAP_MODE_SETTING), new ManualResetEvent(false));
+            //IAPFunctionCheckEvnet.Add((1,RobotIOConstant.IO_SUB_CMD_IAP_ENTRANCE), new ManualResetEvent(false));
+            //IAPFunctionCheckEvnet.Add((1,RobotIOConstant.IO_SUB_CMD_IAP_DATA_WRITE_RESULT), new ManualResetEvent(false));
+            //IAPFunctionCheckEvnet.Add((1,RobotIOConstant.IO_SUB_CMD_IAP_WRITE_COMPLETE_RESULT), new ManualResetEvent(false));
+
 
             ClientRepository.Add(new ClientModel
             {
@@ -237,22 +233,20 @@ namespace SocketTester
                                             switch (iOResult.SubCommand)
                                             {
                                                 case RobotIOConstant.IO_SUB_CMD_IAP_MODE_SETTING:
-                                                    IAPFunctionCheckEvnet[iOResult.ClientId, RobotIOConstant.IO_SUB_CMD_IAP_MODE_SETTING].Set();
-
+                                                    client.CommandCheckEvnet[RobotIOConstant.IO_SUB_CMD_IAP_MODE_SETTING].Set();
                                                     break;
 
                                                 case RobotIOConstant.IO_SUB_CMD_IAP_ENTRANCE:
-                                                    IAPFunctionCheckEvnet[iOResult.ClientId, RobotIOConstant.IO_SUB_CMD_IAP_ENTRANCE].Set();
-
+                                                    client.CommandCheckEvnet[RobotIOConstant.IO_SUB_CMD_IAP_ENTRANCE].Set();
                                                     break;
 
                                                 case RobotIOConstant.IO_SUB_CMD_IAP_DATA_WRITE_RESULT:
-                                                    IAPFunctionCheckEvnet[iOResult.ClientId, RobotIOConstant.IO_SUB_CMD_IAP_DATA_WRITE_RESULT].Set();
+                                                    client.CommandCheckEvnet[RobotIOConstant.IO_SUB_CMD_IAP_DATA_WRITE_RESULT].Set();
 
                                                     break;
 
                                                 case RobotIOConstant.IO_SUB_CMD_IAP_WRITE_COMPLETE_RESULT:
-                                                    IAPFunctionCheckEvnet[iOResult.ClientId, RobotIOConstant.IO_SUB_CMD_IAP_WRITE_COMPLETE_RESULT].Set();
+                                                    client.CommandCheckEvnet[RobotIOConstant.IO_SUB_CMD_IAP_WRITE_COMPLETE_RESULT].Set();
 
                                                     break;
                                             }
@@ -386,19 +380,20 @@ namespace SocketTester
                                         int fileStreamLength = (int)fileStream.Length;
 
 
-                                        IAPFunctionCheckEvnet[item.ClientId, RobotIOConstant.IO_SUB_CMD_IAP_MODE_SETTING].Reset();
+                                        item.CommandCheckEvnet[RobotIOConstant.IO_SUB_CMD_IAP_MODE_SETTING].Reset();
                                         //IAP 모드 설정 명령 전송
                                         RobotProtocolProcessor.ConvertIAPModeDatasToByte(IAP_MODE.IAP_MODE_ENTRANCE);
 
-                                        IAPFunctionCheckEvnet[item.ClientId, RobotIOConstant.IO_SUB_CMD_IAP_MODE_SETTING].WaitOne(2000);
+
+                                        item.CommandCheckEvnet[RobotIOConstant.IO_SUB_CMD_IAP_MODE_SETTING].WaitOne(2000);
 
 
-                                        IAPFunctionCheckEvnet[item.ClientId, RobotIOConstant.IO_SUB_CMD_IAP_ENTRANCE].Reset();
+                                        item.CommandCheckEvnet[RobotIOConstant.IO_SUB_CMD_IAP_ENTRANCE].Reset();
 
                                         //IAP 진입 명령 전송
                                         RobotProtocolProcessor.ConvertIAPEntranceDatasToByte(2041, fileStreamLength);
 
-                                        IAPFunctionCheckEvnet[item.ClientId, RobotIOConstant.IO_SUB_CMD_IAP_ENTRANCE].WaitOne(2000);
+                                        item.CommandCheckEvnet[RobotIOConstant.IO_SUB_CMD_IAP_ENTRANCE].WaitOne(2000);
 
 
                                         int numBytesReadPosition = 0;
@@ -409,12 +404,12 @@ namespace SocketTester
 
                                         while (fileReadLength > 0)
                                         {
-                                            IAPFunctionCheckEvnet[item.ClientId, RobotIOConstant.IO_SUB_CMD_IAP_DATA_WRITE_RESULT].Reset();
+                                            item.CommandCheckEvnet[RobotIOConstant.IO_SUB_CMD_IAP_DATA_WRITE_RESULT].Reset();
 
                                             //IAP PAGE WRITE 명령 전송 
                                             RobotProtocolProcessor.ConvertIAPPageDatasToReverseByte(pageDatas);
 
-                                            IAPFunctionCheckEvnet[item.ClientId, RobotIOConstant.IO_SUB_CMD_IAP_DATA_WRITE_RESULT].WaitOne(2000);
+                                            item.CommandCheckEvnet[RobotIOConstant.IO_SUB_CMD_IAP_DATA_WRITE_RESULT].WaitOne(2000);
 
                                             long remainingBytes = fileStream.Length - fileStream.Position;
                                             if(remainingBytes < 1024)
@@ -430,11 +425,11 @@ namespace SocketTester
                                         }
 
 
-                                        IAPFunctionCheckEvnet[item.ClientId, RobotIOConstant.IO_SUB_CMD_IAP_WRITE_COMPLETE_RESULT].Reset();
+                                        item.CommandCheckEvnet[RobotIOConstant.IO_SUB_CMD_IAP_WRITE_COMPLETE_RESULT].Reset();
 
                                         //IAP FIRMWARE WRITE 완료 명령 전송
 
-                                        IAPFunctionCheckEvnet[item.ClientId, RobotIOConstant.IO_SUB_CMD_IAP_WRITE_COMPLETE_RESULT].WaitOne(2000);
+                                        item.CommandCheckEvnet[RobotIOConstant.IO_SUB_CMD_IAP_WRITE_COMPLETE_RESULT].WaitOne(2000);
 
                                     }
                                 }

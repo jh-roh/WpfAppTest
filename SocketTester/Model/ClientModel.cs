@@ -2,7 +2,9 @@
 using SocketTester.MVVM;
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -151,6 +153,9 @@ namespace SocketTester.Model
             }
         }
 
+        public readonly Dictionary<byte, ManualResetEvent> CommandCheckEvnet = new Dictionary<byte, ManualResetEvent>();
+
+
         public ICommand ConnectCommand { get; set; }
         public ICommand DisconnectCommand { get; set; }
 
@@ -195,6 +200,18 @@ namespace SocketTester.Model
         public ClientModel()
         {
             _workerTask = Task.Run(() => ProcessTasks(_cancellationTokenSource.Token));
+
+            // RobotIOConstant의 모든 상수 값을 Reflection을 통해 가져와서 Dictionary에 추가
+            FieldInfo[] fields = typeof(RobotIOConstant).GetFields(BindingFlags.Public | BindingFlags.Static);
+
+            foreach (var field in fields)
+            {
+                if (field.IsLiteral && !field.IsInitOnly)  // const 필드만 선택
+                {
+                    byte key = Convert.ToByte(field.GetValue(null));  // 필드 값을 키로 변환
+                    CommandCheckEvnet.Add(key, new ManualResetEvent(false));  // ManualResetEvent 객체 추가
+                }
+            }
         }
 
         private bool IsValidIpAddress(string ip)
@@ -242,6 +259,8 @@ namespace SocketTester.Model
                     _workerTask.Wait(); // 워커 종료 대기
                     _taskQueue.Dispose();
                     _cancellationTokenSource.Dispose();
+
+                    CommandCheckEvnet.Clear();
                 }
 
                 // TODO: 비관리형 리소스(비관리형 개체)를 해제하고 종료자를 재정의합니다.
