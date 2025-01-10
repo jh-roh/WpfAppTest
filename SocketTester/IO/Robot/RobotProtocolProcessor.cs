@@ -57,66 +57,47 @@ namespace SocketTester.Robot
             return constructData.ToArray();
         }
 
-        public static RobotIOSend RequestRobotKeepAlive()
+
+        /**********************도킹 관련 데이터 byte[]로 컨버터*************/
+
+        public static byte[] ConvertIAPModeDatasToByte(IAP_MODE mode)
         {
-            return new RobotIOSend
-            {
-                Command = RobotIOConstant.IO_CMD_ROBOT_KEEP_ALIVE_SW,
-                DataLength = 0,
-                DataArray = null,
-            };
+            return new byte[] { (byte)mode };
         }
 
-        public static RobotIOSend RequestRobotInCompletedEvent()
+
+        public static byte[] ConvertIAPEntranceDatasToByte(ushort boardId, int fileSize)
         {
-            return new RobotIOSend
-            {
-                Command = RobotIOConstant.IO_CMD_ROBOT_IN_COMPLETED_EVENT,
-                DataLength = 0,
-                DataArray = null,
-            };
+            byte boardLow = Convert.ToByte(boardId & 0x00FF);
+            byte boardHigh = Convert.ToByte(boardId >> 8);
+
+
+            byte fileSize1 = Convert.ToByte(fileSize & 0x000000FF);
+            byte fileSize2 = Convert.ToByte((fileSize >> 8) & 0x000000FF);
+            byte fileSize3 = Convert.ToByte((fileSize >> 16) & 0x000000FF);
+            byte fileSize4 = Convert.ToByte(fileSize >> 24);
+
+
+            return new byte[] { RobotIOConstant.IO_SUB_CMD_IAP_ENTRANCE , boardLow, boardHigh, fileSize1 , fileSize2, fileSize3, fileSize4 };
         }
 
-        public static RobotIOSend RequestRobotOutCompletedEvent()
+        public static byte[] ConvertIAPPageDatasToReverseByte(byte[] pageDatas)
         {
-            return new RobotIOSend
-            {
-                Command = RobotIOConstant.IO_CMD_ROBOT_OUT_COMPLETED_EVENT,
-                DataLength = 0,
-                DataArray = null,
-            };
-        }
-        public static RobotIOSend RequestRobotCall()
-        {
-            byte[] datas = new byte[] { 0x00 };
+            byte[] reversePageDatas = new byte[pageDatas.Length];
 
-            return new RobotIOSend
-            {
-                Command = RobotIOConstant.IO_CMD_ROBOT_CALL_REQUEST,
-                DataLength = (byte)datas.Length,
-                DataArray = datas.ToArray()
-            };
+            // 원본 배열 복사
+            Array.Copy(pageDatas, reversePageDatas, pageDatas.Length);
+
+            // 역순 처리
+            Array.Reverse(reversePageDatas);
+            
+            // 출력
+            Console.WriteLine($"Original: {string.Join(", ", pageDatas)}");
+            Console.WriteLine($"Reversed: {string.Join(", ", reversePageDatas)}");
+
+            return reversePageDatas;
         }
 
-        public static RobotIOSend RequestRobotAppraoch()
-        {
-            return new RobotIOSend
-            {
-                Command = RobotIOConstant.IO_CMD_ROBOT_APPROACH_REQUEST,
-                DataLength = 0,
-                DataArray = null
-            };
-        }
-
-        public static RobotIOSend RequestRobotKeepAliveHW()
-        {
-            return new RobotIOSend
-            {
-                Command = RobotIOConstant.IO_CMD_ROBOT_KEEP_ALIVE_HW,
-                DataLength = 0,
-                DataArray = null,
-            };
-        }
 
         /**********************도킹 관련 Board 쪽에서 명령 응답*************/
 
@@ -197,18 +178,37 @@ namespace SocketTester.Robot
 
                 case RobotIOConstant.IO_CMD_ROBOT_CALL_REQUEST:
                     break;
+
+                case RobotIOConstant.IO_CMD_COMMON_IAP:
+                    
+                    byte subCommand = receiveDatas[_commandPosition + 1];
+                    ioResult.SubCommand = subCommand;
+                    switch (subCommand)
+                    {
+                        case RobotIOConstant.IO_SUB_CMD_IAP_MODE_SETTING:
+                            ioResult.IAPModeResult = (IAP_MODE)receiveDatas[_commandPosition + 2];
+                            break;
+
+                        case RobotIOConstant.IO_SUB_CMD_IAP_ENTRANCE:
+                            ioResult.IAPActionResult = (IAP_ACTION_RESULT)receiveDatas[_commandPosition + 2];
+
+                            break;
+
+                        case RobotIOConstant.IO_SUB_CMD_IAP_DATA_WRITE_RESULT:
+                            ioResult.IAPActionResult = (IAP_ACTION_RESULT)receiveDatas[_commandPosition + 2];
+
+                            break;
+
+                        case RobotIOConstant.IO_SUB_CMD_IAP_WRITE_COMPLETE_RESULT:
+                            ioResult.IAPActionResult = (IAP_ACTION_RESULT)receiveDatas[_commandPosition + 2];
+
+                            break;
+                    }
+                    break;
             }
 
             return ioResult;
         }
-
-
-
-
-
-
-
-
     }
 
 }

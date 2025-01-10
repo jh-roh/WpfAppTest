@@ -68,6 +68,8 @@
     <Compile Include="Services\SocketClientManager.cs" />
     <Compile Include="UI\Behavior\AttachedBehavior.cs" />
     <Compile Include="UI\Converter\ValueConverter.cs" />
+    <Compile Include="UI\Enums\CommonEnum.cs" />
+    <Compile Include="UI\Helper\CheckBoxHelper.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

@@ -54,7 +54,7 @@ namespace SocketTester.Helper
             }
         }
 
-        public static async Task SendMessageToServer(int? clientId, byte command)
+        public static async Task SendMessageToServer(int? clientId, byte command, byte[] datas = null)
         {
             if (clientId == null)
                 throw new ArgumentException("Client ID cannot be null or empty.", nameof(clientId));
@@ -66,29 +66,69 @@ namespace SocketTester.Helper
                 switch (command)
                 {
                     case RobotIOConstant.IO_CMD_ROBOT_CALL_REQUEST:
-                        robotIOSend = RobotProtocolProcessor.RequestRobotCall();
+                        datas = new byte[] { 0x00 };
+                        robotIOSend = new RobotIOSend
+                        {
+                            Command = RobotIOConstant.IO_CMD_ROBOT_CALL_REQUEST,
+                            DataLength = (byte)datas.Length,
+                            DataArray = datas.ToArray()
+                        };
                         break;
 
                     case RobotIOConstant.IO_CMD_ROBOT_APPROACH_REQUEST:
-                        robotIOSend = RobotProtocolProcessor.RequestRobotAppraoch();
+                        robotIOSend = new RobotIOSend
+                        {
+                            Command = RobotIOConstant.IO_CMD_ROBOT_APPROACH_REQUEST,
+                            DataLength = 0,
+                            DataArray = null
+                        };
                         break;
 
                     case RobotIOConstant.IO_CMD_ROBOT_KEEP_ALIVE_SW:
-                        robotIOSend = RobotProtocolProcessor.RequestRobotKeepAlive();
+                        robotIOSend = new RobotIOSend
+                        {
+                            Command = RobotIOConstant.IO_CMD_ROBOT_KEEP_ALIVE_SW,
+                            DataLength = 0,
+                            DataArray = null,
+                        };
                         break;
 
                     case RobotIOConstant.IO_CMD_ROBOT_IN_COMPLETED_EVENT:
-                        robotIOSend = RobotProtocolProcessor.RequestRobotInCompletedEvent();
-
+                        robotIOSend = new RobotIOSend
+                        {
+                            Command = RobotIOConstant.IO_CMD_ROBOT_IN_COMPLETED_EVENT,
+                            DataLength = 0,
+                            DataArray = null,
+                        };
                         break;
 
                     case RobotIOConstant.IO_CMD_ROBOT_OUT_COMPLETED_EVENT:
-                        robotIOSend = RobotProtocolProcessor.RequestRobotOutCompletedEvent();
+                        robotIOSend = new RobotIOSend
+                        {
+                            Command = RobotIOConstant.IO_CMD_ROBOT_OUT_COMPLETED_EVENT,
+                            DataLength = 0,
+                            DataArray = null,
+                        };
 
                         break;
 
                     case RobotIOConstant.IO_CMD_ROBOT_KEEP_ALIVE_HW:
-                        robotIOSend = RobotProtocolProcessor.RequestRobotKeepAliveHW();
+                        robotIOSend = new RobotIOSend
+                        {
+                            Command = RobotIOConstant.IO_CMD_ROBOT_KEEP_ALIVE_HW,
+                            DataLength = 0,
+                            DataArray = null,
+                        };
+                        break;
+
+                    case RobotIOConstant.IO_CMD_COMMON_IAP:
+                        robotIOSend = new RobotIOSend
+                        {
+                            Command = RobotIOConstant.IO_CMD_COMMON_IAP,
+                            DataLength = (byte)datas.Length,
+                            DataArray = datas.ToArray(),
+                        };
+
                         break;
 
 

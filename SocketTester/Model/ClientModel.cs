@@ -58,6 +58,99 @@ namespace SocketTester.Model
             }
         }
 
+        private bool _isSelected;
+        public bool IsSelected
+        {
+            get { return _isSelected; }
+            set
+            {
+                _isSelected = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private int _progress;
+
+        public int Progress
+        {
+            get => _progress;
+            set
+            {
+                _progress = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public TimeSpan _timeElapsed;
+
+        public TimeSpan TimeElapsed
+        {
+            get => _timeElapsed;
+            set
+            {
+                _timeElapsed = value;
+                OnPropertyChanged();
+            }
+        }
+        
+        private String _filePath;
+        public String FilePath
+        {
+            get
+            {
+                return _filePath;
+            }
+            set
+            {
+                _filePath = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private String _fileSize;
+        public String FileSize
+        {
+            get
+            {
+                return _fileSize;
+            }
+            set
+            {
+                _fileSize = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private String _iapStatus;
+
+        public String IAPStatus
+        {
+            get
+            {
+                return _iapStatus;
+            }
+            set
+            {
+                _iapStatus = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private String _iapDescription;
+
+        public String IAPDescription
+        {
+            get
+            {
+                return _iapDescription;
+            }
+            set
+            {
+                _iapDescription = value;
+                OnPropertyChanged();
+            }
+        }
+
         public ICommand ConnectCommand { get; set; }
         public ICommand DisconnectCommand { get; set; }
 

@@ -12,6 +12,15 @@ namespace SocketTester.IO.Robot
         public const byte ROBOT_IO_STX = 0xF0;
         public const byte ROBOT_IO_ETX = 0xF4;
 
+        public const byte IO_CMD_COMMON_IAP                    = 0x20;
+        public const byte IO_SUB_CMD_IAP_MODE_SETTING          = 0x84;
+        public const byte IO_SUB_CMD_IAP_ENTRANCE              = 0x85;
+        public const byte IO_SUB_CMD_IAP_DATA_WRITE            = 0x86;
+        public const byte IO_SUB_CMD_IAP_DATA_WRITE_RESULT     = 0x87;
+
+        public const byte IO_SUB_CMD_IAP_WRITE_COMPLETE        = 0x88;
+        public const byte IO_SUB_CMD_IAP_WRITE_COMPLETE_RESULT = 0x89;
+
         public const byte IO_CMD_ROBOT_KEEP_ALIVE_SW = 0x45;
 
         public const byte IO_CMD_ROBOT_KEEP_ALIVE_HW = 0x46;
@@ -53,9 +62,15 @@ namespace SocketTester.IO.Robot
 
         public byte Command;
 
+        public byte SubCommand;
+
         public IO_ROBOT_BUTTON_PRESS_RESULT? ButtonPressResult;
 
         public IO_ROBOT_RESPONSE_ACTION_RESULT? ResponseActionResult;
+
+        public IAP_MODE? IAPModeResult;
+
+        public IAP_ACTION_RESULT IAPActionResult;
 
     }
 
@@ -76,6 +91,17 @@ namespace SocketTester.IO.Robot
         IO_ROBOT_RESPONSE_ACTION_NO_JIG = 0x06,
     }
 
+    public enum IAP_MODE
+    {
+        IAP_MODE_NORMAL  = 0x00,  //정상 Normal
+        IAP_MODE_ENTRANCE = 0x01,  //IAP 모드
+    }
 
+    public enum IAP_ACTION_RESULT
+    {
+        IAP_ACTION_SUCCESS = 0x00,
+        IAP_ACTION_ERROR   = 0xFF,
+        
+    }
 
 }

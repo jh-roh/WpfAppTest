@@ -31,21 +31,6 @@ namespace SocketTester.Model
             }
         }
 
-        //private ObservableCollection<RobotResultModel> _robotResults;
-        //public ObservableCollection<RobotResultModel> RobotResults
-        //{
-        //    get
-        //    {
-        //        return _robotResults;
-        //    }
-        //    set
-        //    {
-        //        _robotResults = value;
-        //        OnPropertyChanged();
-        //    }
-        //}
-
-
         public IEnumerable<T> GetAllItems()
         {
             lock (_lockObject)
