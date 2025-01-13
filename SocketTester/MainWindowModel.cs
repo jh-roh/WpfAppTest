@@ -1,4 +1,6 @@
 ﻿using CommonUtil;
+using Microsoft.Win32;
+using SocketTester.Globals;
 using SocketTester.Helper;
 using SocketTester.IO.Robot;
 using SocketTester.Model;
@@ -233,19 +235,51 @@ namespace SocketTester
                                             switch (iOResult.SubCommand)
                                             {
                                                 case RobotIOConstant.IO_SUB_CMD_IAP_MODE_SETTING:
+                                                    ClientRepository.Update(client, p =>
+                                                    {
+                                                        p.iAPUIResult = new ClientModel.IAPUIResult()
+                                                        {
+                                                             IAPMode = iOResult.IAPModeResult,
+                                                        };
+                                                    });
+
                                                     client.CommandCheckEvnet[RobotIOConstant.IO_SUB_CMD_IAP_MODE_SETTING].Set();
                                                     break;
 
                                                 case RobotIOConstant.IO_SUB_CMD_IAP_ENTRANCE:
+                                                    ClientRepository.Update(client, p =>
+                                                    {
+                                                        p.iAPUIResult = new ClientModel.IAPUIResult()
+                                                        {
+                                                            AciotnResult = iOResult.IAPActionResult,
+                                                        };
+                                                    });
+
                                                     client.CommandCheckEvnet[RobotIOConstant.IO_SUB_CMD_IAP_ENTRANCE].Set();
                                                     break;
 
                                                 case RobotIOConstant.IO_SUB_CMD_IAP_DATA_WRITE_RESULT:
+                                                    ClientRepository.Update(client, p =>
+                                                    {
+                                                        p.iAPUIResult = new ClientModel.IAPUIResult()
+                                                        {
+                                                            AciotnResult = iOResult.IAPActionResult,
+                                                        };
+                                                    });
+
                                                     client.CommandCheckEvnet[RobotIOConstant.IO_SUB_CMD_IAP_DATA_WRITE_RESULT].Set();
 
                                                     break;
 
                                                 case RobotIOConstant.IO_SUB_CMD_IAP_WRITE_COMPLETE_RESULT:
+                                                    ClientRepository.Update(client, p =>
+                                                    {
+                                                        p.iAPUIResult = new ClientModel.IAPUIResult()
+                                                        {
+                                                            AciotnResult = iOResult.IAPActionResult,
+                                                        };
+                                                    });
+
                                                     client.CommandCheckEvnet[RobotIOConstant.IO_SUB_CMD_IAP_WRITE_COMPLETE_RESULT].Set();
 
                                                     break;
@@ -371,67 +405,7 @@ namespace SocketTester
                                 }
                                 else
                                 {
-                                    int bufferSize = 1024;
-
-                                    byte[] pageDatas;
-
-                                    using (FileStream fileStream = new FileStream(item.FilePath, FileMode.Open, FileAccess.Read, FileShare.Read))
-                                    {
-                                        int fileStreamLength = (int)fileStream.Length;
-
-
-                                        item.CommandCheckEvnet[RobotIOConstant.IO_SUB_CMD_IAP_MODE_SETTING].Reset();
-                                        //IAP 모드 설정 명령 전송
-                                        RobotProtocolProcessor.ConvertIAPModeDatasToByte(IAP_MODE.IAP_MODE_ENTRANCE);
-
-
-                                        item.CommandCheckEvnet[RobotIOConstant.IO_SUB_CMD_IAP_MODE_SETTING].WaitOne(2000);
-
-
-                                        item.CommandCheckEvnet[RobotIOConstant.IO_SUB_CMD_IAP_ENTRANCE].Reset();
-
-                                        //IAP 진입 명령 전송
-                                        RobotProtocolProcessor.ConvertIAPEntranceDatasToByte(2041, fileStreamLength);
-
-                                        item.CommandCheckEvnet[RobotIOConstant.IO_SUB_CMD_IAP_ENTRANCE].WaitOne(2000);
-
-
-                                        int numBytesReadPosition = 0;
-
-                                        pageDatas = new byte[bufferSize];
-
-                                        int fileReadLength = fileStream.Read(pageDatas, numBytesReadPosition, pageDatas.Length);
-
-                                        while (fileReadLength > 0)
-                                        {
-                                            item.CommandCheckEvnet[RobotIOConstant.IO_SUB_CMD_IAP_DATA_WRITE_RESULT].Reset();
-
-                                            //IAP PAGE WRITE 명령 전송 
-                                            RobotProtocolProcessor.ConvertIAPPageDatasToReverseByte(pageDatas);
-
-                                            item.CommandCheckEvnet[RobotIOConstant.IO_SUB_CMD_IAP_DATA_WRITE_RESULT].WaitOne(2000);
-
-                                            long remainingBytes = fileStream.Length - fileStream.Position;
-                                            if(remainingBytes < 1024)
-                                            {
-                                                pageDatas = new byte[remainingBytes];
-                                            }
-
-                                            Console.WriteLine($"Remaining bytes before reading: {remainingBytes}");
-
-                                            fileReadLength = fileStream.Read(pageDatas, numBytesReadPosition, pageDatas.Length);
-
-                                            Console.WriteLine($"Bytes read: {fileReadLength}");
-                                        }
-
-
-                                        item.CommandCheckEvnet[RobotIOConstant.IO_SUB_CMD_IAP_WRITE_COMPLETE_RESULT].Reset();
-
-                                        //IAP FIRMWARE WRITE 완료 명령 전송
-
-                                        item.CommandCheckEvnet[RobotIOConstant.IO_SUB_CMD_IAP_WRITE_COMPLETE_RESULT].WaitOne(2000);
-
-                                    }
+                                    RunIAPStartMethod(item);
                                 }
                             }
                         }
@@ -508,7 +482,13 @@ namespace SocketTester
             // 기본 확장자를 Bin으로, Filter로 binary 파일만 보이게한다.
             dlg.DefaultExt = ".bin";
             dlg.Filter = "Bin files (*.bin)|*.bin";
+            dlg.CheckFileExists = true;
+            dlg.CheckPathExists = true;
+            dlg.RestoreDirectory = true;
+            dlg.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+
             //|All files (*.*)|*.*
+
 
             //Open File Dialog 창을 띄움.
             Nullable<bool> result = dlg.ShowDialog();
@@ -573,6 +553,234 @@ namespace SocketTester
                 }
             }
 
+
+        }
+
+        private void RunIAPStartMethod(ClientModel item)
+        {
+            bool isIapProgress = true;
+
+            int bufferSize = 1024;
+
+            byte[] pageDatas;
+
+            StringBuilder requestDatasString = new StringBuilder();
+
+
+            using (FileStream fileStream = new FileStream(item.FilePath, FileMode.Open, FileAccess.Read, FileShare.Read))
+            {
+                int fileStreamLength = (int)fileStream.Length;
+
+                item.CommandCheckEvnet[RobotIOConstant.IO_SUB_CMD_IAP_MODE_SETTING].Reset();
+
+                //IAP 모드 설정 명령 전송
+                SocketMediator.SendMessageToServer(item.ClientId,
+                    RobotIOConstant.IO_CMD_COMMON_IAP
+                    , RobotProtocolProcessor.ConvertIAPModeDatasToByte(IAP_MODE.IAP_MODE_ENTRANCE));
+
+                isIapProgress = item.CommandCheckEvnet[RobotIOConstant.IO_SUB_CMD_IAP_MODE_SETTING].WaitOne(2000);
+
+                if (isIapProgress)
+                {
+                    if (item.iAPUIResult.IAPMode == IAP_MODE.IAP_MODE_ENTRANCE)
+                    {
+                        ClientRepository.Update(item, (p) =>
+                        {
+                            p.IAPStatus = "IAP Mode setting successful(0x20, 0x84)";
+                            p.IAPDescription = $"The change to IAP mode has been completed. Resopnse Datas: [0x{item.iAPUIResult.IAPMode:X2}]";
+                            
+                            Log.Info2(null, null, $"[IAP Function][Client{p.ClientId}][{p.IpAddress}:{p.Port}]{p.IAPStatus}. {p.IAPDescription}", ApplicationConfig.RobotIOParserFileName);
+                        });
+                    }
+                    else
+                    {
+                        ClientRepository.Update(item, (p) =>
+                        {
+                            p.IAPStatus = "Normal mode setting successful(0x20, 0x84)";
+                            p.IAPDescription = $"\r\nChange to Normal mode was successful. Resopnse Datas: [0x{item.iAPUIResult.IAPMode:X2}]";
+
+                            Log.Info2(null, null, $"[IAP Function][Client{p.ClientId}][{p.IpAddress}:{p.Port}]{p.IAPStatus}. {p.IAPDescription}", ApplicationConfig.RobotIOParserFileName);
+                        });
+                    }
+                }
+                else
+                {
+                    ClientRepository.Update(item, (p) =>
+                    {
+                        p.IAPStatus = "IAP Mode Setting Timeout(0x20, 0x84)";
+                        p.IAPDescription = $"A timeout occurred in the IAP mode change command.";
+
+                        Log.Info2(null, null, $"[IAP Function][Client{p.ClientId}][{p.IpAddress}:{p.Port}]{p.IAPStatus}. {p.IAPDescription}", ApplicationConfig.RobotIOParserFileName);
+                    });
+                }
+
+                if (isIapProgress == false) return;
+
+                item.CommandCheckEvnet[RobotIOConstant.IO_SUB_CMD_IAP_ENTRANCE].Reset();
+
+                var iapEntranceDatas = RobotProtocolProcessor.ConvertIAPEntranceDatasToByte(2041, fileStreamLength);
+
+                //IAP 진입 명령 전송
+                SocketMediator.SendMessageToServer(item.ClientId,
+                    RobotIOConstant.IO_CMD_COMMON_IAP
+                    , iapEntranceDatas);
+
+                requestDatasString.Clear();
+                foreach (var data in iapEntranceDatas)
+                {
+                    requestDatasString.Append($"0x{data:X2} ");
+                }
+
+                isIapProgress = item.CommandCheckEvnet[RobotIOConstant.IO_SUB_CMD_IAP_ENTRANCE].WaitOne(2000);
+
+                if (isIapProgress == true)
+                {
+                    if (item.iAPUIResult.AciotnResult == IAP_ACTION_RESULT.IAP_ACTION_SUCCESS)
+                    {
+                        ClientRepository.Update(item, (p) =>
+                        {
+                            p.IAPStatus = "Successfully entered IAP(0x20, 0x85)";
+                            p.IAPDescription = $"Board ID : 2041, FileSize: {fileStreamLength}, Request Datas: [{requestDatasString.ToString()}], Resopnse Datas: [0x{item.iAPUIResult.AciotnResult:X2}]";
+
+                            Log.Info2(null, null, $"[IAP Function][Client{p.ClientId}][{p.IpAddress}:{p.Port}]{p.IAPStatus}. {p.IAPDescription}", ApplicationConfig.RobotIOParserFileName);
+                        });
+                    }
+                    else
+                    {
+                        ClientRepository.Update(item, (p) =>
+                        {
+                            p.IAPStatus = "IAP entry failure(0x20, 0x85)";
+                            p.IAPDescription = $"Board ID : 2041, FileSize: {fileStreamLength}, Request Datas: [{requestDatasString.ToString()}], Resopnse Datas: [0x{item.iAPUIResult.AciotnResult:X2}]";
+
+                            Log.Info2(null, null, $"[IAP Function][Client{p.ClientId}][{p.IpAddress}:{p.Port}]{p.IAPStatus}. {p.IAPDescription}", ApplicationConfig.RobotIOParserFileName);
+                        });
+                    }
+                }
+                else
+                {
+                    ClientRepository.Update(item, (p) =>
+                    {
+                        p.IAPStatus = "IAP Entrance Timeout(0x20, 0x85)";
+                        p.IAPDescription = $"A timeout occurred in the IAP Entrance command.";
+
+                        Log.Info2(null, null, $"[IAP Function][Client{p.ClientId}][{p.IpAddress}:{p.Port}]{p.IAPStatus}. {p.IAPDescription}", ApplicationConfig.RobotIOParserFileName);
+                    });
+                }
+
+                if (isIapProgress == false) return;
+
+                int numBytesReadPosition = 0;
+
+                pageDatas = new byte[bufferSize];
+
+                int fileReadLength = fileStream.Read(pageDatas, numBytesReadPosition, pageDatas.Length);
+
+                int pageCount = 0;
+
+                while (fileReadLength > 0
+                   && isIapProgress == true)
+                {
+                    pageCount++;
+
+                    long remainingBytes = fileStream.Length - fileStream.Position;
+                    if (remainingBytes < 1024)
+                    {
+                        pageDatas = new byte[remainingBytes];
+                    }
+                    item.CommandCheckEvnet[RobotIOConstant.IO_SUB_CMD_IAP_DATA_WRITE_RESULT].Reset();
+
+                    //IAP PAGE WRITE 명령 전송 
+                    SocketMediator.SendMessageToServer(item.ClientId,
+                    RobotIOConstant.IO_CMD_COMMON_IAP
+                    , RobotProtocolProcessor.ConvertIAPPageDatasToReverseByte(pageDatas));
+
+                    isIapProgress = item.CommandCheckEvnet[RobotIOConstant.IO_SUB_CMD_IAP_DATA_WRITE_RESULT].WaitOne(2000);
+
+                    if (isIapProgress == true)
+                    {
+                        if (item.iAPUIResult.AciotnResult == IAP_ACTION_RESULT.IAP_ACTION_SUCCESS)
+                        {
+                            ClientRepository.Update(item, (p) =>
+                            {
+                                p.IAPStatus = "IAP Page Write Successful(0x20, 0x87)";
+                                p.IAPDescription = $"IAP {pageCount} Page Write was successful({fileReadLength}bytes). Remaining bytes : {remainingBytes}. Resopnse Datas: [0x{item.iAPUIResult.AciotnResult:X2}]. ";
+
+                                Log.Info2(null, null, $"[IAP Function][Client{p.ClientId}][{p.IpAddress}:{p.Port}]{p.IAPStatus}. {p.IAPDescription}", ApplicationConfig.RobotIOParserFileName);
+                            });
+                        }
+                        else
+                        {
+                            ClientRepository.Update(item, (p) =>
+                            {
+                                p.IAPStatus = "IAP Page Write Failure(0x20, 0x87)";
+                                p.IAPDescription = $"IAP {pageCount} Page Write failed({fileReadLength}bytes). Remaining bytes : {remainingBytes}. Resopnse Datas: [0x{item.iAPUIResult.AciotnResult:X2}].";
+
+                                Log.Info2(null, null, $"[IAP Function][Client{p.ClientId}][{p.IpAddress}:{p.Port}]{p.IAPStatus}. {p.IAPDescription}", ApplicationConfig.RobotIOParserFileName);
+                            });
+                        }
+                    }
+                    else
+                    {
+                        ClientRepository.Update(item, (p) =>
+                        {
+                            p.IAPStatus = "IAP Page Write Timeout(0x20, 0x87)";
+                            p.IAPDescription = $"A timeout occurred in the IAP Page Write command.";
+
+                            Log.Info2(null, null, $"[IAP Function][Client{p.ClientId}][{p.IpAddress}:{p.Port}]{p.IAPStatus}. {p.IAPDescription}", ApplicationConfig.RobotIOParserFileName);
+                        });
+
+                    }
+
+                    fileReadLength = fileStream.Read(pageDatas, numBytesReadPosition, pageDatas.Length);
+                }
+
+                if (isIapProgress == false) return;
+
+                item.CommandCheckEvnet[RobotIOConstant.IO_SUB_CMD_IAP_WRITE_COMPLETE_RESULT].Reset();
+
+                //IAP FIRMWARE WRITE 완료 명령 전송
+                SocketMediator.SendMessageToServer(item.ClientId,
+                    RobotIOConstant.IO_CMD_COMMON_IAP
+                    , RobotProtocolProcessor.ConvertIAPWriteCompleteDatasToByte());
+
+
+                isIapProgress = item.CommandCheckEvnet[RobotIOConstant.IO_SUB_CMD_IAP_WRITE_COMPLETE_RESULT].WaitOne(2000);
+
+                if (isIapProgress)
+                {
+                    if (item.iAPUIResult.AciotnResult == IAP_ACTION_RESULT.IAP_ACTION_SUCCESS)
+                    {
+                        ClientRepository.Update(item, (p) =>
+                        {
+                            p.IAPStatus = "IAP Page Write Complete Successful(0x20, 0x89)";
+                            p.IAPDescription = $"IAP Page Write Complete was successful. Resopnse Datas: [0x{item.iAPUIResult.AciotnResult:X2}].";
+
+                            Log.Info2(null, null, $"[IAP Function][Client{p.ClientId}][{p.IpAddress}:{p.Port}]{p.IAPStatus}. {p.IAPDescription}", ApplicationConfig.RobotIOParserFileName);
+                        });
+                    }
+                    else
+                    {
+                        ClientRepository.Update(item, (p) =>
+                        {
+                            p.IAPStatus = "IAP Page Write Complete Successful(0x20, 0x89)";
+                            p.IAPDescription = $"IAP Page Write Complete failed. Resopnse Datas: [0x{item.iAPUIResult.AciotnResult:X2}].";
+
+                            Log.Info2(null, null, $"[IAP Function][Client{p.ClientId}][{p.IpAddress}:{p.Port}]{p.IAPStatus}. {p.IAPDescription}", ApplicationConfig.RobotIOParserFileName);
+                        });
+                    }
+                }
+                else
+                {
+                    ClientRepository.Update(item, (p) =>
+                    {
+                        p.IAPStatus = "IAP Page Write Complete Timeout(0x20, 0x89)";
+                        p.IAPDescription = $"A timeout occurred in the IAP Page Write Complete command.";
+
+                        Log.Info2(null, null, $"[IAP Function][Client{p.ClientId}][{p.IpAddress}:{p.Port}]{p.IAPStatus}. {p.IAPDescription}", ApplicationConfig.RobotIOParserFileName);
+                    });
+
+                }
+            }
 
         }
 

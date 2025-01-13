@@ -143,7 +143,20 @@ namespace SocketTester.Helper
                     StringBuilder sendLog = new StringBuilder();
 
                     string commandName = UtilHelper.GetConstantName(typeof(RobotIOConstant), command);
-                    string dataString = "NONE";
+                   
+                    StringBuilder dataString = new StringBuilder();
+                    dataString.Append("NONE");
+                    if (robotIOSend.Value.DataArray != null)
+                    {
+                        dataString.Clear();
+
+                        foreach (var item in robotIOSend.Value.DataArray)
+                        {
+                            dataString.Append($"0x{item:X2} ");
+                        }
+                    }
+
+
                     sendLog.Append($"[SEND][Client{clientId}][{commandName}(0x{command:X2})][DATA : {dataString}](RawData)");
 
                     foreach (var item in sendData)

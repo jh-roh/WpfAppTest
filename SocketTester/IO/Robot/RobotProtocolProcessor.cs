@@ -62,7 +62,7 @@ namespace SocketTester.Robot
 
         public static byte[] ConvertIAPModeDatasToByte(IAP_MODE mode)
         {
-            return new byte[] { (byte)mode };
+            return new byte[] { RobotIOConstant.IO_SUB_CMD_IAP_MODE_SETTING, (byte)mode };
         }
 
 
@@ -96,6 +96,11 @@ namespace SocketTester.Robot
             Console.WriteLine($"Reversed: {string.Join(", ", reversePageDatas)}");
 
             return reversePageDatas;
+        }
+
+        public static byte[] ConvertIAPWriteCompleteDatasToByte()
+        {
+            return new byte[] { RobotIOConstant.IO_SUB_CMD_IAP_WRITE_COMPLETE };
         }
 
 

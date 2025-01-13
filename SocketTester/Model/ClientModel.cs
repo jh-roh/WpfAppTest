@@ -14,6 +14,14 @@ namespace SocketTester.Model
 {
     public class ClientModel : PropertyChangedBase, IDisposable, IDataErrorInfo
     {
+        public struct IAPUIResult
+        {
+            public IAP_ACTION_RESULT? AciotnResult { get; set; }
+
+            public IAP_MODE? IAPMode { get; set; }
+        }
+
+
         private int _clientId;
         public int ClientId 
         {
@@ -123,6 +131,20 @@ namespace SocketTester.Model
             }
         }
 
+        private bool _isIapProgress;
+
+        public bool IsIapProgress
+        {
+            get
+            {
+                return _isIapProgress;
+            }
+            set
+            {
+                _isIapProgress = value;
+            }
+        }
+
         private String _iapStatus;
 
         public String IAPStatus
@@ -152,6 +174,20 @@ namespace SocketTester.Model
                 OnPropertyChanged();
             }
         }
+        private IAPUIResult _iapUIResult;
+        public IAPUIResult iAPUIResult
+        {
+            get
+            {
+                return _iapUIResult;
+            }
+            set
+            {
+                _iapUIResult = value;
+                OnPropertyChanged();
+            }
+        }
+
 
         public readonly Dictionary<byte, ManualResetEvent> CommandCheckEvnet = new Dictionary<byte, ManualResetEvent>();
 
