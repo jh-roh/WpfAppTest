@@ -120,6 +120,9 @@
     <Compile Include="View\EventTrigger\EventTriggerTest.xaml.cs">
       <DependentUpon>EventTriggerTest.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Graphic\GeometryRectEx.xaml.cs">
+      <DependentUpon>GeometryRectEx.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Graphic\GraphicSizingEx.xaml.cs">
       <DependentUpon>GraphicSizingEx.xaml</DependentUpon>
     </Compile>
@@ -164,6 +167,9 @@
     </Compile>
     <Compile Include="View\Graphic\VisualBrushEx.xaml.cs">
       <DependentUpon>VisualBrushEx.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Graphic\VisualBrushForTextBoxEx.xaml.cs">
+      <DependentUpon>VisualBrushForTextBoxEx.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\GridSharedTest.xaml.cs">
       <DependentUpon>GridSharedTest.xaml</DependentUpon>
@@ -312,6 +318,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\Graphic\GeometryRectEx.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Graphic\GraphicSizingEx.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -369,6 +379,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Graphic\VisualBrushEx.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Graphic\VisualBrushForTextBoxEx.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
