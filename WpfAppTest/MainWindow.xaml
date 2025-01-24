@@ -84,7 +84,9 @@
             <!--<graphic:VisualBrushEx/>-->
             <!--<graphic:RotateTransformEx/>-->
             <!--<graphic:LayoutRenderTransformEx/>-->
-            <graphic:TransparencyEx/>
+            <!--<graphic:TransparencyEx/>-->
+            <!--<graphic:VisualBrushForTextBox/>-->
+            <graphic:GeometryRectEx/>
         </Grid>
 
     </Grid>
