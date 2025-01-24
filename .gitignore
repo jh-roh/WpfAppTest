@@ -13,6 +13,7 @@ CommonUtil/bin/
 SocketTester/bin/
 ThreadTaskTest/bin/
 WpfAppTestDevExpress/bin/
+WpfUserControlEx/bin/
 
 
 WpfAppTest/obj/
@@ -30,6 +31,7 @@ CommonUtil/obj/
 SocketTester/obj/
 ThreadTaskTest/obj/
 WpfAppTestDevExpress/obj/
+WpfUserControlEx/obj/
 
 .vs/
 SQLDataBase/SQLDataBase.dbmdl

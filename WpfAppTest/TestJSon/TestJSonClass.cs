@@ -71,6 +71,31 @@ namespace WpfAppTest.TestJSon
             //String paraInfoString = paraInfo.ToString();
         }
 
+        public void JsonParameterTest1()
+        {
+            string jsonText = @"
+                              [
+                                  {
+	                                ""IpAddress"": ""192.168.125.171"",
+	                                ""port"": 4001
+                                  },
+                                  {
+	                                ""IpAddress"": ""192.168.125.171"",
+	                                ""port"": 4001
+                                  },
+                              ]";
+
+
+            var dynamicObject = JsonConvert.DeserializeObject<dynamic>(jsonText);
+
+            foreach (var item in dynamicObject)
+            {
+                var testData = (String)item["IpAddress"];
+                var testData2 = (int)item["port"];
+            }
+
+        }
+
 
         private void JSonParameterClassSample()
         {

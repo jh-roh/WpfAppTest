@@ -38,6 +38,16 @@ namespace WpfAppTest
             InitializeComponent();
 
 
+
+            #region JSON 테스트
+            TestJSonClass a = new TestJSonClass();
+            a.JsonParameterTest1();
+
+            #endregion
+
+
+
+
             //object o = new object();
             //object o1 = new object();
             //bool b = o.isSameType(o);
