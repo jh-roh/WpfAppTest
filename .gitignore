@@ -14,6 +14,8 @@ SocketTester/bin/
 ThreadTaskTest/bin/
 WpfAppTestDevExpress/bin/
 WpfUserControlEx/bin/
+SignalRTest/bin/
+WpfAppSecondClient/bin/
 
 
 WpfAppTest/obj/
@@ -32,6 +34,8 @@ SocketTester/obj/
 ThreadTaskTest/obj/
 WpfAppTestDevExpress/obj/
 WpfUserControlEx/obj/
+SignalRTest/obj/
+WpfAppSecondClient/obj/
 
 .vs/
 SQLDataBase/SQLDataBase.dbmdl

@@ -66,7 +66,7 @@
             <!--<local:DataGridControl></local:DataGridControl>-->
             <!--<style:StyleDefault></style:StyleDefault>-->
             <!--<eventTrigger:EventTriggerTest></eventTrigger:EventTriggerTest>-->
-            <!--<local:StockingScreenTest></local:StockingScreenTest>-->
+            <local:StockingScreenTest></local:StockingScreenTest>
             <!--<local:ItemControlPanelTest></local:ItemControlPanelTest>-->
             <!--<graphic:RectangleEx />-->
             <!--<graphic:GraphicSizingEx />-->
@@ -86,7 +86,7 @@
             <!--<graphic:LayoutRenderTransformEx/>-->
             <!--<graphic:TransparencyEx/>-->
             <!--<graphic:VisualBrushForTextBox/>-->
-            <graphic:GeometryRectEx/>
+            <!--<graphic:GeometryRectEx/>-->
         </Grid>
 
     </Grid>

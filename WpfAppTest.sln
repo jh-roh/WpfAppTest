@@ -35,6 +35,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfAppTestDevExpress", "Wpf
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfUserControlEx", "WpfUserControlEx\WpfUserControlEx.csproj", "{AA05C96B-A3E0-4A20-B6C7-2EA9CA479753}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignalRTest", "SignalRTest\SignalRTest.csproj", "{8EC701C5-1938-43AC-8B83-36D866F60E1F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfAppSecondClient", "WpfAppSecondClient\WpfAppSecondClient.csproj", "{903775A6-C764-4EEF-B6D5-273EBDE82068}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -107,6 +111,14 @@ Global
 		{AA05C96B-A3E0-4A20-B6C7-2EA9CA479753}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AA05C96B-A3E0-4A20-B6C7-2EA9CA479753}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AA05C96B-A3E0-4A20-B6C7-2EA9CA479753}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8EC701C5-1938-43AC-8B83-36D866F60E1F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8EC701C5-1938-43AC-8B83-36D866F60E1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8EC701C5-1938-43AC-8B83-36D866F60E1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8EC701C5-1938-43AC-8B83-36D866F60E1F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{903775A6-C764-4EEF-B6D5-273EBDE82068}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{903775A6-C764-4EEF-B6D5-273EBDE82068}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{903775A6-C764-4EEF-B6D5-273EBDE82068}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{903775A6-C764-4EEF-B6D5-273EBDE82068}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
