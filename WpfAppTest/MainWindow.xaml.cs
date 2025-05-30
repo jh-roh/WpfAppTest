@@ -7,6 +7,7 @@ using System.Linq;
 using System.ServiceModel;
 using System.ServiceModel.Description;
 using System.Text;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -37,25 +38,35 @@ namespace WpfAppTest
         {
             InitializeComponent();
 
+            #region 웹서비스 HTTP Get 방식 호출 테스트
+            //HttpTestFunction httpTestFunction = new HttpTestFunction();
+
+            //httpTestFunction.GetDataFromWebServiceJSON("SAEBC13c7281LCcJ03SemgZEjxouVSh5XSl6it/ZsMSgxTc=", "GetAllMachineItem", "");
+
+
+            #endregion
 
 
             #region JSON 테스트
-            TestJSonClass a = new TestJSonClass();
-            a.JsonParameterTest1();
+            //TestJSonClass a = new TestJSonClass();
+            //a.JsonParameterTest1();
 
             #endregion
 
 
 
 
+            #region 각종 테스트 관련 함수
+
+
             //object o = new object();
             //object o1 = new object();
             //bool b = o.isSameType(o);
 
-            TestReflection.TestMethod3();
+            //TestReflection.TestMethod3();
 
 
-            #region 각종 테스트 관련 함수
+
             //var dataTemplateVM = new DataTemplateModel();
 
             //ContentControl_Test.Content = dataTemplateVM;
@@ -155,22 +166,25 @@ namespace WpfAppTest
 
 
 
+            #region 일자 관련 테스트
+
             //string a = "ERCP 후\r\n3시간 동안";
 
             //var b = a.Replace("\r\n", " ");
 
-            string PRCPDD = "20240405";
-            string PRCPDD2 = String.Empty;
-            //PRCPDD 변수를 DateTIme으로 변환
-            DateTime PRCPDD_DateTime = DateTime.ParseExact(PRCPDD, "yyyyMMdd", null);
+            //string PRCPDD = "20240405";
+            //string PRCPDD2 = String.Empty;
+            ////PRCPDD 변수를 DateTIme으로 변환
+            //DateTime PRCPDD_DateTime = DateTime.ParseExact(PRCPDD, "yyyyMMdd", null);
 
-            //PRCPDD_DateTime 변수의 값이 10일보다 이전일 경우를 소스로 작성
-            if (PRCPDD_DateTime < DateTime.Now.AddDays(-10))
-            {
-                PRCPDD2 = DateTime.Now.Date.ToString("yyyy-MM-dd");
-                //10일 이전일 경우
-            }
+            ////PRCPDD_DateTime 변수의 값이 10일보다 이전일 경우를 소스로 작성
+            //if (PRCPDD_DateTime < DateTime.Now.AddDays(-10))
+            //{
+            //    PRCPDD2 = DateTime.Now.Date.ToString("yyyy-MM-dd");
+            //    //10일 이전일 경우
+            //}
 
+            #endregion
         }
 
         private void button_DoorAging_Click(object sender, RoutedEventArgs e)
@@ -196,6 +210,37 @@ namespace WpfAppTest
             {
                 Console.WriteLine("두 리스트에는 공통된 요소가 없습니다.");
             }
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            bool isFirst = false;
+
+            
+            if (isFirst == false)
+            {
+                isFirst = true;
+
+                Thread thread = new Thread(() =>
+                {
+                    while (isFirst)
+                    {
+
+                        HttpTestFunction httpTestFunction = new HttpTestFunction();
+
+                        httpTestFunction.GetDataFromWebServiceJSON("SAEBC13c7281LCcJ03SemgZEjxouVSh5XSl6it/ZsMSgxTc=", "GetAllMachineItem", "");
+
+
+                        Thread.Sleep(2000);
+                    }
+                });
+
+                thread.Start();
+            }
+
+
+
+
         }
 
         //private void Button_Click(object sender, RoutedEventArgs e)

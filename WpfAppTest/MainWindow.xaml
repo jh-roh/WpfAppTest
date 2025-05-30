@@ -66,7 +66,7 @@
             <!--<local:DataGridControl></local:DataGridControl>-->
             <!--<style:StyleDefault></style:StyleDefault>-->
             <!--<eventTrigger:EventTriggerTest></eventTrigger:EventTriggerTest>-->
-            <local:StockingScreenTest></local:StockingScreenTest>
+            <!--<local:StockingScreenTest></local:StockingScreenTest>-->
             <!--<local:ItemControlPanelTest></local:ItemControlPanelTest>-->
             <!--<graphic:RectangleEx />-->
             <!--<graphic:GraphicSizingEx />-->
@@ -87,6 +87,10 @@
             <!--<graphic:TransparencyEx/>-->
             <!--<graphic:VisualBrushForTextBox/>-->
             <!--<graphic:GeometryRectEx/>-->
+
+
+
+            <Button Content="테스트 버튼 입니다." Click="Button_Click" />
         </Grid>
 
     </Grid>

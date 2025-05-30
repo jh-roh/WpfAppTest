@@ -6,6 +6,7 @@
     xmlns:Views="clr-namespace:WpfAppTestDevExpress.Views"
     Title="MainWindow" Height="800" Width="1000">
     <Grid>
-        <Views:MainView/>
+        <!--<Views:MainView/>-->
+        <Views:SignatureUserControl2/>
     </Grid>
 </dx:ThemedWindow>

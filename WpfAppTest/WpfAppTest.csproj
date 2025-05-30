@@ -79,6 +79,7 @@
       <DependentUpon>dsWpf.xsd</DependentUpon>
     </Compile>
     <Compile Include="Model\CustList.cs" />
+    <Compile Include="ServiceFunction\HttpTestFunction.cs" />
     <Compile Include="ServiceFunction\IInterfaceService.cs" />
     <Compile Include="ServiceFunction\InterfaceTestService.cs" />
     <Compile Include="ServiceFunction\WcfAppTestService.cs" />
