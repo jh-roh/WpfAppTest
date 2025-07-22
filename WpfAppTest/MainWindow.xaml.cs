@@ -212,31 +212,45 @@ namespace WpfAppTest
             }
         }
 
+        [TryCatch]
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            bool isFirst = false;
-
-            
-            if (isFirst == false)
-            {
-                isFirst = true;
-
-                Thread thread = new Thread(() =>
-                {
-                    while (isFirst)
-                    {
-
-                        HttpTestFunction httpTestFunction = new HttpTestFunction();
-
-                        httpTestFunction.GetDataFromWebServiceJSON("SAEBC13c7281LCcJ03SemgZEjxouVSh5XSl6it/ZsMSgxTc=", "GetAllMachineItem", "");
 
 
-                        Thread.Sleep(2000);
-                    }
-                });
+            #region 웹서비스 xml 기능 메모리 부하 테스트
+            //bool isFirst = false;
 
-                thread.Start();
-            }
+
+            //if (isFirst == false)
+            //{
+            //    isFirst = true;
+
+            //    Thread thread = new Thread(() =>
+            //    {
+            //        while (isFirst)
+            //        {
+
+            //            HttpTestFunction httpTestFunction = new HttpTestFunction();
+
+            //            httpTestFunction.GetDataFromWebServiceJSON("SAEBC13c7281LCcJ03SemgZEjxouVSh5XSl6it/ZsMSgxTc=", "GetAllMachineItem", "");
+
+
+            //            Thread.Sleep(2000);
+            //        }
+            //    });
+
+            //    thread.Start();
+            //}
+
+            #endregion
+
+            //throw new Exception("Oops!");
+
+            CultureInfoTest a = new CultureInfoTest();
+
+
+            DateTime now = DateTime.Now;
+            Console.WriteLine(now.ToString());
 
 
 

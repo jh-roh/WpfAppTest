@@ -36,7 +36,11 @@ namespace CodeDomTest
             var refPaths = new[] {
                     typeof(System.Object).GetTypeInfo().Assembly.Location,
                     typeof(Console).GetTypeInfo().Assembly.Location,
-                    Path.Combine(Path.GetDirectoryName(typeof(System.Runtime.GCSettings).GetTypeInfo().Assembly.Location), "System.Runtime.dll")
+
+
+                    
+                    //Path.Combine(Path.GetDirectoryName(typeof(System.Runtime.GCSettings).GetTypeInfo().Assembly.Location), "System.Runtime.dll")
+                    Path.Combine(Path.GetDirectoryName(@"C:\\Users\\jh.roh\\source\\repos\\WpfAppTest\\CodeDomTest\\bin\\Debug\\net5.0"), "System.Runtime.dll")
                 };
             MetadataReference[] references = refPaths.Select(r => MetadataReference.CreateFromFile(r)).ToArray();
 
