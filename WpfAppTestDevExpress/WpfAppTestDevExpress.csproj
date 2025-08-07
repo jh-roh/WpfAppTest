@@ -42,6 +42,9 @@
     <Reference Include="DevExpress.Data.v22.1" />
     <Reference Include="DevExpress.Printing.v22.1.Core" />
     <Reference Include="DevExpress.Xpf.Core.v22.1" />
+    <Reference Include="DevExpress.Xpf.Grid.v22.1, Version=22.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpf.Grid.v22.1.Core, Version=22.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpf.Grid.v22.1.Extensions, Version=22.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Xpf.Themes.Office2019Colorful.v22.1" />
     <Reference Include="DevExpress.Drawing.v22.1" />
     <Reference Include="System" />
@@ -70,6 +73,9 @@
     </Compile>
     <Compile Include="Views\SignatureUserControl2.xaml.cs">
       <DependentUpon>SignatureUserControl2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TokenEditControl.xaml.cs">
+      <DependentUpon>TokenEditControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UserControls\IPPortInputControl.xaml.cs">
       <DependentUpon>IPPortInputControl.xaml</DependentUpon>
@@ -100,6 +106,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SignatureUserControl2.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TokenEditControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
