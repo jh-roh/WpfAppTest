@@ -11,7 +11,7 @@
         xmlns:model="clr-namespace:WpfAppTest.Model"
         xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
         xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
-        xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"  
+        xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
         xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
         xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/charts"
         xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
@@ -20,8 +20,11 @@
         xmlns:style="clr-namespace:WpfAppTest.View.StyleExample"
         xmlns:eventTrigger="clr-namespace:WpfAppTest.View.EventTrigger"
         xmlns:graphic="clr-namespace:WpfAppTest.View.Graphic"
+        xmlns:drugManagement="clr-namespace:WpfAppTest.View.DrugManagement"
         mc:Ignorable="d"
-        Title="MainWindow" Height="768" Width="1024" >
+        Title="MainWindow"
+        Height="768"
+        Width="1024">
     <Window.Resources>
         <DataTemplate DataType="{x:Type viewModel:DataTemplateModel}">
             <local:TestButton/>
@@ -33,9 +36,9 @@
         <Grid.RowDefinitions>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        
+
         <!--<local:DerivedModule Visibility="Collapsed"/>-->
-        
+
 
         <Grid>
             <!--<local:HeaderContentControlTest></local:HeaderContentControlTest>-->
@@ -88,9 +91,10 @@
             <!--<graphic:VisualBrushForTextBox/>-->
             <!--<graphic:GeometryRectEx/>-->
 
+            <!-- 새로운 입고 화면 테스트 -->
+            <drugManagement:ReceivingScreen/>
 
-
-            <Button Content="테스트 버튼 입니다." Click="Button_Click" />
+            <!--<Button Content="테스트 버튼 입니다." Click="Button_Click" />-->
         </Grid>
 
     </Grid>

@@ -91,6 +91,7 @@
     <Compile Include="TestClass\TestReflection.cs" />
     <Compile Include="TestClass\TryCatchAttribute.cs" />
     <Compile Include="TestClass\TryCatchInterceptor.cs" />
+    <Compile Include="ViewModel\ReceivingScreenViewModel.cs" />
     <Compile Include="ViewModel\StockingScreenTestModel.cs" />
     <Compile Include="View\CanvasViewBoxTest.xaml.cs">
       <DependentUpon>CanvasViewBoxTest.xaml</DependentUpon>
@@ -116,11 +117,15 @@
     <Compile Include="View\DataGridControl.xaml.cs">
       <DependentUpon>DataGridControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\DrugManagement\Converters.cs" />
     <Compile Include="View\DrugManagement\PublicControl\DetailInputUserControl.xaml.cs">
       <DependentUpon>DetailInputUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\DrugManagement\PublicControl\NumericSpinner.xaml.cs">
       <DependentUpon>NumericSpinner.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\DrugManagement\ReceivingScreen.xaml.cs">
+      <DependentUpon>ReceivingScreen.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\EventRoutingTest.xaml.cs">
       <DependentUpon>EventRoutingTest.xaml</DependentUpon>
@@ -317,6 +322,10 @@
     <Page Include="View\DrugManagement\PublicControl\NumericSpinner.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\DrugManagement\ReceivingScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="View\EventRoutingTest.xaml">
       <SubType>Designer</SubType>
