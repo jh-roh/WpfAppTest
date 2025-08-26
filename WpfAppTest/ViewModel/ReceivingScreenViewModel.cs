@@ -139,6 +139,17 @@ namespace WpfAppTest.ViewModel
             }
         }
 
+        private DateTime _expiryDate;
+        public DateTime ExpiryDate
+        {
+            get => _expiryDate;
+            set
+            {
+                _expiryDate = value;
+                OnPropertyChanged();
+            }
+        }
+
         private string _status;
         public string Status
         {
@@ -157,6 +168,17 @@ namespace WpfAppTest.ViewModel
             set
             {
                 _isNew = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool _isSelected;
+        public bool IsSelected
+        {
+            get => _isSelected;
+            set
+            {
+                _isSelected = value;
                 OnPropertyChanged();
             }
         }
@@ -201,6 +223,7 @@ namespace WpfAppTest.ViewModel
     public class ReceivingScreenViewModel : PropertyChangedBase
     {
         private const int ItemsPerPage = 8; // 페이지당 표시할 약품 분류 수
+        private const int ItemLocationsPerPage = 6; // 페이지당 표시할 항목 위치 수
 
         public ReceivingScreenViewModel()
         {
@@ -212,11 +235,14 @@ namespace WpfAppTest.ViewModel
         {
             SearchText = "";
             BarcodeText = "";
-            SelectedFilter = "A"; // 기본값으로 A 마약 선택
+            SelectedFilter = "DM-PERLINGJ"; // 기본값으로 페링가니트 선택
             CurrentPage = 1;
+            ItemLocationsCurrentPage = 1;
             ReceivingList = new ObservableCollection<ReceivingItem>();
             ItemLocations = new ObservableCollection<ItemLocation>();
             AllDrugCategories = new List<DrugCategory>();
+            AllItemLocations = new List<ItemLocation>();
+            PagedItemLocations = new ObservableCollection<ItemLocation>();
 
             // 샘플 데이터 추가
             LoadSampleData();
@@ -252,33 +278,109 @@ namespace WpfAppTest.ViewModel
 
         private void LoadAllDrugCategories()
         {
-            // 마약 분류들
-            AllDrugCategories.Add(new DrugCategory { Code = "A", Name = "A 마약", Type = "마약" });
-            AllDrugCategories.Add(new DrugCategory { Code = "B", Name = "B 마약", Type = "마약" });
-            AllDrugCategories.Add(new DrugCategory { Code = "C", Name = "C 마약", Type = "마약" });
-            AllDrugCategories.Add(new DrugCategory { Code = "D", Name = "D 마약", Type = "마약" });
-            AllDrugCategories.Add(new DrugCategory { Code = "E", Name = "E 마약", Type = "마약" });
-            AllDrugCategories.Add(new DrugCategory { Code = "F", Name = "F 마약", Type = "마약" });
-            AllDrugCategories.Add(new DrugCategory { Code = "G", Name = "G 마약", Type = "마약" });
-            AllDrugCategories.Add(new DrugCategory { Code = "H", Name = "H 마약", Type = "마약" });
-            AllDrugCategories.Add(new DrugCategory { Code = "I", Name = "I 마약", Type = "마약" });
-            AllDrugCategories.Add(new DrugCategory { Code = "J", Name = "J 마약", Type = "마약" });
-            AllDrugCategories.Add(new DrugCategory { Code = "K", Name = "K 마약", Type = "마약" });
-            AllDrugCategories.Add(new DrugCategory { Code = "L", Name = "L 마약", Type = "마약" });
+            //// 마약 분류들
+            //AllDrugCategories.Add(new DrugCategory { Code = "DM-PERLINGJ", Name = "페링가니트 0.1% 주사 10ml", Type = "마약" });
+            //AllDrugCategories.Add(new DrugCategory { Code = "B", Name = "B 마약", Type = "마약" });
+            //AllDrugCategories.Add(new DrugCategory { Code = "C", Name = "C 마약", Type = "마약" });
+            //AllDrugCategories.Add(new DrugCategory { Code = "D", Name = "D 마약", Type = "마약" });
+            //AllDrugCategories.Add(new DrugCategory { Code = "E", Name = "E 마약", Type = "마약" });
+            //AllDrugCategories.Add(new DrugCategory { Code = "F", Name = "F 마약", Type = "마약" });
+            //AllDrugCategories.Add(new DrugCategory { Code = "G", Name = "G 마약", Type = "마약" });
+            //AllDrugCategories.Add(new DrugCategory { Code = "H", Name = "H 마약", Type = "마약" });
+            //AllDrugCategories.Add(new DrugCategory { Code = "I", Name = "I 마약", Type = "마약" });
+            //AllDrugCategories.Add(new DrugCategory { Code = "J", Name = "J 마약", Type = "마약" });
+            //AllDrugCategories.Add(new DrugCategory { Code = "K", Name = "K 마약", Type = "마약" });
+            //AllDrugCategories.Add(new DrugCategory { Code = "L", Name = "L 마약", Type = "마약" });
 
-            // 향정 분류들
-            AllDrugCategories.Add(new DrugCategory { Code = "A_PSYCH", Name = "A 향정", Type = "향정" });
-            AllDrugCategories.Add(new DrugCategory { Code = "B_PSYCH", Name = "B 향정", Type = "향정" });
-            AllDrugCategories.Add(new DrugCategory { Code = "C_PSYCH", Name = "C 향정", Type = "향정" });
-            AllDrugCategories.Add(new DrugCategory { Code = "D_PSYCH", Name = "D 향정", Type = "향정" });
-            AllDrugCategories.Add(new DrugCategory { Code = "E_PSYCH", Name = "E 향정", Type = "향정" });
-            AllDrugCategories.Add(new DrugCategory { Code = "F_PSYCH", Name = "F 향정", Type = "향정" });
-            AllDrugCategories.Add(new DrugCategory { Code = "G_PSYCH", Name = "G 향정", Type = "향정" });
-            AllDrugCategories.Add(new DrugCategory { Code = "H_PSYCH", Name = "H 향정", Type = "향정" });
-            AllDrugCategories.Add(new DrugCategory { Code = "I_PSYCH", Name = "I 향정", Type = "향정" });
-            AllDrugCategories.Add(new DrugCategory { Code = "J_PSYCH", Name = "J 향정", Type = "향정" });
+            //// 향정 분류들
+            //AllDrugCategories.Add(new DrugCategory { Code = "A_PSYCH", Name = "A 향정", Type = "향정" });
+            //AllDrugCategories.Add(new DrugCategory { Code = "B_PSYCH", Name = "B 향정", Type = "향정" });
+            //AllDrugCategories.Add(new DrugCategory { Code = "C_PSYCH", Name = "C 향정", Type = "향정" });
+            //AllDrugCategories.Add(new DrugCategory { Code = "D_PSYCH", Name = "D 향정", Type = "향정" });
+            //AllDrugCategories.Add(new DrugCategory { Code = "E_PSYCH", Name = "E 향정", Type = "향정" });
+            //AllDrugCategories.Add(new DrugCategory { Code = "F_PSYCH", Name = "F 향정", Type = "향정" });
+            //AllDrugCategories.Add(new DrugCategory { Code = "G_PSYCH", Name = "G 향정", Type = "향정" });
+            //AllDrugCategories.Add(new DrugCategory { Code = "H_PSYCH", Name = "H 향정", Type = "향정" });
+            //AllDrugCategories.Add(new DrugCategory { Code = "I_PSYCH", Name = "I 향정", Type = "향정" });
+            //AllDrugCategories.Add(new DrugCategory { Code = "J_PSYCH", Name = "J 향정", Type = "향정" });
+
+            AllDrugCategories.Add(new DrugCategory { Code = "DM-PERLINGJ", Name = "페링가니트 0.1% 주사 10ml", Type = "일반" });
+            AllDrugCategories.Add(new DrugCategory { Code = "DM-TRI", Name = "트리람 정 0.25mg", Type = "향정" });
+            AllDrugCategories.Add(new DrugCategory { Code = "DN-IAC", Name = "코노펜캡슐", Type = "마약" });
+            AllDrugCategories.Add(new DrugCategory { Code = "DLZP4J", Name = "아티반주4mg", Type = "향정" });
+            AllDrugCategories.Add(new DrugCategory { Code = "DM-TCO", Name = "인산코데인 정 20mg (하나)", Type = "마약" });
+            AllDrugCategories.Add(new DrugCategory { Code = "DM-WVSC", Name = "바스캄주5mg/5ml", Type = "향정" });
+            AllDrugCategories.Add(new DrugCategory { Code = "DBUPN5P", Name = "노스판패취5mcg/h,5mg/P", Type = "향정" });
+            AllDrugCategories.Add(new DrugCategory { Code = "DM-MNT", Name = "모노틴 정", Type = "일반" });
+            AllDrugCategories.Add(new DrugCategory { Code = "DG-CHX", Name = "헥사메딘액0.12% 100ml", Type = "일반" });
+            AllDrugCategories.Add(new DrugCategory { Code = "DM-FENT12", Name = "듀로제식 디트랜스 패취 12mcg/h 5.25㎠", Type = "마약" });
+            AllDrugCategories.Add(new DrugCategory { Code = "DH-TERF", Name = "포스테오Coter-pen 600mcg", Type = "냉장" });
+            AllDrugCategories.Add(new DrugCategory { Code = "DM-TGCR5", Name = "타진서방정 5/2.5mg", Type = "마약" });
+            AllDrugCategories.Add(new DrugCategory { Code = "DM-WVSC3", Name = "바스캄주3mg/3ml", Type = "향정" });
+            AllDrugCategories.Add(new DrugCategory { Code = "DM-7MPX", Name = "염몰핀주사 1ml", Type = "마약" });
+            AllDrugCategories.Add(new DrugCategory { Code = "DM-ABM", Name = "에스케이 알부민 주 20% 100ml", Type = "일반" });
+
+            AllDrugCategories.Add(new DrugCategory { Code = "DM-MORP10", Name = "몰핀주사 10mg/1ml", Type = "마약" });
+            AllDrugCategories.Add(new DrugCategory { Code = "DM-DIAZ5", Name = "디아제팜주 5mg/2ml", Type = "향정" });
+            AllDrugCategories.Add(new DrugCategory { Code = "DM-PETH1", Name = "페치딘주 50mg/1ml", Type = "마약" });
+            AllDrugCategories.Add(new DrugCategory { Code = "DM-LORZ", Name = "로라제팜정 1mg", Type = "향정" });
+            AllDrugCategories.Add(new DrugCategory { Code = "DN-IBU200", Name = "이부프로펜정 200mg", Type = "일반" });
+            AllDrugCategories.Add(new DrugCategory { Code = "DN-AMOX500", Name = "아목시실린캡슐 500mg", Type = "일반" });
+            AllDrugCategories.Add(new DrugCategory { Code = "DH-INSU", Name = "인슐린주 100IU/ml", Type = "냉장" });
+            AllDrugCategories.Add(new DrugCategory { Code = "DM-OXY5", Name = "옥시코돈정 5mg", Type = "마약" });
+            AllDrugCategories.Add(new DrugCategory { Code = "DM-KETA", Name = "케타민주사 50mg/5ml", Type = "마약" });
+            AllDrugCategories.Add(new DrugCategory { Code = "DM-MIDA", Name = "미다졸람주사 15mg/3ml", Type = "향정" });
+            AllDrugCategories.Add(new DrugCategory { Code = "DN-VITA", Name = "비타민C주 500mg/5ml", Type = "일반" });
+            AllDrugCategories.Add(new DrugCategory { Code = "DN-OMEP20", Name = "오메프라졸캡슐 20mg", Type = "일반" });
+            AllDrugCategories.Add(new DrugCategory { Code = "DN-PARA500", Name = "아세트아미노펜정 500mg", Type = "일반" });
+            AllDrugCategories.Add(new DrugCategory { Code = "DH-HBVV", Name = "B형간염백신 10mcg/0.5ml", Type = "냉장" });
+            AllDrugCategories.Add(new DrugCategory { Code = "DH-HPVV", Name = "HPV백신 0.5ml", Type = "냉장" });
+            AllDrugCategories.Add(new DrugCategory { Code = "DM-FENT50", Name = "펜타닐패취 50mcg/h", Type = "마약" });
+            AllDrugCategories.Add(new DrugCategory { Code = "DM-ZOLP10", Name = "졸피뎀정 10mg", Type = "향정" });
+            AllDrugCategories.Add(new DrugCategory { Code = "DN-ATOR10", Name = "아토르바스타틴정 10mg", Type = "일반" });
+            AllDrugCategories.Add(new DrugCategory { Code = "DN-LISIN5", Name = "리시노프릴정 5mg", Type = "일반" });
+            AllDrugCategories.Add(new DrugCategory { Code = "DM-HYDRO", Name = "하이드로몰폰주사 2mg/ml", Type = "마약" });
+
 
             UpdatePagedDrugCategories();
+        }
+
+        private void UpdatePagedItemLocations()
+        {
+            if (AllItemLocations == null)
+                return;
+
+            var startIndex = (ItemLocationsCurrentPage - 1) * ItemLocationsPerPage;
+            var pagedItems = AllItemLocations.Skip(startIndex).Take(ItemLocationsPerPage).ToList();
+
+            if (PagedItemLocations == null)
+                PagedItemLocations = new ObservableCollection<ItemLocation>();
+
+            PagedItemLocations.Clear();
+            foreach (var item in pagedItems)
+            {
+                PagedItemLocations.Add(item);
+            }
+
+            // 항목 선택 상태 업데이트
+            UpdateItemSelectionStatus();
+
+            OnPropertyChanged(nameof(ItemLocationsTotalPages));
+            OnPropertyChanged(nameof(ItemLocationsPageInfo));
+        }
+
+        private void UpdateItemSelectionStatus()
+        {
+            if (AllItemLocations == null || ReceivingList == null) return;
+
+            foreach (var item in AllItemLocations)
+            {
+                // 항목 그리드에 동일한 일련번호의 항목이 있는지 확인
+                bool isInGrid = ReceivingList.Any(receivingItem =>
+                    receivingItem.SerialNumber == item.SerialNumber);
+
+                item.IsSelected = isInGrid;
+            }
         }
 
         private void UpdatePagedDrugCategories()
@@ -304,145 +406,218 @@ namespace WpfAppTest.ViewModel
 
         private void UpdateLocationData()
         {
-            if(ItemLocations == null)
-                ItemLocations = new ObservableCollection<ItemLocation>();
-            ItemLocations.Clear();
+            if (AllItemLocations == null)
+                AllItemLocations = new List<ItemLocation>();
+            AllItemLocations.Clear();
 
+            // 선택된 약품 분류에 따라 해당 약품의 항목들만 표시
+            var selectedCategory = AllDrugCategories?.FirstOrDefault(c => c.Code == SelectedFilter);
+            if (selectedCategory == null) return;
+
+            // 약품 분류별로 항목 데이터 생성
             switch (SelectedFilter)
             {
-                case "A":
-                    // A 마약 데이터
-                    ItemLocations.Add(new ItemLocation
+                case "DM-PERLINGJ":
+                    // 페링가니트 0.1% 주사 10ml 항목들
+                    for (int i = 1; i <= 15; i++)
                     {
-                        LocationCode = "1-3-3-2",
-                        SerialNumber = "A-001",
-                        DrugCode = "DRUG-A-001",
-                        DrugName = "A 마약 제품1",
-                        Quantity = 5,
-                        Status = "정상"
-                    });
-                    ItemLocations.Add(new ItemLocation
-                    {
-                        LocationCode = "1-4-4",
-                        SerialNumber = "A-002",
-                        DrugCode = "DRUG-A-002",
-                        DrugName = "A 마약 제품2",
-                        Quantity = 15,
-                        Status = "신규",
-                        IsNew = true
-                    });
+                        AllItemLocations.Add(new ItemLocation
+                        {
+                            LocationCode = $"PERL-{i}-{i}",
+                            SerialNumber = $"PERL-{i:D3}",
+                            DrugCode = "DM-PERLINGJ",
+                            DrugName = "페링가니트 0.1% 주사 10ml",
+                            Quantity = 5 + (i % 10),
+                            ExpiryDate = DateTime.Now.AddMonths(6 + (i % 12)),
+                            Status = i % 5 == 0 ? "유효기간경과" : (i % 7 == 0 ? "일련번호중복" : "정상"),
+                            IsNew = i % 3 == 0
+                        });
+                    }
                     break;
 
-                case "B":
-                    // B 마약 데이터
-                    ItemLocations.Add(new ItemLocation
+                case "DM-TRI":
+                    // 트리람 정 0.25mg 항목들
+                    for (int i = 1; i <= 12; i++)
                     {
-                        LocationCode = "2-1-1",
-                        SerialNumber = "B-001",
-                        DrugCode = "DRUG-B-001",
-                        DrugName = "B 마약 제품1",
-                        Quantity = 8,
-                        Status = "정상"
-                    });
-                    ItemLocations.Add(new ItemLocation
-                    {
-                        LocationCode = "2-2-2",
-                        SerialNumber = "B-002",
-                        DrugCode = "DRUG-B-002",
-                        DrugName = "B 마약 제품2",
-                        Quantity = 12,
-                        Status = "유효기간경과"
-                    });
+                        AllItemLocations.Add(new ItemLocation
+                        {
+                            LocationCode = $"TRI-{i}-{i}",
+                            SerialNumber = $"TRI-{i:D3}",
+                            DrugCode = "DM-TRI",
+                            DrugName = "트리람 정 0.25mg",
+                            Quantity = 8 + (i % 8),
+                            ExpiryDate = DateTime.Now.AddMonths(3 + (i % 9)),
+                            Status = i % 4 == 0 ? "유효기간경과" : (i % 6 == 0 ? "일련번호중복" : "정상"),
+                            IsNew = i % 4 == 0
+                        });
+                    }
                     break;
 
-                case "C":
-                    // C 마약 데이터
-                    ItemLocations.Add(new ItemLocation
+                case "DN-IAC":
+                    // 코노펜캡슐 항목들
+                    for (int i = 1; i <= 18; i++)
                     {
-                        LocationCode = "3-1-1",
-                        SerialNumber = "C-001",
-                        DrugCode = "DRUG-C-001",
-                        DrugName = "C 마약 제품1",
-                        Quantity = 3,
-                        Status = "정상"
-                    });
+                        AllItemLocations.Add(new ItemLocation
+                        {
+                            LocationCode = $"IAC-{i}-{i}",
+                            SerialNumber = $"IAC-{i:D3}",
+                            DrugCode = "DN-IAC",
+                            DrugName = "코노펜캡슐",
+                            Quantity = 3 + (i % 7),
+                            ExpiryDate = DateTime.Now.AddMonths(9 + (i % 6)),
+                            Status = i % 3 == 0 ? "유효기간경과" : (i % 5 == 0 ? "일련번호중복" : "정상"),
+                            IsNew = i % 5 == 0
+                        });
+                    }
                     break;
 
-                case "D":
-                    // D 마약 데이터
-                    ItemLocations.Add(new ItemLocation
+                case "DLZP4J":
+                    // 아티반주4mg 항목들
+                    for (int i = 1; i <= 20; i++)
                     {
-                        LocationCode = "4-1-1",
-                        SerialNumber = "D-001",
-                        DrugCode = "DRUG-D-001",
-                        DrugName = "D 마약 제품1",
-                        Quantity = 20,
-                        Status = "정상"
-                    });
-                    ItemLocations.Add(new ItemLocation
-                    {
-                        LocationCode = "4-2-2",
-                        SerialNumber = "D-002",
-                        DrugCode = "DRUG-D-002",
-                        DrugName = "D 마약 제품2",
-                        Quantity = 7,
-                        Status = "일련번호중복"
-                    });
+                        AllItemLocations.Add(new ItemLocation
+                        {
+                            LocationCode = $"LZP-{i}-{i}",
+                            SerialNumber = $"LZP-{i:D3}",
+                            DrugCode = "DLZP4J",
+                            DrugName = "아티반주4mg",
+                            Quantity = 20 + (i % 10),
+                            ExpiryDate = DateTime.Now.AddMonths(15 + (i % 8)),
+                            Status = i % 6 == 0 ? "유효기간경과" : (i % 4 == 0 ? "일련번호중복" : "정상"),
+                            IsNew = i % 6 == 0
+                        });
+                    }
                     break;
 
-                case "A_PSYCH":
-                    // A 향정 데이터
-                    ItemLocations.Add(new ItemLocation
+                case "DM-TCO":
+                    // 인산코데인 정 20mg (하나) 항목들
+                    for (int i = 1; i <= 16; i++)
                     {
-                        LocationCode = "5-1-1",
-                        SerialNumber = "PSYCH-A-001",
-                        DrugCode = "PSYCH-A-001",
-                        DrugName = "A 향정 제품1",
-                        Quantity = 10,
-                        Status = "정상"
-                    });
+                        AllItemLocations.Add(new ItemLocation
+                        {
+                            LocationCode = $"TCO-{i}-{i}",
+                            SerialNumber = $"TCO-{i:D3}",
+                            DrugCode = "DM-TCO",
+                            DrugName = "인산코데인 정 20mg (하나)",
+                            Quantity = 10 + (i % 6),
+                            ExpiryDate = DateTime.Now.AddMonths(8 + (i % 10)),
+                            Status = i % 7 == 0 ? "유효기간경과" : (i % 3 == 0 ? "일련번호중복" : "정상"),
+                            IsNew = i % 7 == 0
+                        });
+                    }
                     break;
 
-                case "B_PSYCH":
-                    // B 향정 데이터
-                    ItemLocations.Add(new ItemLocation
+                case "DM-WVSC":
+                    // 바스캄주5mg/5ml 항목들
+                    for (int i = 1; i <= 14; i++)
                     {
-                        LocationCode = "6-1-1",
-                        SerialNumber = "PSYCH-B-001",
-                        DrugCode = "PSYCH-B-001",
-                        DrugName = "B 향정 제품1",
-                        Quantity = 6,
-                        Status = "정상"
-                    });
+                        AllItemLocations.Add(new ItemLocation
+                        {
+                            LocationCode = $"WVSC-{i}-{i}",
+                            SerialNumber = $"WVSC-{i:D3}",
+                            DrugCode = "DM-WVSC",
+                            DrugName = "바스캄주5mg/5ml",
+                            Quantity = 6 + (i % 9),
+                            ExpiryDate = DateTime.Now.AddMonths(4 + (i % 11)),
+                            Status = i % 8 == 0 ? "유효기간경과" : (i % 2 == 0 ? "일련번호중복" : "정상"),
+                            IsNew = i % 8 == 0
+                        });
+                    }
                     break;
 
-                case "C_PSYCH":
-                    // C 향정 데이터
-                    ItemLocations.Add(new ItemLocation
+                case "DBUPN5P":
+                    // 노스판패취5mcg/h,5mg/P 항목들
+                    for (int i = 1; i <= 22; i++)
                     {
-                        LocationCode = "7-1-1",
-                        SerialNumber = "PSYCH-C-001",
-                        DrugCode = "PSYCH-C-001",
-                        DrugName = "C 향정 제품1",
-                        Quantity = 9,
-                        Status = "신규",
-                        IsNew = true
-                    });
+                        AllItemLocations.Add(new ItemLocation
+                        {
+                            LocationCode = $"BUPN-{i}-{i}",
+                            SerialNumber = $"BUPN-{i:D3}",
+                            DrugCode = "DBUPN5P",
+                            DrugName = "노스판패취5mcg/h,5mg/P",
+                            Quantity = 9 + (i % 5),
+                            ExpiryDate = DateTime.Now.AddMonths(18 + (i % 7)),
+                            Status = i % 9 == 0 ? "유효기간경과" : (i % 1 == 0 ? "일련번호중복" : "정상"),
+                            IsNew = i % 9 == 0
+                        });
+                    }
                     break;
 
-                case "D_PSYCH":
-                    // D 향정 데이터
-                    ItemLocations.Add(new ItemLocation
+                case "DM-MNT":
+                    // 모노틴 정 항목들
+                    for (int i = 1; i <= 17; i++)
                     {
-                        LocationCode = "8-1-1",
-                        SerialNumber = "PSYCH-D-001",
-                        DrugCode = "PSYCH-D-001",
-                        DrugName = "D 향정 제품1",
-                        Quantity = 4,
-                        Status = "정상"
-                    });
+                        AllItemLocations.Add(new ItemLocation
+                        {
+                            LocationCode = $"MNT-{i}-{i}",
+                            SerialNumber = $"MNT-{i:D3}",
+                            DrugCode = "DM-MNT",
+                            DrugName = "모노틴 정",
+                            Quantity = 4 + (i % 12),
+                            ExpiryDate = DateTime.Now.AddMonths(7 + (i % 13)),
+                            Status = i % 10 == 0 ? "유효기간경과" : (i % 8 == 0 ? "일련번호중복" : "정상"),
+                            IsNew = i % 10 == 0
+                        });
+                    }
+                    break;
+
+                case "DG-CHX":
+                    // 헥사메딘액0.12% 100ml 항목들
+                    for (int i = 1; i <= 19; i++)
+                    {
+                        AllItemLocations.Add(new ItemLocation
+                        {
+                            LocationCode = $"CHX-{i}-{i}",
+                            SerialNumber = $"CHX-{i:D3}",
+                            DrugCode = "DG-CHX",
+                            DrugName = "헥사메딘액0.12% 100ml",
+                            Quantity = 5 + (i % 15),
+                            ExpiryDate = DateTime.Now.AddMonths(1 + (i % 24)),
+                            Status = i % 5 == 0 ? "유효기간경과" : (i % 7 == 0 ? "일련번호중복" : "정상"),
+                            IsNew = i % 11 == 0
+                        });
+                    }
+                    break;
+
+                case "DM-FENT12":
+                    // 듀로제식 디트랜스 패취 12mcg/h 5.25㎠ 항목들
+                    for (int i = 1; i <= 13; i++)
+                    {
+                        AllItemLocations.Add(new ItemLocation
+                        {
+                            LocationCode = $"FENT12-{i}-{i}",
+                            SerialNumber = $"FENT12-{i:D3}",
+                            DrugCode = "DM-FENT12",
+                            DrugName = "듀로제식 디트랜스 패취 12mcg/h 5.25㎠",
+                            Quantity = 7 + (i % 8),
+                            ExpiryDate = DateTime.Now.AddMonths(12 + (i % 6)),
+                            Status = i % 6 == 0 ? "유효기간경과" : (i % 4 == 0 ? "일련번호중복" : "정상"),
+                            IsNew = i % 6 == 0
+                        });
+                    }
+                    break;
+
+                default:
+                    // 기본 데이터 - 선택된 약품 분류에 대한 샘플 데이터
+                    for (int i = 1; i <= 10; i++)
+                    {
+                        AllItemLocations.Add(new ItemLocation
+                        {
+                            LocationCode = $"DEFAULT-{i}-{i}",
+                            SerialNumber = $"DEFAULT-{i:D3}",
+                            DrugCode = selectedCategory.Code,
+                            DrugName = selectedCategory.Name,
+                            Quantity = 5 + (i % 15),
+                            ExpiryDate = DateTime.Now.AddMonths(1 + (i % 24)),
+                            Status = i % 5 == 0 ? "유효기간경과" : (i % 7 == 0 ? "일련번호중복" : "정상"),
+                            IsNew = i % 11 == 0
+                        });
+                    }
                     break;
             }
+
+            // 페이징된 항목리스트 업데이트
+            UpdatePagedItemLocations();
         }
 
         private void InitializeCommands()
@@ -454,6 +629,8 @@ namespace WpfAppTest.ViewModel
             SaveCommand = new RelayCommand(ExecuteSave);
             PreviousPageCommand = new RelayCommand(ExecutePreviousPage, CanExecutePreviousPage);
             NextPageCommand = new RelayCommand(ExecuteNextPage, CanExecuteNextPage);
+            ItemLocationsPreviousPageCommand = new RelayCommand(ExecuteItemLocationsPreviousPage, CanExecuteItemLocationsPreviousPage);
+            ItemLocationsNextPageCommand = new RelayCommand(ExecuteItemLocationsNextPage, CanExecuteItemLocationsNextPage);
         }
 
         #region Properties
@@ -546,6 +723,53 @@ namespace WpfAppTest.ViewModel
             {
                 _receivingList = value;
                 OnPropertyChanged();
+                // ReceivingList가 변경될 때 항목 선택 상태 업데이트
+                UpdateItemSelectionStatus();
+            }
+        }
+
+        // 항목리스트 페이징 관련 속성들
+        private int _itemLocationsCurrentPage = 1;
+        public int ItemLocationsCurrentPage
+        {
+            get => _itemLocationsCurrentPage;
+            set
+            {
+                _itemLocationsCurrentPage = value;
+                OnPropertyChanged();
+                UpdatePagedItemLocations();
+            }
+        }
+
+        public int ItemLocationsTotalPages
+        {
+            get => (int)Math.Ceiling((double)AllItemLocations.Count / ItemLocationsPerPage);
+        }
+
+        public string ItemLocationsPageInfo
+        {
+            get => $"{ItemLocationsCurrentPage} / {ItemLocationsTotalPages}";
+        }
+
+        private List<ItemLocation> _allItemLocations;
+        public List<ItemLocation> AllItemLocations
+        {
+            get => _allItemLocations;
+            set
+            {
+                _allItemLocations = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private ObservableCollection<ItemLocation> _pagedItemLocations;
+        public ObservableCollection<ItemLocation> PagedItemLocations
+        {
+            get => _pagedItemLocations;
+            set
+            {
+                _pagedItemLocations = value;
+                OnPropertyChanged();
             }
         }
 
@@ -587,6 +811,8 @@ namespace WpfAppTest.ViewModel
         public ICommand SaveCommand { get; private set; }
         public ICommand PreviousPageCommand { get; private set; }
         public ICommand NextPageCommand { get; private set; }
+        public ICommand ItemLocationsPreviousPageCommand { get; private set; }
+        public ICommand ItemLocationsNextPageCommand { get; private set; }
 
         #endregion
 
@@ -605,8 +831,32 @@ namespace WpfAppTest.ViewModel
             string locationCode = parameter as string;
             if (string.IsNullOrEmpty(locationCode)) return;
 
-            // 항목 추가 로직 구현
-            MessageBox.Show($"{locationCode} 위치에 항목이 추가되었습니다.");
+            // 해당 위치의 항목 찾기
+            var itemToAdd = AllItemLocations?.FirstOrDefault(item => item.LocationCode == locationCode);
+            if (itemToAdd == null) return;
+
+            // 이미 그리드에 있는지 확인
+            var existingItem = ReceivingList?.FirstOrDefault(item => item.SerialNumber == itemToAdd.SerialNumber);
+            if (existingItem != null)
+            {
+                MessageBox.Show($"{itemToAdd.DrugName} - {itemToAdd.SerialNumber} 항목이 이미 그리드에 있습니다.");
+                return;
+            }
+
+            // 그리드에 항목 추가
+            ReceivingList.Add(new ReceivingItem
+            {
+                Warehouse = itemToAdd.DrugName,
+                DrugName = itemToAdd.DrugName,
+                SerialNumber = itemToAdd.SerialNumber,
+                Quantity = 1,
+                CurrentTotalQuantity = itemToAdd.Quantity
+            });
+
+            // 항목 선택 상태 업데이트
+            UpdateItemSelectionStatus();
+
+            MessageBox.Show($"{itemToAdd.DrugName} - {itemToAdd.SerialNumber} 항목이 그리드에 추가되었습니다.");
         }
 
         private void ExecuteRemoveReceivingItem(object parameter)
@@ -616,6 +866,8 @@ namespace WpfAppTest.ViewModel
                 ReceivingList.Remove(item);
                 OnPropertyChanged(nameof(TotalReceivingQuantity));
                 OnPropertyChanged(nameof(BoxSummary));
+                // 항목 선택 상태 업데이트
+                UpdateItemSelectionStatus();
                 MessageBox.Show($"{item.DrugName} - {item.SerialNumber} 항목이 삭제되었습니다.");
             }
         }
@@ -627,6 +879,8 @@ namespace WpfAppTest.ViewModel
                 item.Quantity += 1;
                 OnPropertyChanged(nameof(TotalReceivingQuantity));
                 OnPropertyChanged(nameof(BoxSummary));
+                // 항목 선택 상태 업데이트
+                UpdateItemSelectionStatus();
             }
         }
 
@@ -660,6 +914,32 @@ namespace WpfAppTest.ViewModel
         private bool CanExecuteNextPage(object parameter)
         {
             return CurrentPage < TotalPages;
+        }
+
+        private void ExecuteItemLocationsPreviousPage(object parameter)
+        {
+            if (ItemLocationsCurrentPage > 1)
+            {
+                ItemLocationsCurrentPage--;
+            }
+        }
+
+        private bool CanExecuteItemLocationsPreviousPage(object parameter)
+        {
+            return ItemLocationsCurrentPage > 1;
+        }
+
+        private void ExecuteItemLocationsNextPage(object parameter)
+        {
+            if (ItemLocationsCurrentPage < ItemLocationsTotalPages)
+            {
+                ItemLocationsCurrentPage++;
+            }
+        }
+
+        private bool CanExecuteItemLocationsNextPage(object parameter)
+        {
+            return ItemLocationsCurrentPage < ItemLocationsTotalPages;
         }
 
         #endregion
