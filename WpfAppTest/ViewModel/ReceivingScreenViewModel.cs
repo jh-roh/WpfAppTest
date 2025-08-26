@@ -223,7 +223,8 @@ namespace WpfAppTest.ViewModel
     public class ReceivingScreenViewModel : PropertyChangedBase
     {
         private const int ItemsPerPage = 8; // 페이지당 표시할 약품 분류 수
-        private const int ItemLocationsPerPage = 6; // 페이지당 표시할 항목 위치 수
+        private const int ItemLocationsPerPage = 8; // 페이지당 표시할 항목 위치 수 (2행 x 4열)
+        private const int ReceivingGridPerPage = 10; // 페이지당 표시할 그리드 항목 수
 
         public ReceivingScreenViewModel()
         {
@@ -238,7 +239,9 @@ namespace WpfAppTest.ViewModel
             SelectedFilter = "DM-PERLINGJ"; // 기본값으로 페링가니트 선택
             CurrentPage = 1;
             ItemLocationsCurrentPage = 1;
+            ReceivingGridCurrentPage = 1;
             ReceivingList = new ObservableCollection<ReceivingItem>();
+            PagedReceivingList = new ObservableCollection<ReceivingItem>();
             ItemLocations = new ObservableCollection<ItemLocation>();
             AllDrugCategories = new List<DrugCategory>();
             AllItemLocations = new List<ItemLocation>();
@@ -256,24 +259,144 @@ namespace WpfAppTest.ViewModel
             // 필터에 따른 데이터 로드
             UpdateLocationData();
 
-            // 샘플 입고 데이터
-            ReceivingList.Add(new ReceivingItem
-            {
-                Warehouse = "D 마약",
-                DrugName = "D 마약",
-                SerialNumber = "일련번호 A",
-                Quantity = 10,
-                CurrentTotalQuantity = 980
-            });
+            // 많은 샘플 입고 데이터 추가
+            LoadSampleReceivingData();
+        }
 
-            ReceivingList.Add(new ReceivingItem
+        private void LoadSampleReceivingData()
+        {
+            // 페링가니트 관련 데이터
+            for (int i = 1; i <= 25; i++)
             {
-                Warehouse = "D 마약",
-                DrugName = "D 마약",
-                SerialNumber = "일련번호 B",
-                Quantity = 10,
-                CurrentTotalQuantity = 100
-            });
+                ReceivingList.Add(new ReceivingItem
+                {
+                    Warehouse = "페링가니트 창고",
+                    DrugName = "페링가니트 0.1% 주사 10ml",
+                    SerialNumber = $"PERL-{i:D3}",
+                    Quantity = 5 + (i % 10),
+                    CurrentTotalQuantity = 100 + (i * 10)
+                });
+            }
+
+            // 트리람 관련 데이터
+            for (int i = 1; i <= 20; i++)
+            {
+                ReceivingList.Add(new ReceivingItem
+                {
+                    Warehouse = "트리람 창고",
+                    DrugName = "트리람 정 0.25mg",
+                    SerialNumber = $"TRI-{i:D3}",
+                    Quantity = 8 + (i % 8),
+                    CurrentTotalQuantity = 80 + (i * 8)
+                });
+            }
+
+            // 코노펜 관련 데이터
+            for (int i = 1; i <= 30; i++)
+            {
+                ReceivingList.Add(new ReceivingItem
+                {
+                    Warehouse = "코노펜 창고",
+                    DrugName = "코노펜캡슐",
+                    SerialNumber = $"IAC-{i:D3}",
+                    Quantity = 3 + (i % 7),
+                    CurrentTotalQuantity = 50 + (i * 5)
+                });
+            }
+
+            // 아티반 관련 데이터
+            for (int i = 1; i <= 18; i++)
+            {
+                ReceivingList.Add(new ReceivingItem
+                {
+                    Warehouse = "아티반 창고",
+                    DrugName = "아티반주4mg",
+                    SerialNumber = $"LZP-{i:D3}",
+                    Quantity = 20 + (i % 10),
+                    CurrentTotalQuantity = 200 + (i * 15)
+                });
+            }
+
+            // 인산코데인 관련 데이터
+            for (int i = 1; i <= 22; i++)
+            {
+                ReceivingList.Add(new ReceivingItem
+                {
+                    Warehouse = "코데인 창고",
+                    DrugName = "인산코데인 정 20mg (하나)",
+                    SerialNumber = $"TCO-{i:D3}",
+                    Quantity = 10 + (i % 6),
+                    CurrentTotalQuantity = 120 + (i * 12)
+                });
+            }
+
+            // 바스캄 관련 데이터
+            for (int i = 1; i <= 15; i++)
+            {
+                ReceivingList.Add(new ReceivingItem
+                {
+                    Warehouse = "바스캄 창고",
+                    DrugName = "바스캄주5mg/5ml",
+                    SerialNumber = $"WVSC-{i:D3}",
+                    Quantity = 6 + (i % 9),
+                    CurrentTotalQuantity = 60 + (i * 6)
+                });
+            }
+
+            // 노스판 관련 데이터
+            for (int i = 1; i <= 28; i++)
+            {
+                ReceivingList.Add(new ReceivingItem
+                {
+                    Warehouse = "노스판 창고",
+                    DrugName = "노스판패취5mcg/h,5mg/P",
+                    SerialNumber = $"BUPN-{i:D3}",
+                    Quantity = 9 + (i % 5),
+                    CurrentTotalQuantity = 90 + (i * 9)
+                });
+            }
+
+            // 모노틴 관련 데이터
+            for (int i = 1; i <= 16; i++)
+            {
+                ReceivingList.Add(new ReceivingItem
+                {
+                    Warehouse = "모노틴 창고",
+                    DrugName = "모노틴 정",
+                    SerialNumber = $"MNT-{i:D3}",
+                    Quantity = 4 + (i % 12),
+                    CurrentTotalQuantity = 40 + (i * 4)
+                });
+            }
+
+            // 헥사메딘 관련 데이터
+            for (int i = 1; i <= 24; i++)
+            {
+                ReceivingList.Add(new ReceivingItem
+                {
+                    Warehouse = "헥사메딘 창고",
+                    DrugName = "헥사메딘액0.12% 100ml",
+                    SerialNumber = $"CHX-{i:D3}",
+                    Quantity = 5 + (i % 15),
+                    CurrentTotalQuantity = 70 + (i * 7)
+                });
+            }
+
+            // 듀로제식 관련 데이터
+            for (int i = 1; i <= 12; i++)
+            {
+                ReceivingList.Add(new ReceivingItem
+                {
+                    Warehouse = "듀로제식 창고",
+                    DrugName = "듀로제식 디트랜스 패취 12mcg/h 5.25㎠",
+                    SerialNumber = $"FENT12-{i:D3}",
+                    Quantity = 7 + (i % 8),
+                    CurrentTotalQuantity = 85 + (i * 8)
+                });
+            }
+
+            // 페이징된 그리드 데이터 업데이트
+            UpdatePagedReceivingList();
         }
 
         private void LoadAllDrugCategories()
@@ -620,6 +743,27 @@ namespace WpfAppTest.ViewModel
             UpdatePagedItemLocations();
         }
 
+        private void UpdatePagedReceivingList()
+        {
+            if (ReceivingList == null)
+                return;
+
+            var startIndex = (ReceivingGridCurrentPage - 1) * ReceivingGridPerPage;
+            var pagedItems = ReceivingList.Skip(startIndex).Take(ReceivingGridPerPage).ToList();
+
+            if (PagedReceivingList == null)
+                PagedReceivingList = new ObservableCollection<ReceivingItem>();
+
+            PagedReceivingList.Clear();
+            foreach (var item in pagedItems)
+            {
+                PagedReceivingList.Add(item);
+            }
+
+            OnPropertyChanged(nameof(ReceivingGridTotalPages));
+            OnPropertyChanged(nameof(ReceivingGridPageInfo));
+        }
+
         private void InitializeCommands()
         {
             FilterCommand = new RelayCommand(ExecuteFilter);
@@ -631,6 +775,8 @@ namespace WpfAppTest.ViewModel
             NextPageCommand = new RelayCommand(ExecuteNextPage, CanExecuteNextPage);
             ItemLocationsPreviousPageCommand = new RelayCommand(ExecuteItemLocationsPreviousPage, CanExecuteItemLocationsPreviousPage);
             ItemLocationsNextPageCommand = new RelayCommand(ExecuteItemLocationsNextPage, CanExecuteItemLocationsNextPage);
+            ReceivingGridPreviousPageCommand = new RelayCommand(ExecuteReceivingGridPreviousPage, CanExecuteReceivingGridPreviousPage);
+            ReceivingGridNextPageCommand = new RelayCommand(ExecuteReceivingGridNextPage, CanExecuteReceivingGridNextPage);
         }
 
         #region Properties
@@ -725,6 +871,42 @@ namespace WpfAppTest.ViewModel
                 OnPropertyChanged();
                 // ReceivingList가 변경될 때 항목 선택 상태 업데이트
                 UpdateItemSelectionStatus();
+                // 페이징된 그리드 데이터 업데이트
+                UpdatePagedReceivingList();
+            }
+        }
+
+        // 그리드 페이징 관련 속성들
+        private int _receivingGridCurrentPage = 1;
+        public int ReceivingGridCurrentPage
+        {
+            get => _receivingGridCurrentPage;
+            set
+            {
+                _receivingGridCurrentPage = value;
+                OnPropertyChanged();
+                UpdatePagedReceivingList();
+            }
+        }
+
+        public int ReceivingGridTotalPages
+        {
+            get => (int)Math.Ceiling((double)ReceivingList.Count / ReceivingGridPerPage);
+        }
+
+        public string ReceivingGridPageInfo
+        {
+            get => $"{ReceivingGridCurrentPage} / {ReceivingGridTotalPages}";
+        }
+
+        private ObservableCollection<ReceivingItem> _pagedReceivingList;
+        public ObservableCollection<ReceivingItem> PagedReceivingList
+        {
+            get => _pagedReceivingList;
+            set
+            {
+                _pagedReceivingList = value;
+                OnPropertyChanged();
             }
         }
 
@@ -813,6 +995,8 @@ namespace WpfAppTest.ViewModel
         public ICommand NextPageCommand { get; private set; }
         public ICommand ItemLocationsPreviousPageCommand { get; private set; }
         public ICommand ItemLocationsNextPageCommand { get; private set; }
+        public ICommand ReceivingGridPreviousPageCommand { get; private set; }
+        public ICommand ReceivingGridNextPageCommand { get; private set; }
 
         #endregion
 
@@ -940,6 +1124,32 @@ namespace WpfAppTest.ViewModel
         private bool CanExecuteItemLocationsNextPage(object parameter)
         {
             return ItemLocationsCurrentPage < ItemLocationsTotalPages;
+        }
+
+        private void ExecuteReceivingGridPreviousPage(object parameter)
+        {
+            if (ReceivingGridCurrentPage > 1)
+            {
+                ReceivingGridCurrentPage--;
+            }
+        }
+
+        private bool CanExecuteReceivingGridPreviousPage(object parameter)
+        {
+            return ReceivingGridCurrentPage > 1;
+        }
+
+        private void ExecuteReceivingGridNextPage(object parameter)
+        {
+            if (ReceivingGridCurrentPage < ReceivingGridTotalPages)
+            {
+                ReceivingGridCurrentPage++;
+            }
+        }
+
+        private bool CanExecuteReceivingGridNextPage(object parameter)
+        {
+            return ReceivingGridCurrentPage < ReceivingGridTotalPages;
         }
 
         #endregion
