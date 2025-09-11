@@ -82,6 +82,7 @@ WHERE OrderID + 10 = 10268
 /*
 (Index열) 조건식 컬럼 함수 적용
 */
+--Index 열엔 함수로 가공되지 않도록 구현
 -- 1. Substring, Left, Right
 SELECT OrderID, OrderDate, CustomerID
 FROM Northwind.dbo.Orders
@@ -133,6 +134,7 @@ WHERE ISNULL(OrderDate, '19970702') = '19970702'
 ----------------------------------
 -- char_column vs. 정수형
 ----------------------------------
+--식(expression)의 데이터 형식은 열과 동일한 형식으로
 SELECT stor_id, stor_name
 FROM Pubs.dbo.Stores
 WHERE stor_id >= 6380	-- Convert([stores].[stor_id]) = Convert([@1])
