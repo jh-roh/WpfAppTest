@@ -563,6 +563,37 @@ MERGE (UPSERT)
 */
 
 /*
+MERGE 소개
+ 기능
+  ;일명 UPSERT
+  ;단일 문으로 INSERT, UPDATE,DELETE 수행
+    ;필요에 따라 동일 action에 따른 DML 처리 가능
+  ;Target 테이블과 Source 테이블 간의 조인 기준
+
+  예제
+  1) 단순 I/U/D - 데이터 동기화
+  2) 중복 소스를 가지는 경우에 처리
+  3) Delta(증분)값 처리하는 경우(ex.재고수량 증감,차감)
+  4) 채번(기존방식대체)
+
+  채번
+   ;한국의 IT 용어
+   ;풀이 - 고유 식별 번호 생성
+
+  사용자 정의 채번 논리 구현
+   기존방식
+    1) 조건부 (IF Exists) UPDATE/INSERT
+	2) UPDATE 후 (IF @@ROWCOUNT = 0) INSERT
+   MERGE 방식
+    3) WHEN MATCHED/WHEN NOT MATCHED
+   주의사항
+    동시 INSERT 시 중복키 오류 발생 가능
+	 ; 일명 "Race Condition"
+
+*/
+
+
+/*
 -------------------------------------------------------------------------------
 예제-1: 기본 형식
 */
