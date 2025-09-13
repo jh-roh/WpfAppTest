@@ -590,6 +590,14 @@ MERGE 소개
     동시 INSERT 시 중복키 오류 발생 가능
 	 ; 일명 "Race Condition"
 
+
+@@ROWCOUNT는 행의 총 개수를 반환
+테이블에 Trigger 정의된 경우 호출
+ON <merge_search_condition> 절
+ ; 매칭(조인) 조건만 기술할 것 (BOL에서 "caution" 부분 확인)
+ ; 대상 테이블에 필터링 조건 지정 시 잘못된 결과 가능
+   ; (추가의견)원본 테이블도 동일
+
 */
 
 

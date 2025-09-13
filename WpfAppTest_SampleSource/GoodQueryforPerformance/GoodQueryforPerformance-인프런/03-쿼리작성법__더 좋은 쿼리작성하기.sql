@@ -19,6 +19,17 @@ SW 개발자를 위한 성능 좋은 쿼리 작성법
 3장. 더 좋은 쿼리 작성하기
 =====================================================================
 */
+
+/*
+기본 SQL 권장 사항
+Join 작성 시 권장 사항
+SubQuery 작성 시 권장 사항
+파생 테이블,CTE,APPLY 활용
+잠금차단회피
+사례들
+*/
+
+
 USE Northwind
 GO
 
@@ -29,6 +40,29 @@ SET STATISTICS IO ON
 IN vs. BETWEEN
 -------------------------------------------------------------
 */
+
+/*
+의미와 용도에 맞게 선택
+IN
+ - Equal(=) 조건과 OR 연산(합집합) 결합
+  ; Random Access(IO) 동작
+  ; 검색 대상 값이 많을 수록 인데스 사용기회 감소
+  ; DISTNCT/GROUP BY 등은 불필요
+ - 비 연속 값 검색 시
+ - 검색 대상이 적은 경우 적합
+ - EQUAL(=) 조건이 필요한 경우
+
+BETWEEN
+ - Non-Equal(>= <=) 조건과 AND 연산 결합
+  ;Sequence Access 동작
+ - 연속 값 검색 시
+*/
+
+
+
+
+
+
 -- IN 이해
 -- Nonclustered Index(PK, OrderID)
 SELECT * 
@@ -44,6 +78,25 @@ WHERE OrderID BETWEEN 10248 AND 10253
 GO
 
 
+
+/*
+TOP(N) 활용
+-쿼리 최적화에 도움
+-결과 집합 제한에 활요
+ TOP(1)
+  ; MIN/MAX vs. TOP(1) - NULL 값의 처리 방식 이해
+ TOP(N)
+  ; Paging쿼리(ex. 게시판)
+  ; 전체 결과 집합 제한(ex. 뉴스, 이벤트 알림, 이력 데이터)
+
+TOP + ORDER BY 절 주의
+ - ORDER BY 절 생략?
+  ; 기본적으로 지정
+  ; Clustered Index 고려하지 말것
+    ;NOLOCK 힌트 등이 사용될 경우 데이터 정합성 오류 발생 가능
+ - 정렬 데이터의 유일설 보장 필요
+  ;아니면 데이터 일관성 오류 발생 가능 
+*/
 
 /*
 -------------------------------------------------------------
@@ -68,7 +121,19 @@ ORDER BY Quantity DESC;
 /*
 -------------------------------------------------------------
 COUNT vs. EXISTS
+
+ 용도에 맞는 구현
+  - 집계(전체 검색) vs. 데이터 존재 여부 체크(부분 검색)
 */
+
+
+/*
+COUNT 주의
+ - 데이터 무결성 고려
+  1) NULL 허용 열인 경우, COUNT(열)
+  2) NOT NULL 열인 경우 두가지는 동일 동작
+*/
+
 USE EPlan
 GO
 
@@ -99,6 +164,11 @@ DROP INDEX IX_OD_Quantity ON EPlan.dbo.[Order Details];
 /*
 -------------------------------------------------------------
 NULL 고려한 집계 연산
+
+ - 대량 NULL 값을 가진 열의 경우
+  ; 불필요한 NULL 데이터 사전 필터링 코드 추가
+
+
 */
 USE EPlan
 GO
@@ -144,6 +214,10 @@ GROUP BY c.CustomerID
 -------------------------------------------------------------
 UNION vs. UNION ALL
 -------------------------------------------------------------
+UNION 은 기본적으로 Distinct 연산(부하) 발생 가능
+ ; 행 유일성이 명확한 경우 Query Optimizer가 자동 조정 가능하나
+ ; 명확한 경우 명시적으로 ALL 지정
+
 */
 SELECT firstname, city
  FROM Northwind.dbo.Employees
