@@ -498,7 +498,9 @@
                                                 <RadioButton.Content>
                                                     <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
                                                         <TextBlock Text="{Binding Code}" Foreground="#888" FontWeight="Bold" FontSize="13" HorizontalAlignment="Center"/>
-                                                        <TextBlock Text="{Binding Name}" FontSize="14" HorizontalAlignment="Center"/>
+                                                        <TextBlock Text="{Binding Name}" FontSize="14" HorizontalAlignment="Center"
+                                                                   TextTrimming="CharacterEllipsis" 
+                                                                   MaxWidth="180"/>
                                                     </StackPanel>
                                                 </RadioButton.Content>
                                                 <RadioButton.IsChecked>

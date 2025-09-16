@@ -1,0 +1,44 @@
+/*
+IMPLICIT_TRANSACTIONS ON/OFF 차이
+
+참조. MS Learn 예제 
+*/
+SET NOCOUNT ON;  
+SET IMPLICIT_TRANSACTIONS OFF;  
+GO  
+
+WHILE (@@TranCount > 0) 
+	COMMIT TRANSACTION;  
+GO  
+
+IF (OBJECT_ID(N'dbo.imtr', N'U') IS NOT NULL) 
+	DROP TABLE dbo.imtr;  
+GO  
+
+CREATE table dbo.imtr (code int);  
+GO  
+  
+PRINT N'-------- OFF 상태 --------'
+PRINT N' SET IMPLICIT_TRANSACTIONS OFF.';  
+PRINT N' 시작시점의 @@TranCount == ' + CAST(@@TRANCOUNT AS NVARCHAR(10));  
+SET IMPLICIT_TRANSACTIONS OFF;  
+GO 
+
+INSERT INTO dbo.imtr VALUES (11);  
+INSERT INTO dbo.imtr VALUES (12);  
+PRINT N' INSERT 후 @@TranCount == ' + CAST(@@TRANCOUNT AS NVARCHAR(10));  
+GO  
+  
+PRINT N' ';  
+PRINT N'-------- ON 상태 --------'
+PRINT N' SET IMPLICIT_TRANSACTIONS ON.';  
+PRINT N' 시작시점의 @@TranCount == ' + CAST(@@TRANCOUNT AS NVARCHAR(10));  
+SET IMPLICIT_TRANSACTIONS ON;  
+GO
+INSERT INTO dbo.imtr VALUES (21);  
+INSERT INTO dbo.imtr VALUES (22);  
+PRINT N' INSERT 후 @@TranCount == ' + CAST(@@TRANCOUNT AS NVARCHAR(10));  
+GO 
+COMMIT TRANSACTION;  
+PRINT N' COMMIT 후 @@TranCount == ' + CAST(@@TRANCOUNT AS NVARCHAR(10));  
+GO
