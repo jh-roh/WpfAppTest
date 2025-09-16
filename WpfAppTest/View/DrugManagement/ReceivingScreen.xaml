@@ -259,6 +259,67 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        
+        <Style x:Key="TouchCheckBoxStyle" TargetType="CheckBox">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="CheckBox">
+                        <Border Background="Transparent"
+                            CornerRadius="8"
+                            Padding="0"
+                            SnapsToDevicePixels="True">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="40"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Border x:Name="CheckMarkBorder"
+                                    Width="38" Height="36"
+                                    CornerRadius="6"
+                                    BorderBrush="#2196F3"
+                                    BorderThickness="2"
+                                    Background="White"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Center">
+                                    <Path x:Name="CheckMark"
+                                      Data="M 8 18 L 16 26 L 28 10"
+                                      Stroke="#2196F3"
+                                      StrokeThickness="3"
+                                      StrokeEndLineCap="Round"
+                                      StrokeStartLineCap="Round"
+                                      Visibility="Collapsed"/>
+                                </Border>
+                                <ContentPresenter Grid.Column="1"
+                                              VerticalAlignment="Center"
+                                              Margin="12,0,0,0"
+                                              RecognizesAccessKey="True"/>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="CheckMarkBorder" Property="Background" Value="#2196F3"/>
+                                <Setter TargetName="CheckMark" Property="Stroke" Value="White"/>
+                                <Setter TargetName="CheckMark" Property="Visibility" Value="Visible"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="CheckMarkBorder" Property="BorderBrush" Value="#1976D2"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="CheckMarkBorder" Property="BorderBrush" Value="#CCCCCC"/>
+                                <Setter TargetName="CheckMarkBorder" Property="Background" Value="#F0F0F0"/>
+                                <Setter Property="Foreground" Value="#AAAAAA"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="#333"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="MinHeight" Value="48"/>
+        </Style>
     </UserControl.Resources>
 
     <UserControl.DataContext>
@@ -429,18 +490,23 @@
                                     </ItemsControl.ItemsPanel>
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
-                                            <RadioButton Content="{Binding Name}"
-                                                         Command="{Binding DataContext.FilterCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                                         CommandParameter="{Binding Code}"
-                                                         Style="{StaticResource FilterButtonStyle}">
+                                            <RadioButton
+                                                Command="{Binding DataContext.FilterCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                CommandParameter="{Binding Code}"
+                                                Style="{StaticResource FilterButtonStyle}"
+                                                Height="48" Padding="0">
+                                                <RadioButton.Content>
+                                                    <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                        <TextBlock Text="{Binding Code}" Foreground="#888" FontWeight="Bold" FontSize="13" HorizontalAlignment="Center"/>
+                                                        <TextBlock Text="{Binding Name}" FontSize="14" HorizontalAlignment="Center"/>
+                                                    </StackPanel>
+                                                </RadioButton.Content>
                                                 <RadioButton.IsChecked>
                                                     <MultiBinding Converter="{StaticResource StringToBoolConverter}">
-                                                        <Binding Path="DataContext.SelectedFilter"
-                                                                 RelativeSource="{RelativeSource AncestorType=UserControl}"/>
+                                                        <Binding Path="DataContext.SelectedFilter" RelativeSource="{RelativeSource AncestorType=UserControl}"/>
                                                         <Binding Path="Code"/>
                                                     </MultiBinding>
                                                 </RadioButton.IsChecked>
-
                                             </RadioButton>
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
@@ -448,26 +514,40 @@
                             </StackPanel>
                         </Border>
 
-                        <!-- 추가 필터 옵션 (예시) -->
+                        <!-- 추가 필터 옵션 (터치 최적화 커스텀 체크박스) -->
                         <Border Background="#F8F9FA"
-                                BorderBrush="#E0E0E0"
-                                BorderThickness="1"
-                                CornerRadius="8"
-                                Padding="15"
-                                Margin="0,0,15,0"
-                                MinWidth="140">
+          BorderBrush="#E0E0E0"
+          BorderThickness="1"
+          CornerRadius="8"
+          Padding="15"
+          Margin="0,0,15,0"
+          MinWidth="140">
                             <StackPanel>
                                 <TextBlock Text="상태 필터"
-                                           FontWeight="Bold"
-                                           FontSize="14"
-                                           Foreground="#333333"
-                                           Margin="0,0,0,10"/>
-                                <CheckBox Content="신규"
-                                          Margin="0,0,0,5"/>
-                                <CheckBox Content="유효기간경과"
-                                          Margin="0,0,0,5"/>
-                                <CheckBox Content="일련번호중복"
-                                          Margin="0,0,0,5"/>
+                     FontWeight="Bold"
+                     FontSize="14"
+                     Foreground="#333333"
+                     Margin="0,0,0,5"/>
+                                <StackPanel>
+                                    <CheckBox Content="신규"
+                        Margin="0,0,0,0"
+                        Height="48"
+                        FontSize="12"
+                        VerticalContentAlignment="Center"
+                        Style="{StaticResource TouchCheckBoxStyle}"/>
+                                    <CheckBox Content="유효기간경과"
+                        Margin="0,0,0,0"
+                        Height="48"
+                        FontSize="12"
+                        VerticalContentAlignment="Center"
+                        Style="{StaticResource TouchCheckBoxStyle}"/>
+                                    <CheckBox Content="일련번호중복"
+                        Margin="0,0,0,0"
+                        Height="48"
+                        FontSize="12"
+                        VerticalContentAlignment="Center"
+                        Style="{StaticResource TouchCheckBoxStyle}"/>
+                                </StackPanel>
                             </StackPanel>
                         </Border>
 
@@ -478,19 +558,33 @@
                                 CornerRadius="8"
                                 Padding="15"
                                 Margin="0,0,15,0"
-                                MinWidth="110">
+                                Width="130">
                             <StackPanel>
                                 <TextBlock Text="정렬"
                                            FontWeight="Bold"
                                            FontSize="14"
                                            Foreground="#333333"
-                                           Margin="0,0,0,10"/>
-                                <RadioButton Content="이름순"
-                                             Margin="0,0,0,5"/>
-                                <RadioButton Content="수량순"
-                                             Margin="0,0,0,5"/>
-                                <RadioButton Content="최신순"
-                                             Margin="0,0,0,5"/>
+                                           Margin="0,0,0,0"/>
+                                <StackPanel>
+                                    <CheckBox Content="이름순"
+                                        Margin="0,0,0,0"
+                                        Height="48"
+                                        FontSize="12"
+                                        VerticalContentAlignment="Center"
+                                        Style="{StaticResource TouchCheckBoxStyle}"/>
+                                                                            <CheckBox Content="수량순"
+                                        Margin="0,0,0,0"
+                                        Height="48"
+                                        FontSize="12"
+                                        VerticalContentAlignment="Center"
+                                        Style="{StaticResource TouchCheckBoxStyle}"/>
+                                                                            <CheckBox Content="최신순"
+                                        Margin="0,0,0,0"
+                                        Height="48"
+                                        FontSize="12"
+                                        VerticalContentAlignment="Center"
+                                        Style="{StaticResource TouchCheckBoxStyle}"/>
+                                </StackPanel>
                             </StackPanel>
                         </Border>
                     </StackPanel>
