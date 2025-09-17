@@ -82,6 +82,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>dsWpf.xsd</DependentUpon>
     </Compile>
+    <Compile Include="Helper\VirtualKeyboardHelper.cs" />
     <Compile Include="Model\CustList.cs" />
     <Compile Include="ServiceFunction\HttpTestFunction.cs" />
     <Compile Include="ServiceFunction\IInterfaceService.cs" />

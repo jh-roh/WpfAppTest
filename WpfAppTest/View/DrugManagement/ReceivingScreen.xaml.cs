@@ -1,4 +1,5 @@
 using System.Windows.Controls;
+using WpfAppTest.Helper;
 
 namespace WpfAppTest.View.DrugManagement
 {
@@ -10,6 +11,16 @@ namespace WpfAppTest.View.DrugManagement
         public ReceivingScreen()
         {
             InitializeComponent();
+        }
+
+        private void SearchTextBox_GotKeyboardFocus(object sender, System.Windows.Input.KeyboardFocusChangedEventArgs e)
+        {
+            VirtualKeyboardHelper.ShowKeyboard();
+        }
+
+        private void SearchTextBox_LostKeyboardFocus(object sender, System.Windows.Input.KeyboardFocusChangedEventArgs e)
+        {
+            VirtualKeyboardHelper.HideKeyboard();
         }
     }
 }
