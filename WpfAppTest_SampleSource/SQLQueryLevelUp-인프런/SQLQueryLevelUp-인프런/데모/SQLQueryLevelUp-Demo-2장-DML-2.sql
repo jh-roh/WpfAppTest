@@ -498,6 +498,63 @@ GO
 
 
 
+
+/*
+프로시저에 배열 값(2차, 3차) 넘기기
+ - 문자열 동적 쿼리(보안,성능 고려 필요)
+ - 행분할 함수 활용(복잡,성능 고려 필요)
+
+ 배열값 처리용 여러가지 방법들
+  - 1차원 구조에 최대 개수가 많지 않다면?
+   ; 개별 매개변수로 선언하고 IN()에 사용 
+
+  - 동적 쿼리
+  - Split() 함수 + Table-values 함수 활용
+   1) 단순 Loop Parsing 방식
+   2) 순번용 임시 테이블 활용 Parsing 방식
+   3) CTE 활용
+
+   - xml data를 이용한 Parsing 방식
+   - json data를 이용한 Parsing 방식 - SQL 2017+
+   - UDT + TVP 활용
+   - STRING_SPLIT - SQL 2016+
+
+*/
+
+/* ADO.NET 에서 TVP 구현
+_table = new DataTable();
+
+_table.Columns.Add("OrderID", typeof(Int32));
+_table.Columns.Add("CustomerID", typeof(String));
+
+
+using(SqlCommand cmd = new SqlCommand("dbo.up_GetOrders", cnn))
+{
+	cmd.CommandType = CommandType.StoredProcedure;
+	SqlParameter tvp = cmd.Parameters.Add("@Orders", SqlDbType.Structured);
+	tvp.Value = _table;
+
+	rdr = cmd.ExecuteReader();
+
+}
+
+*/
+
+
+/* 핵심 요약
+테이블 값 생성자 VALUES 응용
+UPDATE 문의 SET 절 고급 활용
+OUTPUT 절 기능 이해
+Composable DML 활용
+MERGE 활용과 사용주의
+SEQUENCE 개체 사용법 숙지
+임시 TABLE 과 TABLE 변수 차이 이해
+sp_executesql 활용
+배열값 넘기는 다양한 방법들 활용
+
+*/
+
+
 /*
 *******************************************************************************
 UDT와 TVP

@@ -19,3 +19,19 @@ SELECT TOP(5)
 
 FROM dbo.Orders
 ;
+
+/*
+Ç®ÀÌ
+*/
+SELECT TOP(5)
+	OrderID
+,	OrderDate
+,   RequiredDate
+,   ShippedDate
+,	Greatest_LastDate = (
+							SELECT MAX(whichdate)
+							FROM (VALUES (OrderDate),(RequiredDate), (ShippedDate)) as dv(whichdate)
+						)
+
+FROM dbo.Orders
+;
