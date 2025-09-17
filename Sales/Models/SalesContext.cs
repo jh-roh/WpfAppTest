@@ -84,7 +84,7 @@ public partial class SalesContext : DbContext
                 //.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
                 .UseSqlServer(connectionString, sqloptions =>
                 {
-                    sqloptions.CommandTimeout(30);
+                    sqloptions.CommandTimeout(40);
                     //sqloptions.MaxBatchSize(42);
                     //sqloptions.EnableRetryOnFailure(maxRetryCount: 5, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
                     //sqloptions.UseQuerySplittingBehavior(QuerySplittingBehavior.SingleQuery);

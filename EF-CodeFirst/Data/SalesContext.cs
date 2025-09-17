@@ -30,3 +30,12 @@ namespace EF_CodeFirst.Data
         }
     }
 }
+
+
+/*
+ *
+ Add-Migration InitialCreate
+ Update-Database
+ * */
+
+
