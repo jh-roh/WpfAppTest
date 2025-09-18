@@ -238,6 +238,26 @@ SELECT companyname, city
 -------------------------------------------------------------
 UPDATE SET 
 -------------------------------------------------------------
+UPDATE 결과 열 값 반환
+
+UPDATE...SET 절의 다양한 기능 활용
+UPDATE 채번
+	    SET 일련번호 = 일련번호 + 1
+WHERE .....
+
+SELECT @일련번호 = 일련번호
+FROM 채번 WITH(NOLOCK)
+WHERE ....
+
+RETURN @일련번호
+
+위와 같은 코드를 아래와 같이 간단하게 사용가능
+
+UPDATE 채번
+		SET @일련번호 = 일련번호 = 일련번호 + 1
+WHERE .....
+
+
 */
 DECLARE @OrderDate datetime;
 
@@ -257,6 +277,17 @@ ROLLBACK
 -------------------------------------------------------------
 DML OUTPUT
 */
+
+/*
+DML 작업 결과 행 반환
+
+INSERT/UPDATE/DELETE/MERGE 결과 행 반환
+ - 과거엔 후속 SELECT 쿼리로 처리(UPDATE + SELECT)
+ - 현재는 OUTPUT 절 활용 가능 (UPDATE outpu)
+   ; 단순 결과 반환인 경우
+   ; 혹은 테이블에 직접 입력 후 재사용도 가능
+*/
+
 BEGIN TRAN
    SELECT @@trancount;
 
