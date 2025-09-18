@@ -59,7 +59,7 @@ namespace Sales
              *===================================================================*/
 
             // DB 연결 Open/Close 시점 확인
-            await ConnectionOpenCloseAsync();
+            //await ConnectionOpenCloseAsync();
 
 
 

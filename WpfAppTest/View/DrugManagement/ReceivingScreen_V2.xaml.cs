@@ -6,9 +6,9 @@ namespace WpfAppTest.View.DrugManagement
     /// <summary>
     /// ReceivingScreen.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class ReceivingScreen : UserControl
+    public partial class ReceivingScreen_V2 : UserControl
     {
-        public ReceivingScreen()
+        public ReceivingScreen_V2()
         {
             InitializeComponent();
         }

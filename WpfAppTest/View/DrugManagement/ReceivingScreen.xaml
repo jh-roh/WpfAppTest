@@ -438,7 +438,7 @@
                                                  Background="Transparent"
                                                  Foreground="#333333"
                                                  VerticalContentAlignment="Center"
-                                                 Style="{StaticResource RoundedTextBoxStyle}">
+                                                 Style="{StaticResource RoundedTextBoxStyle}" GotKeyboardFocus="SearchTextBox_GotKeyboardFocus" LostKeyboardFocus="SearchTextBox_LostKeyboardFocus">
                                             <!--<TextBox.Style>
                                                 <Style TargetType="TextBox"
                                                        BasedOn="{StaticResource RoundedTextBoxStyle}">
