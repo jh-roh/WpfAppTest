@@ -801,8 +801,158 @@ namespace WpfAppTest.ViewModel
             {
                 _barcodeText = value;
                 OnPropertyChanged();
-                // 바코드 스캔 로직 구현
+                // GS1 바코드 파싱
+                ParseGs1Barcode(_barcodeText);
+                OnPropertyChanged(nameof(HasGs1Data));
             }
+        }
+
+        // GS1 파싱 결과 바인딩용 속성들
+        private string _gs1ProductCode;
+        public string Gs1ProductCode
+        {
+            get => _gs1ProductCode;
+            set { _gs1ProductCode = value; OnPropertyChanged(); }
+        }
+
+        private string _gs1SerialNumber;
+        public string Gs1SerialNumber
+        {
+            get => _gs1SerialNumber;
+            set { _gs1SerialNumber = value; OnPropertyChanged(); }
+        }
+
+        private DateTime? _gs1ExpiryDate;
+        public DateTime? Gs1ExpiryDate
+        {
+            get => _gs1ExpiryDate;
+            set { _gs1ExpiryDate = value; OnPropertyChanged(); OnPropertyChanged(nameof(Gs1ExpiryDateText)); }
+        }
+
+        public string Gs1ExpiryDateText
+        {
+            get => Gs1ExpiryDate.HasValue ? Gs1ExpiryDate.Value.ToString("yyyy-MM-dd") : string.Empty;
+        }
+
+        private string _gs1LotNumber;
+        public string Gs1LotNumber
+        {
+            get => _gs1LotNumber;
+            set { _gs1LotNumber = value; OnPropertyChanged(); }
+        }
+
+        public bool HasGs1Data
+        {
+            get
+            {
+                return !string.IsNullOrWhiteSpace(Gs1ProductCode)
+                    || !string.IsNullOrWhiteSpace(Gs1SerialNumber)
+                    || Gs1ExpiryDate.HasValue
+                    || !string.IsNullOrWhiteSpace(Gs1LotNumber);
+            }
+        }
+
+        private void ParseGs1Barcode(string raw)
+        {
+            Gs1ProductCode = string.Empty;
+            Gs1SerialNumber = string.Empty;
+            Gs1ExpiryDate = null;
+            Gs1LotNumber = string.Empty;
+
+            if (string.IsNullOrWhiteSpace(raw))
+            {
+                OnPropertyChanged(nameof(HasGs1Data));
+                return;
+            }
+
+            // 그룹분리자(FNC1)
+            char gs = (char)0x1D;
+            string input = raw.Replace(" ", string.Empty);
+
+            try
+            {
+                // 괄호 포함 형태 (01)(17)(10)(21) 지원 및 순서 무관 처리
+                // 01: GTIN 14자리 숫자
+                var gtinMatch = System.Text.RegularExpressions.Regex.Match(input, @"\(?01\)?(?<v>\d{14})");
+                if (gtinMatch.Success)
+                {
+                    Gs1ProductCode = gtinMatch.Groups["v"].Value;
+                }
+
+                // 17: 유효기간 YYMMDD
+                var expMatch = System.Text.RegularExpressions.Regex.Match(input, @"\(?17\)?(?<v>\d{6})");
+                if (expMatch.Success)
+                {
+                    var v = expMatch.Groups["v"].Value;
+                    // YYMMDD → 20YY 가정
+                    int year = 2000 + int.Parse(v.Substring(0, 2));
+                    int month = int.Parse(v.Substring(2, 2));
+                    int day = int.Parse(v.Substring(4, 2));
+                    if (month >= 1 && month <= 12 && day >= 1 && day <= 31)
+                    {
+                        Gs1ExpiryDate = new DateTime(year, month, day);
+                    }
+                }
+
+                // 10: 제조번호(가변길이, FNC1/끝까지)
+                // FNC1 분리자 또는 다른 AI 앞에서 종료
+                string lot = TryExtractVariableField(input, "10", gs);
+                if (!string.IsNullOrEmpty(lot))
+                {
+                    Gs1LotNumber = lot;
+                }
+
+                // 21: 일련번호(가변길이)
+                string sn = TryExtractVariableField(input, "21", gs);
+                if (!string.IsNullOrEmpty(sn))
+                {
+                    Gs1SerialNumber = sn;
+                }
+            }
+            catch
+            {
+                // 파싱 중 오류는 무시하고 바인딩만 갱신
+            }
+
+            OnPropertyChanged(nameof(HasGs1Data));
+        }
+
+        private static string TryExtractVariableField(string input, string ai, char groupSep)
+        {
+            // 패턴: (ai)valueUntilSepOrNextAI
+            // 괄호가 있든 없든 허용
+            int idx = input.IndexOf("(" + ai + ")", StringComparison.Ordinal);
+            int aiLen = 0;
+            if (idx >= 0)
+            {
+                aiLen = ("(" + ai + ")").Length;
+            }
+            else
+            {
+                idx = input.IndexOf(ai, StringComparison.Ordinal);
+                if (idx < 0) return null;
+                aiLen = ai.Length;
+            }
+
+            int start = idx + aiLen;
+            if (start >= input.Length) return string.Empty;
+
+            // 그룹분리자까지
+            int sepPos = input.IndexOf(groupSep, start);
+            string slice = sepPos >= 0 ? input.Substring(start, sepPos - start) : input.Substring(start);
+
+            // 다른 AI를 만나기 전까지 유효 (다른 AI는 2자리 또는 3자리 숫자로 시작)
+            var nextAi = System.Text.RegularExpressions.Regex.Match(slice, @"\(?(?:\d{2}|\d{3})\)?");
+            if (nextAi.Success)
+            {
+                int aiStart = nextAi.Index;
+                if (aiStart > 0)
+                {
+                    slice = slice.Substring(0, aiStart);
+                }
+            }
+
+            return slice.Trim('\u001D');
         }
 
         private string _selectedFilter;
