@@ -44,6 +44,21 @@ UPDATE dbo.SetNumber
 SELECT * FROM dbo.SetNumber;
 
 
+/*
+풀이
+*/
+
+DECLARE @i int = 0;
+
+UPDATE dbo.SetNumber
+	SET	@i = ID = @i + 1;
+
+-- 확인용
+SELECT * FROM dbo.SetNumber;
+
+
+
+
 
 /*
 -------------------------------------------------------------------------------
@@ -51,6 +66,8 @@ SELECT * FROM dbo.SetNumber;
 */
 WITH Number AS
 (
+	SELECT ID,SEQ = ROW_NUMBER() OVER(ORDER BY Name), NAME
+	FROM SetNumber
 )
 UPDATE Number 
 SET ID = Seq;

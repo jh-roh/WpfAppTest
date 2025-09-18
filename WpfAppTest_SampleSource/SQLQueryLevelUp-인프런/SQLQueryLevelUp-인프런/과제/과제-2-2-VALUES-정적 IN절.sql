@@ -25,3 +25,23 @@ WHERE OrderID IN (@OrderID1, @OrderID2, @OrderID3, @OrderID4, @OrderID5)
 ;
 
 
+/*
+Ç®ÀÌ
+*/
+
+DECLARE  
+	@OrderID1 int = 10250
+,	@OrderID2 int = 10257
+,	@OrderID3 int = NULL
+,	@OrderID4 int = NULL
+,	@OrderID5 int = NULL
+
+SELECT OrderID, OrderDate, CustomerID
+FROM dbo.Orders
+WHERE OrderID IN 
+			(
+				SELECT v.OrderID
+				FROM (VALUES(@OrderID1), (@OrderID2), (@OrderID3), (@OrderID4), (@OrderID5)) AS v(OrderID)
+				WHERE v.OrderID IS NOT NULL
+			) 
+;
