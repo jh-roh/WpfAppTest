@@ -287,6 +287,10 @@
     <Compile Include="View\WrapPanelContolTest.xaml.cs">
       <DependentUpon>WrapPanelContolTest.xaml</DependentUpon>
     </Compile>
+    <Page Include="ResourceDictionary\ReceivingScreenDictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\CanvasViewBoxTest.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

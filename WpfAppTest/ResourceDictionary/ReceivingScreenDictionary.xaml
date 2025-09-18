@@ -1,0 +1,301 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+                    xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+                    xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+                    xmlns:local="clr-namespace:WpfAppTest.View.DrugManagement"
+                    >
+
+    <local:StringToBoolConverter x:Key="StringToBoolConverter"/>
+    <local:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+
+    <!-- 필터 버튼 스타일 -->
+    <Style x:Key="FilterButtonStyle"
+               TargetType="RadioButton">
+        <Setter Property="Width"
+                    Value="200"/>
+        <Setter Property="Height"
+                    Value="35"/>
+        <Setter Property="Margin"
+                    Value="3"/>
+        <Setter Property="FontSize"
+                    Value="12"/>
+        <Setter Property="FontWeight"
+                    Value="Medium"/>
+        <Setter Property="Foreground"
+                    Value="#555555"/>
+        <Setter Property="Background"
+                    Value="#F8F9FA"/>
+        <Setter Property="BorderBrush"
+                    Value="#DEE2E6"/>
+        <Setter Property="BorderThickness"
+                    Value="1"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="RadioButton">
+                    <Border x:Name="Border"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="6">
+                        <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"
+                                              Margin="8,4"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked"
+                                     Value="True">
+                            <Setter TargetName="Border"
+                                        Property="Background"
+                                        Value="#007ACC"/>
+                            <Setter TargetName="Border"
+                                        Property="BorderBrush"
+                                        Value="#005A9E"/>
+                            <Setter Property="Foreground"
+                                        Value="White"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver"
+                                     Value="True">
+                            <Setter TargetName="Border"
+                                        Property="Background"
+                                        Value="#E3F2FD"/>
+                            <Setter TargetName="Border"
+                                        Property="BorderBrush"
+                                        Value="#2196F3"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed"
+                                     Value="True">
+                            <Setter TargetName="Border"
+                                        Property="Background"
+                                        Value="#BBDEFB"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- 카드 스타일 -->
+    <Style x:Key="LocationCardStyle"
+               TargetType="Border">
+        <Setter Property="Width"
+                    Value="300"/>
+        <Setter Property="Height"
+                    Value="230"/>
+        <Setter Property="Background"
+                    Value="White"/>
+        <Setter Property="BorderBrush"
+                    Value="#E0E0E0"/>
+        <Setter Property="BorderThickness"
+                    Value="1"/>
+        <Setter Property="CornerRadius"
+                    Value="8"/>
+        <Setter Property="Margin"
+                    Value="0,0,15,15"/>
+        <Setter Property="Effect">
+            <Setter.Value>
+                <DropShadowEffect Color="#CCCCCC"
+                                      Direction="270"
+                                      ShadowDepth="2"
+                                      Opacity="0.3"/>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- 상태 배지 스타일 -->
+    <Style x:Key="StatusBadgeStyle"
+               TargetType="Border">
+        <Setter Property="CornerRadius"
+                    Value="12"/>
+        <Setter Property="Padding"
+                    Value="8,4"/>
+        <Setter Property="Margin"
+                    Value="0,0,5,0"/>
+    </Style>
+
+    <!-- 둥근 모서리 버튼 스타일 -->
+    <Style x:Key="RoundedButtonStyle"
+               TargetType="Button">
+        <Setter Property="Background"
+                    Value="#007ACC"/>
+        <Setter Property="Foreground"
+                    Value="White"/>
+        <Setter Property="BorderThickness"
+                    Value="0"/>
+        <Setter Property="FontWeight"
+                    Value="Medium"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="Border"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="4">
+                        <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"
+                                              Margin="{TemplateBinding Padding}"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver"
+                                     Value="True">
+                            <Setter TargetName="Border"
+                                        Property="Background"
+                                        Value="#005A9E"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed"
+                                     Value="True">
+                            <Setter TargetName="Border"
+                                        Property="Background"
+                                        Value="#004085"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- 둥근 모서리 TextBox 스타일 -->
+    <Style x:Key="RoundedTextBoxStyle"
+               TargetType="{x:Type TextBox}">
+        <Setter Property="BorderThickness"
+                    Value="1"/>
+        <Setter Property="BorderBrush"
+                    Value="#D0D0D0"/>
+        <Setter Property="Padding"
+                    Value="12,8"/>
+    </Style>
+
+    <!-- 페이지네이션 버튼 스타일 -->
+    <Style x:Key="PaginationButtonStyle"
+               TargetType="Button">
+        <Setter Property="Width"
+                    Value="40"/>
+        <Setter Property="Height"
+                    Value="40"/>
+        <Setter Property="Background"
+                    Value="#F8F9FA"/>
+        <Setter Property="BorderBrush"
+                    Value="#DEE2E6"/>
+        <Setter Property="BorderThickness"
+                    Value="1"/>
+        <Setter Property="FontSize"
+                    Value="20"/>
+        <Setter Property="FontWeight"
+                    Value="Medium"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="Border"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="4">
+                        <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver"
+                                     Value="True">
+                            <Setter TargetName="Border"
+                                        Property="Background"
+                                        Value="#E3F2FD"/>
+                            <Setter TargetName="Border"
+                                        Property="BorderBrush"
+                                        Value="#2196F3"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed"
+                                     Value="True">
+                            <Setter TargetName="Border"
+                                        Property="Background"
+                                        Value="#BBDEFB"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled"
+                                     Value="False">
+                            <Setter TargetName="Border"
+                                        Property="Background"
+                                        Value="#F0F0F0"/>
+                            <Setter TargetName="Border"
+                                        Property="BorderBrush"
+                                        Value="#CCCCCC"/>
+                            <Setter Property="Foreground"
+                                        Value="#999999"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="TouchCheckBoxStyle" TargetType="CheckBox">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="CheckBox">
+                    <Border Background="Transparent"
+                            CornerRadius="8"
+                            Padding="0"
+                            SnapsToDevicePixels="True">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="40"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Border x:Name="CheckMarkBorder"
+                                    Width="38" Height="36"
+                                    CornerRadius="6"
+                                    BorderBrush="#2196F3"
+                                    BorderThickness="2"
+                                    Background="White"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Center">
+                                <Path x:Name="CheckMark"
+                                      Data="M 8 18 L 16 26 L 28 10"
+                                      Stroke="#2196F3"
+                                      StrokeThickness="3"
+                                      StrokeEndLineCap="Round"
+                                      StrokeStartLineCap="Round"
+                                      Visibility="Collapsed"/>
+                            </Border>
+                            <ContentPresenter Grid.Column="1"
+                                              VerticalAlignment="Center"
+                                              Margin="12,0,0,0"
+                                              RecognizesAccessKey="True"/>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="CheckMarkBorder" Property="Background" Value="#2196F3"/>
+                            <Setter TargetName="CheckMark" Property="Stroke" Value="White"/>
+                            <Setter TargetName="CheckMark" Property="Visibility" Value="Visible"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="CheckMarkBorder" Property="BorderBrush" Value="#1976D2"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="CheckMarkBorder" Property="BorderBrush" Value="#CCCCCC"/>
+                            <Setter TargetName="CheckMarkBorder" Property="Background" Value="#F0F0F0"/>
+                            <Setter Property="Foreground" Value="#AAAAAA"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="Foreground" Value="#333"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="MinHeight" Value="48"/>
+    </Style>
+
+    <Style TargetType="dxg:GridColumnHeader" x:Key="GridColumnHeaderStyleKey">
+        <Setter Property="FontSize" Value="18"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+    </Style>
+
+    <Style TargetType="dxg:LightweightCellEditor" x:Key="GridColumnCellKey">
+        <Setter Property="FontSize" Value="18"/>
+    </Style>
+</ResourceDictionary>
