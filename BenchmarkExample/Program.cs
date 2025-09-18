@@ -31,10 +31,10 @@ namespace Benchmarks
             * 테스트 방법은 여러가지 - 1 - 테스트할 클래스 type을 아래 지정
             */
             //예제-1. 동기 vs. 비동기 비교
-            var summary = BenchmarkRunner.Run<Benchmarks.ListAsync>();
+            //var summary = BenchmarkRunner.Run<Benchmarks.ListAsync>();
 
             //예제-2. Adhoc vs. Parameter 쿼리
-            //var summary = BenchmarkRunner.Run<Benchmarks.DynamicallyConstructedQueries>();
+            var summary = BenchmarkRunner.Run<Benchmarks.DynamicallyConstructedQueries>();
 
             /*
             * 테스트 방법은 여러가지 - 2 - 클래스 목록 중에 고르기

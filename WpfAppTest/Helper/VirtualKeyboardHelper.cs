@@ -18,8 +18,8 @@ namespace WpfAppTest.Helper
             if (_keyboardProcess == null || _keyboardProcess.HasExited)
             {
                 string programFiles = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
-                //string tabTipPath = @"C:\Program Files\Common Files\Microsoft Shared\ink\TabTip.exe";
-                string tabTipPath = @"C:\windows\system32\osk.exe";
+                string tabTipPath = @"C:\Program Files\Common Files\Microsoft Shared\ink\TabTip.exe";
+                //string tabTipPath = @"C:\windows\system32\osk.exe";
             
                 if (System.IO.File.Exists(tabTipPath))
                 {

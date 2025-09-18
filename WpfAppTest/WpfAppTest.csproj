@@ -125,6 +125,9 @@
     <Compile Include="View\DrugManagement\PublicControl\NumericSpinner.xaml.cs">
       <DependentUpon>NumericSpinner.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\DrugManagement\ReceivingScreen_V2.xaml.cs">
+      <DependentUpon>ReceivingScreen_V2.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\DrugManagement\ReceivingScreen.xaml.cs">
       <DependentUpon>ReceivingScreen.xaml</DependentUpon>
     </Compile>
@@ -323,6 +326,10 @@
     <Page Include="View\DrugManagement\PublicControl\NumericSpinner.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\DrugManagement\ReceivingScreen_V2.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="View\DrugManagement\ReceivingScreen.xaml">
       <Generator>MSBuild:Compile</Generator>

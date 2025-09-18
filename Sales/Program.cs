@@ -69,10 +69,10 @@ namespace Sales
 
             // 동기/비동기 성능 비교, 아래는 각각 개별적으로 두 번 이상 실행 후 비교
             //var i_s = 1; while (i_s++ <= 12) ComparetoSync();
-            var i_a = 1; while (i_a++ <= 12) await ComparetoASync();
+            //var i_a = 1; while (i_a++ <= 12) await ComparetoASync();
 
             // Adhoc vs. Parameter Query (sp_executesql)
-            //await AdhocOrParameterQuery();
+            await AdhocOrParameterQuery();
 
             // .ToQueryString()
             //ToQueryString();
