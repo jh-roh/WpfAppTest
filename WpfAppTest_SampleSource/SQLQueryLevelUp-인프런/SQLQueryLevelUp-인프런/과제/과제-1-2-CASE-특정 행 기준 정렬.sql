@@ -23,5 +23,21 @@ ORDER BY
 ;
 
 
+/*
+ÇØ´ä-1
+*/
+DECLARE @pid int = 65;
+
+SELECT ProductID
+FROM dbo.Products
+ORDER BY 
+(
+CASE 
+WHEN ProductID < @pid THEN ProductID + 1048576
+ELSE ProductID
+END ) ASC 
+;
+
+
 
 
