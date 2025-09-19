@@ -236,7 +236,8 @@ namespace WpfAppTest.ViewModel
         {
             SearchText = "";
             BarcodeText = "";
-            SelectedFilter = "DM-PERLINGJ"; // 기본값으로 페링가니트 선택
+            //SelectedFilter = "DM-PERLINGJ"; // 기본값으로 페링가니트 선택
+            SelectedFilter = null; // 기본값으로 페링가니트 선택
             CurrentPage = 1;
             ItemLocationsCurrentPage = 1;
             ReceivingGridCurrentPage = 1;
@@ -246,7 +247,7 @@ namespace WpfAppTest.ViewModel
             AllDrugCategories = new List<DrugCategory>();
             AllItemLocations = new List<ItemLocation>();
             PagedItemLocations = new ObservableCollection<ItemLocation>();
-
+            IsDrugListVisible = false;
             // 샘플 데이터 추가
             LoadSampleData();
         }
@@ -777,6 +778,7 @@ namespace WpfAppTest.ViewModel
             ItemLocationsNextPageCommand = new RelayCommand(ExecuteItemLocationsNextPage, CanExecuteItemLocationsNextPage);
             ReceivingGridPreviousPageCommand = new RelayCommand(ExecuteReceivingGridPreviousPage, CanExecuteReceivingGridPreviousPage);
             ReceivingGridNextPageCommand = new RelayCommand(ExecuteReceivingGridNextPage, CanExecuteReceivingGridNextPage);
+            CloseDrugListCommand = new RelayCommand(ExecuteCloseDrugList);
         }
 
         #region Properties
@@ -964,6 +966,22 @@ namespace WpfAppTest.ViewModel
                 _selectedFilter = value;
                 OnPropertyChanged();
                 UpdateLocationData(); // 필터 변경 시 데이터 업데이트
+                // 약품 선택 시 재고 약품 리스트 표시
+                if (!string.IsNullOrEmpty(value))
+                {
+                    IsDrugListVisible = true;
+                }
+            }
+        }
+
+        private bool _isDrugListVisible;
+        public bool IsDrugListVisible
+        {
+            get => _isDrugListVisible;
+            set
+            {
+                _isDrugListVisible = value;
+                OnPropertyChanged();
             }
         }
 
@@ -1147,6 +1165,7 @@ namespace WpfAppTest.ViewModel
         public ICommand ItemLocationsNextPageCommand { get; private set; }
         public ICommand ReceivingGridPreviousPageCommand { get; private set; }
         public ICommand ReceivingGridNextPageCommand { get; private set; }
+        public ICommand CloseDrugListCommand { get; private set; }
 
         #endregion
 
@@ -1300,6 +1319,12 @@ namespace WpfAppTest.ViewModel
         private bool CanExecuteReceivingGridNextPage(object parameter)
         {
             return ReceivingGridCurrentPage < ReceivingGridTotalPages;
+        }
+
+        private void ExecuteCloseDrugList(object parameter)
+        {
+            IsDrugListVisible = false;
+            SelectedFilter = null; // RadioButton 체크 해제
         }
 
         #endregion

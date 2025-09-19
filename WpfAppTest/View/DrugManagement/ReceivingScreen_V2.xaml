@@ -30,11 +30,11 @@
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*" />
-            <ColumnDefinition Width="250" />
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="250"/>
         </Grid.ColumnDefinitions>
-        
-        
+
+
         <!-- 하단 입고 리스트 및 요약 섹션 -->
         <Border Grid.Row="0"
                 Background="White"
@@ -63,7 +63,7 @@
                                    Foreground="#333333"
                                    VerticalAlignment="Center"
                                    Margin="0,0,10,0"/>
-                        
+
                     </StackPanel>
 
                     <!-- 그리드 페이지네이션 컨트롤 -->
@@ -116,47 +116,53 @@
                                 <ColumnDefinition Width="160"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <StackPanel Grid.Row="0" Grid.ColumnSpan="4" Orientation="Horizontal">
+                            <StackPanel Grid.Row="0"
+                                        Grid.ColumnSpan="4"
+                                        Orientation="Horizontal">
                                 <TextBlock Text="원본 바코드"
-                                   FontSize="15"
-                                   VerticalAlignment="Center"
-                                   Foreground="#666666"
-                                   FontWeight="Bold"
-                                   Margin="0,0,4,0"/>
+                                           FontSize="15"
+                                           VerticalAlignment="Center"
+                                           Foreground="#666666"
+                                           FontWeight="Bold"
+                                           Margin="0,0,4,0"/>
                                 <TextBox Text="{Binding BarcodeText, UpdateSourceTrigger=PropertyChanged}"
-                                     Width="500"
-                                     Height="32"
-                                     Style="{StaticResource RoundedTextBoxStyle}"/>
+                                         Width="500"
+                                         Height="32"
+                                         Style="{StaticResource RoundedTextBoxStyle}"/>
 
                             </StackPanel>
-                            
-                            <TextBlock Grid.Row="1" Text="품목번호(GTIN)"
+
+                            <TextBlock Grid.Row="1"
+                                       Text="품목번호(GTIN)"
                                        FontWeight="Bold"
                                        Foreground="#555"
                                        FontSize="15"
                                        VerticalAlignment="Center"/>
-                            <TextBlock Grid.Row="1" Grid.Column="1"
+                            <TextBlock Grid.Row="1"
+                                       Grid.Column="1"
                                        Text="{Binding Gs1ProductCode}"
                                        FontSize="16"
                                        Foreground="#222"/>
 
-                            <TextBlock Grid.Row="1" Grid.Column="2"
+                            <TextBlock Grid.Row="1"
+                                       Grid.Column="2"
                                        FontSize="15"
                                        Text="일련번호"
                                        FontWeight="Bold"
                                        Foreground="#555"
                                        VerticalAlignment="Center"/>
-                            <TextBlock Grid.Row="1" Grid.Column="3"
+                            <TextBlock Grid.Row="1"
+                                       Grid.Column="3"
                                        Text="{Binding Gs1SerialNumber}"
                                        FontSize="16"
                                        Foreground="#222"/>
 
                             <TextBlock  Grid.Row="2"
                                         FontSize="15"
-                                       Text="유효기간"
-                                       FontWeight="Bold"
-                                       Foreground="#555"
-                                       VerticalAlignment="Center"/>
+                                        Text="유효기간"
+                                        FontWeight="Bold"
+                                        Foreground="#555"
+                                        VerticalAlignment="Center"/>
                             <TextBlock Grid.Row="2"
                                        Grid.Column="1"
                                        Text="{Binding Gs1ExpiryDateText}"
@@ -281,27 +287,28 @@
                         <StackPanel Grid.Column="0">
                             <Line X1="0"
                                   Y1="0"
-                                  X2="250"
+                                  X2="300"
                                   Y2="0"
                                   Stroke="#CCCCCC"
-                                  StrokeThickness="1"
-                                  Margin="0,0,0,8"/>
+                                  StrokeThickness="2"
+                                  Margin="0,0,0,12"/>
                             <TextBlock Text="{Binding TotalReceivingQuantity, StringFormat='총 입고 수량: {0} EA'}"
-                                       FontSize="16"
+                                       FontSize="24"
                                        FontWeight="Bold"
                                        Foreground="#333333"
-                                       Margin="0,0,0,5"/>
+                                       Margin="0,0,0,8"/>
                             <TextBlock Text="{Binding BoxSummary, StringFormat='({0})'}"
-                                       FontSize="13"
-                                       Foreground="#666666"/>
+                                       FontSize="18"
+                                       Foreground="#666666"
+                                       FontWeight="Medium"/>
                         </StackPanel>
 
                         <Button Grid.Column="1"
                                 Content="저장"
                                 Command="{Binding SaveCommand}"
-                                Width="120"
-                                Height="45"
-                                FontSize="16"
+                                Width="160"
+                                Height="65"
+                                FontSize="20"
                                 FontWeight="Bold"
                                 Style="{StaticResource RoundedButtonStyle}"/>
                     </Grid>
@@ -310,10 +317,12 @@
         </Border>
 
 
-        <Border Grid.Column="0" Grid.Row="0"
+        <Border Grid.Column="0"
+                Grid.Row="0"
                 Background="White"
                 Padding="20"
-                Margin="15,0,5,0" Visibility="Visible">
+                Margin="15,0,5,0"
+                Visibility="{Binding IsDrugListVisible, Converter={StaticResource BoolToVis}}">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -321,20 +330,48 @@
                     <RowDefinition Height="1*"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-                <TextBlock Grid.Column="0"
-                    Text="재고 약품 리스트 (페링가니트 0.1% 추가 약품)"
-                    FontWeight="Bold"
-                    FontSize="30"
-                    Foreground="#333333"
-                    VerticalAlignment="Center"  Grid.Row="1" />
+                <!-- 제목과 닫기 버튼이 있는 헤더 -->
+                <Grid Grid.Row="1"
+                      Margin="0,0,0,15">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Column="0"
+                               Text="재고 약품 리스트 (페링가니트 0.1% 추가 약품)"
+                               FontWeight="Bold"
+                               FontSize="30"
+                               Foreground="#333333"
+                               VerticalAlignment="Center"/>
+
+                    <!-- 닫기 버튼 -->
+                    <Button Grid.Column="1"
+                            Command="{Binding CloseDrugListCommand}"
+                            Width="40"
+                            Height="40"
+                            Background="#F44336"
+                            BorderThickness="0"
+                            Style="{StaticResource RoundedButtonStyle}">
+                        <Button.Content>
+                            <Path Data="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+                                  Fill="White"
+                                  Width="20"
+                                  Height="20"
+                                  Stretch="Uniform"/>
+                        </Button.Content>
+                    </Button>
+                </Grid>
 
                 <!-- 중간 항목 상세 섹션 -->
                 <Border
-        Background="#F8F9FA"
-        BorderBrush="#E0E0E0"
-        BorderThickness="1"
-        CornerRadius="8"
-        Padding="20" Margin="0,0,0,0"  Grid.Row="2">
+                    Background="#F8F9FA"
+                    BorderBrush="#E0E0E0"
+                    BorderThickness="1"
+                    CornerRadius="8"
+                    Padding="20"
+                    Margin="0,0,0,0"
+                    Grid.Row="2">
                     <StackPanel>
                         <Grid Margin="0,0,0,15">
                             <Grid.ColumnDefinitions>
@@ -346,202 +383,211 @@
 
                             <!-- 항목리스트 페이지네이션 컨트롤 -->
                             <StackPanel Grid.Column="1"
-                        Orientation="Horizontal"
-                        VerticalAlignment="Center">
+                                        Orientation="Horizontal"
+                                        VerticalAlignment="Center">
                                 <Button Content="◀"
-                        Command="{Binding ItemLocationsPreviousPageCommand}"
-                        Style="{StaticResource PaginationButtonStyle}"
-                        Margin="0,0,5,0"/>
+                                        Command="{Binding ItemLocationsPreviousPageCommand}"
+                                        Style="{StaticResource PaginationButtonStyle}"
+                                        Margin="0,0,5,0"/>
 
                                 <TextBlock Text="{Binding ItemLocationsPageInfo}"
-                           FontSize="12"
-                           Foreground="#666666"
-                           VerticalAlignment="Center"
-                           Margin="5,0"/>
+                                           FontSize="12"
+                                           Foreground="#666666"
+                                           VerticalAlignment="Center"
+                                           Margin="5,0"/>
 
                                 <Button Content="▶"
-                        Command="{Binding ItemLocationsNextPageCommand}"
-                        Style="{StaticResource PaginationButtonStyle}"
-                        Margin="5,0,0,0"/>
+                                        Command="{Binding ItemLocationsNextPageCommand}"
+                                        Style="{StaticResource PaginationButtonStyle}"
+                                        Margin="5,0,0,0"/>
                             </StackPanel>
                         </Grid>
 
-                            <StackPanel >
-                                <!-- 동적으로 생성되는 장비위치 카드들 -->
-                                <ItemsControl  ItemsSource="{Binding PagedItemLocations}">
-                                    <ItemsControl.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <WrapPanel/>
-                                        </ItemsPanelTemplate>
-                                    </ItemsControl.ItemsPanel>
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <Border Style="{StaticResource LocationCardStyle}">
-                                                <Grid Margin="15">
-                                                    <Grid.RowDefinitions>
-                                                        <RowDefinition Height="Auto"/>
-                                                        <RowDefinition Height="1*"/>
-                                                        <RowDefinition Height="Auto"/>
-                                                    </Grid.RowDefinitions>
+                        <StackPanel>
+                            <!-- 동적으로 생성되는 장비위치 카드들 -->
+                            <ItemsControl  ItemsSource="{Binding PagedItemLocations}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Style="{StaticResource LocationCardStyle}">
+                                            <Grid Margin="15">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="1*"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                </Grid.RowDefinitions>
 
-                                                    <!-- 카드 헤더 -->
-                                                    <Grid Grid.Row="0">
-                                                        <Grid.ColumnDefinitions>
-                                                            <ColumnDefinition Width="1*"/>
-                                                            <ColumnDefinition Width="Auto"/>
-                                                        </Grid.ColumnDefinitions>
+                                                <!-- 카드 헤더 -->
+                                                <Grid Grid.Row="0">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="1*"/>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                    </Grid.ColumnDefinitions>
 
-                                                        <TextBlock Grid.Column="0"
-                                                   Text="{Binding LocationCode}"
-                                                   FontWeight="Bold"
-                                                   FontSize="23"
-                                                   Foreground="#333333"
-                                                   HorizontalAlignment="Center"
-                                                   VerticalAlignment="Center"
-                                                   Margin="0,0,0,12"/>
+                                                    <TextBlock Grid.Column="0"
+                                                               Text="{Binding LocationCode}"
+                                                               FontWeight="Bold"
+                                                               FontSize="23"
+                                                               Foreground="#333333"
+                                                               HorizontalAlignment="Center"
+                                                               VerticalAlignment="Center"
+                                                               Margin="0,0,0,12"/>
 
-                                                        <!-- 선택 표시 -->
-                                                        <Border Grid.Column="1"
-                                                Background="#4CAF50"
-                                                CornerRadius="12"
-                                                Width="24"
-                                                Height="24"
-                                                Visibility="{Binding IsSelected, Converter={StaticResource BoolToVisibilityConverter}}">
-                                                            <Path Data="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"
-                                                  Fill="White"
-                                                  Width="14"
-                                                  Height="14"
-                                                  Stretch="Uniform"
-                                                  HorizontalAlignment="Center"
-                                                  VerticalAlignment="Center"/>
-                                                        </Border>
-                                                    </Grid>
+                                                    <!-- 선택 표시 -->
+                                                    <Border Grid.Column="1"
+                                                            Background="#4CAF50"
+                                                            CornerRadius="12"
+                                                            Width="24"
+                                                            Height="24"
+                                                            Visibility="{Binding IsSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+                                                        <Path Data="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"
+                                                              Fill="White"
+                                                              Width="14"
+                                                              Height="14"
+                                                              Stretch="Uniform"
+                                                              HorizontalAlignment="Center"
+                                                              VerticalAlignment="Center"/>
+                                                    </Border>
+                                                </Grid>
 
-                                                    <!-- 카드 내용 -->
-                                                    <Grid Grid.Row="1">
-                                                        <Grid.ColumnDefinitions>
-                                                            <ColumnDefinition Width="1*"/>
-                                                            <ColumnDefinition Width="1*"/>
-                                                        </Grid.ColumnDefinitions>
+                                                <!-- 카드 내용 -->
+                                                <Grid Grid.Row="1">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="1*"/>
+                                                        <ColumnDefinition Width="1*"/>
+                                                    </Grid.ColumnDefinitions>
 
-                                                        <!-- 왼쪽: 약품 정보 -->
-                                                        <StackPanel Grid.Column="0"
-                                                    Margin="0,0,10,0">
-                                                            <TextBlock Text="약품코드"
-                                                       FontSize="22"
-                                                       FontWeight="Bold"
-                                                       Foreground="#666666"
-                                                       Margin="0,0,0,4"/>
-                                                            <TextBlock Text="{Binding DrugCode}"
-                                                       FontSize="18"
-                                                       FontWeight="Medium"
-                                                       Foreground="#333333"
-                                                       Margin="0,0,0,15" TextWrapping="Wrap"/>
+                                                    <!-- 왼쪽: 약품 정보 -->
+                                                    <StackPanel Grid.Column="0"
+                                                                Margin="0,0,10,0">
+                                                        <TextBlock Text="약품코드"
+                                                                   FontSize="22"
+                                                                   FontWeight="Bold"
+                                                                   Foreground="#666666"
+                                                                   Margin="0,0,0,4"/>
+                                                        <TextBlock Text="{Binding DrugCode}"
+                                                                   FontSize="18"
+                                                                   FontWeight="Medium"
+                                                                   Foreground="#333333"
+                                                                   Margin="0,0,0,15"
+                                                                   TextWrapping="Wrap"/>
 
-                                                            <TextBlock Text="약품명"
-                                                       FontSize="22"
-                                                       FontWeight="Bold"
-                                                       Foreground="#666666"
-                                                       Margin="0,0,0,4"/>
-                                                            <TextBlock Text="{Binding DrugName}"
-                                                       FontSize="18"
-                                                       FontWeight="Medium"
-                                                       Foreground="#333333"
-                                                       Margin="0,0,0,15" TextWrapping="Wrap"/>
+                                                        <TextBlock Text="약품명"
+                                                                   FontSize="22"
+                                                                   FontWeight="Bold"
+                                                                   Foreground="#666666"
+                                                                   Margin="0,0,0,4"/>
+                                                        <TextBlock Text="{Binding DrugName}"
+                                                                   FontSize="18"
+                                                                   FontWeight="Medium"
+                                                                   Foreground="#333333"
+                                                                   Margin="0,0,0,15"
+                                                                   TextWrapping="Wrap"/>
 
-                                                            <TextBlock Text="일련번호"
-                                                       FontSize="22"
-                                                       FontWeight="Bold"
-                                                       Foreground="#666666"
-                                                       Margin="0,0,0,4"/>
+                                                        <TextBlock Text="일련번호"
+                                                                   FontSize="22"
+                                                                   FontWeight="Bold"
+                                                                   Foreground="#666666"
+                                                                   Margin="0,0,0,4"/>
                                                         <TextBlock Text="{Binding SerialNumber}"
-                                                       FontSize="18"
-                                                       FontWeight="Medium"
-                                                       Foreground="#333333"
-                                                       Margin="0,0,0,8" TextWrapping="Wrap" />
+                                                                   FontSize="18"
+                                                                   FontWeight="Medium"
+                                                                   Foreground="#333333"
+                                                                   Margin="0,0,0,8"
+                                                                   TextWrapping="Wrap"/>
                                                     </StackPanel>
 
-                                                        <!-- 오른쪽: 상태 정보 -->
-                                                        <StackPanel Grid.Column="1"
-                                                    VerticalAlignment="Top">
+                                                    <!-- 오른쪽: 상태 정보 -->
+                                                    <StackPanel Grid.Column="1"
+                                                                VerticalAlignment="Top">
                                                         <Border Background="#2196F3"
-                                                            Visibility="{Binding IsNew, Converter={StaticResource BoolToVisibilityConverter}}"  Style="{StaticResource StatusBadgeStyle}">
-                                                                                                                        <TextBlock Text="신규"
-                                                                   FontSize="15"
-                                                                   Foreground="White"
-                                                                   FontWeight="Medium"/>
+                                                                Visibility="{Binding IsNew, Converter={StaticResource BoolToVisibilityConverter}}"
+                                                                Style="{StaticResource StatusBadgeStyle}">
+                                                            <TextBlock Text="신규"
+                                                                       FontSize="15"
+                                                                       Foreground="White"
+                                                                       FontWeight="Medium"/>
                                                         </Border>
-                                                        <Border Background="#F44336" 
-                                                        Style="{StaticResource StatusBadgeStyle}">
-                                                            <TextBlock Text="유효기간경과" TextAlignment="Center"
-                                                               FontSize="15"
-                                                               Foreground="White" 
-                                                               FontWeight="Medium"/>
-                                                            </Border>
+                                                        <Border Background="#F44336"
+                                                                Style="{StaticResource StatusBadgeStyle}">
+                                                            <TextBlock Text="유효기간경과"
+                                                                       TextAlignment="Center"
+                                                                       FontSize="15"
+                                                                       Foreground="White"
+                                                                       FontWeight="Medium"/>
+                                                        </Border>
 
 
-                                                        <Border Background="#FF9800" Margin="0,0,0,15"
-                                                    Style="{StaticResource StatusBadgeStyle}">
-                                                                <TextBlock Text="일련번호중복" TextAlignment="Center"
-                                                           FontSize="15"
-                                                           Foreground="White"
-                                                           FontWeight="Medium" />
-                                                            </Border>
+                                                        <Border Background="#FF9800"
+                                                                Margin="0,0,0,15"
+                                                                Style="{StaticResource StatusBadgeStyle}">
+                                                            <TextBlock Text="일련번호중복"
+                                                                       TextAlignment="Center"
+                                                                       FontSize="15"
+                                                                       Foreground="White"
+                                                                       FontWeight="Medium"/>
+                                                        </Border>
 
 
-                                                            <TextBlock Text="유효기간"
-                                               FontSize="22"
-                                               FontWeight="Bold"
-                                               Foreground="#666666"
-                                               Margin="0,0,0,4"/>
-                                                            <TextBlock Text="{Binding ExpiryDate, StringFormat='yyyy-MM-dd'}"
-                                               FontSize="18"
-                                               FontWeight="Medium"
-                                               Foreground="#333333"
-                                               Margin="0,0,0,15"/>
+                                                        <TextBlock Text="유효기간"
+                                                                   FontSize="22"
+                                                                   FontWeight="Bold"
+                                                                   Foreground="#666666"
+                                                                   Margin="0,0,0,4"/>
+                                                        <TextBlock Text="{Binding ExpiryDate, StringFormat='yyyy-MM-dd'}"
+                                                                   FontSize="18"
+                                                                   FontWeight="Medium"
+                                                                   Foreground="#333333"
+                                                                   Margin="0,0,0,15"/>
 
-                                                            <TextBlock Text="수량"
-                                               FontSize="22"
-                                               FontWeight="Bold"
-                                               Foreground="#666666"
-                                               Margin="0,0,0,4"/>
-                                                            <TextBlock Text="{Binding Quantity}"
-                                               FontSize="18"
-                                               FontWeight="Bold"
-                                               Foreground="#333333" />
-                                                        </StackPanel>
-                                                    </Grid>
-
-                                                    <!-- 추가 버튼 -->
-                                                    <Button Grid.Row="2"
-                                            Content="추가"
-                                            Command="{Binding DataContext.AddItemCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                            CommandParameter="{Binding LocationCode}"
-                                            Height="50"
-                                            Margin="0,12,0,0"
-                                            Style="{StaticResource RoundedButtonStyle}" FontSize="20" FontWeight="Bold"/>
+                                                        <TextBlock Text="수량"
+                                                                   FontSize="22"
+                                                                   FontWeight="Bold"
+                                                                   Foreground="#666666"
+                                                                   Margin="0,0,0,4"/>
+                                                        <TextBlock Text="{Binding Quantity}"
+                                                                   FontSize="18"
+                                                                   FontWeight="Bold"
+                                                                   Foreground="#333333"/>
+                                                    </StackPanel>
                                                 </Grid>
-                                            </Border>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
-                            </StackPanel>
+
+                                                <!-- 추가 버튼 -->
+                                                <Button Grid.Row="2"
+                                                        Content="추가"
+                                                        Command="{Binding DataContext.AddItemCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                        CommandParameter="{Binding LocationCode}"
+                                                        Height="50"
+                                                        Margin="0,12,0,0"
+                                                        Style="{StaticResource RoundedButtonStyle}"
+                                                        FontSize="20"
+                                                        FontWeight="Bold"/>
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
                     </StackPanel>
                 </Border>
 
             </Grid>
         </Border>
-        
-        
+
+
         <!-- 약품 분류 필터 (페이지네이션 포함) -->
-        <Border 
-          Grid.Column="1"   
-         Background="#F8F9FA"
-         BorderBrush="#E0E0E0"
-         BorderThickness="1"
-         CornerRadius="8"
-         Padding="15"
-         Margin="0,0,15,0">
+        <Border
+            Grid.Column="1"
+            Background="#F8F9FA"
+            BorderBrush="#E0E0E0"
+            BorderThickness="1"
+            CornerRadius="8"
+            Padding="15"
+            Margin="0,0,15,0">
             <StackPanel>
                 <Grid Margin="0,0,0,10">
                     <Grid.ColumnDefinitions>
@@ -550,41 +596,41 @@
                     </Grid.ColumnDefinitions>
 
                     <TextBlock Grid.Column="0"
-                        Text="약품 선택"
-                        FontWeight="Bold"
-                        FontSize="15"
-                        Foreground="#333333"
-                        VerticalAlignment="Center"/>
+                               Text="약품 선택"
+                               FontWeight="Bold"
+                               FontSize="15"
+                               Foreground="#333333"
+                               VerticalAlignment="Center"/>
 
                     <!-- 페이지네이션 컨트롤 -->
                     <StackPanel Grid.Column="1"
-                         Orientation="Horizontal"
-                         VerticalAlignment="Center">
+                                Orientation="Horizontal"
+                                VerticalAlignment="Center">
                         <Button Content="◀"
-                         Command="{Binding PreviousPageCommand}"
-                         Style="{StaticResource PaginationButtonStyle}"
-                         Margin="0,0,5,0"/>
+                                Command="{Binding PreviousPageCommand}"
+                                Style="{StaticResource PaginationButtonStyle}"
+                                Margin="0,0,5,0"/>
 
                         <TextBlock Text="{Binding PageInfo}"
-                            FontSize="12"
-                            Foreground="#666666"
-                            VerticalAlignment="Center"
-                            Margin="5,0"/>
+                                   FontSize="12"
+                                   Foreground="#666666"
+                                   VerticalAlignment="Center"
+                                   Margin="5,0"/>
 
                         <Button Content="▶"
-                         Command="{Binding NextPageCommand}"
-                         Style="{StaticResource PaginationButtonStyle}"
-                         Margin="5,0,0,0"/>
+                                Command="{Binding NextPageCommand}"
+                                Style="{StaticResource PaginationButtonStyle}"
+                                Margin="5,0,0,0"/>
                     </StackPanel>
                 </Grid>
 
                 <!-- 검색 텍스트 박스 추가 -->
                 <Border Background="White"
-                 BorderBrush="#D0D0D0"
-                 BorderThickness="1"
-                 CornerRadius="6"
-                 Padding="12,8"
-                 Margin="0,0,0,12">
+                        BorderBrush="#D0D0D0"
+                        BorderThickness="1"
+                        CornerRadius="6"
+                        Padding="12,8"
+                        Margin="0,0,0,12">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="1*"/>
@@ -592,26 +638,28 @@
                         </Grid.ColumnDefinitions>
 
                         <TextBox Grid.Column="0"
-                          Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
-                          Height="32"
-                          FontSize="13"
-                          VerticalAlignment="Center"
-                          BorderThickness="0"
-                          Background="Transparent"
-                          Foreground="#333333"
-                          VerticalContentAlignment="Center"
-                          Style="{StaticResource RoundedTextBoxStyle}" GotKeyboardFocus="SearchTextBox_GotKeyboardFocus" LostKeyboardFocus="SearchTextBox_LostKeyboardFocus">
+                                 Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+                                 Height="32"
+                                 FontSize="13"
+                                 VerticalAlignment="Center"
+                                 BorderThickness="0"
+                                 Background="Transparent"
+                                 Foreground="#333333"
+                                 VerticalContentAlignment="Center"
+                                 Style="{StaticResource RoundedTextBoxStyle}"
+                                 GotKeyboardFocus="SearchTextBox_GotKeyboardFocus"
+                                 LostKeyboardFocus="SearchTextBox_LostKeyboardFocus">
                         </TextBox>
 
                         <!-- 검색 아이콘 -->
                         <Path Grid.Column="1"
-                       Data="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"
-                       Fill="#999999"
-                       Width="16"
-                       Height="16"
-                       VerticalAlignment="Center"
-                       Margin="8,0,0,0"
-                       Stretch="Uniform"/>
+                              Data="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"
+                              Fill="#999999"
+                              Width="16"
+                              Height="16"
+                              VerticalAlignment="Center"
+                              Margin="8,0,0,0"
+                              Stretch="Uniform"/>
                     </Grid>
                 </Border>
 
@@ -625,21 +673,30 @@
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <RadioButton
-                         Command="{Binding DataContext.FilterCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                         CommandParameter="{Binding Code}"
-                         Style="{StaticResource FilterButtonStyle}"
-                          Padding="0">
+                                Command="{Binding DataContext.FilterCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                CommandParameter="{Binding Code}"
+                                Style="{StaticResource FilterButtonStyle}"
+                                Padding="0">
                                 <RadioButton.Content>
-                                    <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                        <TextBlock Text="{Binding Code}" Foreground="#888" FontWeight="Bold" FontSize="16" HorizontalAlignment="Center"/>
-                                        <TextBlock Text="{Binding Name}" FontSize="17" HorizontalAlignment="Center"
-                                            TextTrimming="CharacterEllipsis" 
-                                            MaxWidth="180"/>
+                                    <StackPanel Orientation="Vertical"
+                                                VerticalAlignment="Center"
+                                                HorizontalAlignment="Center">
+                                        <TextBlock Text="{Binding Code}"
+                                                   Foreground="#888"
+                                                   FontWeight="Bold"
+                                                   FontSize="16"
+                                                   HorizontalAlignment="Center"/>
+                                        <TextBlock Text="{Binding Name}"
+                                                   FontSize="17"
+                                                   HorizontalAlignment="Center"
+                                                   TextTrimming="CharacterEllipsis"
+                                                   MaxWidth="180"/>
                                     </StackPanel>
                                 </RadioButton.Content>
                                 <RadioButton.IsChecked>
                                     <MultiBinding Converter="{StaticResource StringToBoolConverter}">
-                                        <Binding Path="DataContext.SelectedFilter" RelativeSource="{RelativeSource AncestorType=UserControl}"/>
+                                        <Binding Path="DataContext.SelectedFilter"
+                                                 RelativeSource="{RelativeSource AncestorType=UserControl}"/>
                                         <Binding Path="Code"/>
                                     </MultiBinding>
                                 </RadioButton.IsChecked>
