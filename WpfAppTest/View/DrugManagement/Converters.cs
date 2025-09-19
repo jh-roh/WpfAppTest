@@ -38,9 +38,9 @@ namespace WpfAppTest.View.DrugManagement
         {
             if (value is bool isVisible)
             {
-                return isVisible ? Visibility.Visible : Visibility.Collapsed;
+                return isVisible ? Visibility.Visible : Visibility.Hidden;
             }
-            return Visibility.Collapsed;
+            return Visibility.Hidden;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

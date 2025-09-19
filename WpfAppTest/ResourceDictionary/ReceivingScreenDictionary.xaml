@@ -13,9 +13,9 @@
     <Style x:Key="FilterButtonStyle"
                TargetType="RadioButton">
         <Setter Property="Width"
-                    Value="200"/>
+                    Value="190"/>
         <Setter Property="Height"
-                    Value="35"/>
+                    Value="70"/>
         <Setter Property="Margin"
                     Value="3"/>
         <Setter Property="FontSize"
@@ -79,9 +79,9 @@
     <Style x:Key="LocationCardStyle"
                TargetType="Border">
         <Setter Property="Width"
-                    Value="300"/>
+                    Value="330"/>
         <Setter Property="Height"
-                    Value="230"/>
+                    Value="380"/>
         <Setter Property="Background"
                     Value="White"/>
         <Setter Property="BorderBrush"

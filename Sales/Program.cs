@@ -72,7 +72,7 @@ namespace Sales
             //var i_a = 1; while (i_a++ <= 12) await ComparetoASync();
 
             // Adhoc vs. Parameter Query (sp_executesql)
-            await AdhocOrParameterQuery();
+            //await AdhocOrParameterQuery();
 
             // .ToQueryString()
             //ToQueryString();
@@ -81,7 +81,7 @@ namespace Sales
             //await AsNoTracking();
 
             // 필요한 열만 SELECT 
-            //await SelectColumns();
+            await SelectColumns();
 
             // IQueryable vs. IEnumerable (쿼리 시점 차이)
             //await IQueryableEnumerable_1();

@@ -15,12 +15,12 @@ namespace WpfAppTest.View.DrugManagement
 
         private void SearchTextBox_GotKeyboardFocus(object sender, System.Windows.Input.KeyboardFocusChangedEventArgs e)
         {
-            VirtualKeyboardHelper.ShowKeyboard();
+            //VirtualKeyboardHelper.ShowKeyboard();
         }
 
         private void SearchTextBox_LostKeyboardFocus(object sender, System.Windows.Input.KeyboardFocusChangedEventArgs e)
         {
-            VirtualKeyboardHelper.HideKeyboard();
+            //VirtualKeyboardHelper.HideKeyboard();
         }
     }
 }

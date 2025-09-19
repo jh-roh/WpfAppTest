@@ -222,8 +222,8 @@ namespace WpfAppTest.ViewModel
 
     public class ReceivingScreenViewModel : PropertyChangedBase
     {
-        private const int ItemsPerPage = 8; // 페이지당 표시할 약품 분류 수
-        private const int ItemLocationsPerPage = 8; // 페이지당 표시할 항목 위치 수 (2행 x 4열)
+        private const int ItemsPerPage = 15; // 페이지당 표시할 약품 분류 수
+        private const int ItemLocationsPerPage = 6; // 페이지당 표시할 항목 위치 수 (2행 x 4열)
         private const int ReceivingGridPerPage = 10; // 페이지당 표시할 그리드 항목 수
 
         public ReceivingScreenViewModel()
