@@ -283,7 +283,7 @@ DML 작업 결과 행 반환
 
 INSERT/UPDATE/DELETE/MERGE 결과 행 반환
  - 과거엔 후속 SELECT 쿼리로 처리(UPDATE + SELECT)
- - 현재는 OUTPUT 절 활용 가능 (UPDATE outpu)
+ - 현재는 OUTPUT 절 활용 가능 (UPDATE output)
    ; 단순 결과 반환인 경우
    ; 혹은 테이블에 직접 입력 후 재사용도 가능
 */
@@ -326,6 +326,8 @@ WHERE d.OrderID <= 10249
 /*
 -------------------------------------------------------------
 중첩 반복(Nested Loop) JOIN 기본
+
+OLTP 쿼리의 기본 - Nested Loops(중첩 루프) Join 성능 이해
 */
 CREATE INDEX IX_BigOrders_CustomerID
 ON dbo.BigOrders(CustomerID);
