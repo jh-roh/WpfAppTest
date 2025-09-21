@@ -344,6 +344,36 @@ WHERE c.CustomerID IN ('VINET', 'VICTE');
 -------------------------------------------------------------
 Outer Join - 조인 순서 유도
 */
+
+/*
+불필요한 OUTER JOIN
+- 앞서 "의미 오류" 에서 소개
+- 쿼리 최적화에 방해 요소
+  ; 조인 순서 강제
+- 비즈니스/데이터적으로 필요한 경우에만 사용
+*/
+
+/*
+제안 : WHERE 절 조건식 순서
+유지보수를 위한 권장
+ - 같은 테이블 별칭 끼리 묶어서
+ - 검색 주인공은 선두에
+
+FROM dbo.table AS t1
+INNER JOIN dbo.table AS t2
+INNER JOIN dbo.table AS t2
+...
+WHERE t1.col1 = ?
+  AND t1.col2 = ?
+  AND t1.col3 = ?
+  AND t2.col1 = ?
+  AND t2.col2 = ?
+  AND t3.col1 = ?
+
+
+*/
+
+
 SELECT s.SupplierID, p.ProductID, p.ProductName, p.UnitPrice 
 FROM dbo.Suppliers AS s INNER JOIN dbo.Products AS p
   ON s.SupplierID = p.SupplierID
@@ -362,6 +392,26 @@ WHERE p.SupplierID = 2
 예제 - 언제 Subquery를 사용할 것인가?
 -------------------------------------------------------------
 */
+
+/*
+SubQuery 이해
+
+1) Flattened (Unset subqueries)
+ - JOIN 으로 변환 후, JOIN으로서 처리
+   ; 직접 JOIN 사용 경우와 차이 발생 가능(조인 순서, 연산 방법 등의 차이 발생)
+ - 기본은 JOIN 사용
+2) 언제 Subquery를 사용할 것인가?
+ - Semi Join
+  ; 한쪽 테이블만 SELECT 결과 집합으로 요구
+  ; 다른 쪽 테이블은 데이터를 체크하는 선택(selection) 연산만 수행
+    => SubQuery 로 작성해서 최적화 작업
+ - TOP 절 등을 이용 결과 집합이 일부로 제한되는 경우
+ - 데이터 가공(선 처리) 후 Join 이나 기타 연산 수행 시
+ - SubQuery 고유 문법이나 기능이 필요한 경우
+
+*/
+
+
 USE EPlan
 
 -- 기본 조인
@@ -384,7 +434,23 @@ WHERE EXISTS (SELECT *
 ---------------------------------------------------------------------
 파생테이블(인라인 뷰), CTE, APPLY
 ---------------------------------------------------------------------
+학습 필요
+ - 3가지 구문과 기능에 대해
+성능 좋은 고급 쿼리 적용 예
+ 1) 중복 I/O 제거 - "같은 데이터는 2번 이상 중복해서 읽지 않는다" (다룰 예제)
+    A. JOIN 으로 변경
+	B. 기준 결과 집합 선 처리 후 결합
+	C. 행 복제
+ 2) 연산 순서 조정 - 더 나은 순서로 연산 처리
+   ; Ex. 결합(Join, Subquery) 전 Group 먼저
+      ; (거래 데이터 x 코드 테이블) => 집계
+	                           vs. (거래 데이터 -> 집계) x 코드 테이블
+
+
 */
+
+
+
 /*
 예제 - SELECT절 Subquery 중복 IO
 */
