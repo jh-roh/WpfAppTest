@@ -52,6 +52,26 @@ FROM
 ;
 
 
+--해답 1
+SELECT
+	s1.SalesYMD
+,	s1.Amount
+,	[Rank] = COUNT(s2.Amount) + 1
+FROM
+	dbo.Sales AS s1
+LEFT JOIN
+	dbo.Sales AS s2 ON s2.Amount < s1.Amount
+GROUP BY
+	s1.SalesYMD
+,	s1.Amount
+ORDER BY
+	Rank ASC;
+;
+
+
+
+
+
 /*
 Dense Rank
 */
@@ -64,6 +84,22 @@ FROM
 ;
 
 
+--해답 - 1
+
+SELECT
+	s1.SalesYMD
+,	s1.Amount
+,	DenseRank = COUNT(DISTINCT s2.Amount) + 1
+FROM
+	dbo.Sales AS s1
+LEFT JOIN
+	dbo.Sales AS s2 ON s2.Amount < s1.Amount
+GROUP BY
+	s1.SalesYMD
+,	s1.Amount
+ORDER BY
+	DenseRank ASC;
+;
 
 
 

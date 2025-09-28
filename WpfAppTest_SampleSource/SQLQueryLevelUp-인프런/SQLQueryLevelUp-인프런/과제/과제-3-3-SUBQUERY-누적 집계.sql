@@ -44,3 +44,19 @@ WHERE d1.OrderID <= 10250
 ORDER BY d1.OrderID ASC, d1.ProductID ASC
 ;
 
+
+--ÇØ´ä
+SELECT 
+	d1.OrderID, d1.ProductID
+,	Amount = (d1.Quantity * d1.UnitPrice)
+,	AmountRunning = (
+						SELECT SUM(d2.Quantity * d2.UnitPrice)
+						FROM dbo.[Order Details] AS d2
+						WHERE d2.OrderID = d1.OrderID
+						AND d2.ProductID <= d1.ProductID
+					)
+
+FROM dbo.[Order Details] AS d1
+WHERE d1.OrderID <= 10250
+ORDER BY d1.OrderID ASC, d1.ProductID ASC
+;

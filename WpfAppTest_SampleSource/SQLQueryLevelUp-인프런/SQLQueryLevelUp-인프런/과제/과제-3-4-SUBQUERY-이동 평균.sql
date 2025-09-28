@@ -36,3 +36,17 @@ ORDER BY d1.OrderID;
 
 
 
+--ÇØ´ä - 1
+
+SELECT 
+	d1.OrderID
+,	Amount = SUM(d1.Quantity * d1.UnitPrice)
+,	AmountSliding = (		
+				SELECT SUM(Quantity * UnitPrice) / COUNT(DISTINCT OrderID)
+				FROM dbo.[Order Details] AS d2
+				where d2.OrderID BETWEEN (d1.OrderID - 2) AND d1.OrderID
+			)
+FROM dbo.[Order Details] AS d1
+WHERE d1.OrderID <= 10260
+GROUP BY d1.OrderID
+ORDER BY d1.OrderID;

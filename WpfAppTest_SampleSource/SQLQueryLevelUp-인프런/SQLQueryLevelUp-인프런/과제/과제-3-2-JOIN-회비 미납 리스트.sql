@@ -61,3 +61,16 @@ FROM
 ) AS f
 WHERE 
 
+
+--ÇØ´ä - 1
+SELECT 
+	MemberID, FeeID, FeeName
+FROM 
+(
+	SELECT MemberID, FeeID, FeeName
+	FROM Members CROSS JOIN MemberFee
+) AS f
+WHERE NOT EXISTS(SELECT 1 FROM PayLists AS p
+				 WHERE p.MemberID = f.MemberID
+				 AND p.FeeID = f.FeeID)
+	

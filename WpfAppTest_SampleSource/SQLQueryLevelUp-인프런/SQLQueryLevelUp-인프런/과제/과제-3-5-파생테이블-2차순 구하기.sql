@@ -43,4 +43,17 @@ GROUP BY
 ;
 
 
+--ÇØ´ä
+SELECT p.CategoryID, NextPrice = MAX(p.UnitPrice)
+FROM (	
+	SELECT CategoryID, MaxPrice = MAX(UnitPrice)
+	FROM dbo.Products
+	GROUP BY CategoryID
+) m INNER JOIN dbo.Products p
+  ON m.CategoryID = p.CategoryID
+WHERE 
+	p.UnitPrice < m.MaxPrice
+GROUP BY 
+	p.CategoryID
+;
 
