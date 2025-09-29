@@ -562,7 +562,13 @@ WHERE OrderID <= 10250;
 
 /*
 -------------------------------------------------------------
-CTE 재귀호출
+CTE 재귀호출(순환 관계 모델) 처리에 활용
+
+예
+ ; 조직 구조
+ ; 메뉴 경로
+ ; BOM
+ ; etc.
 */
 /*
 SELECT EmployeeID, ReportsTo, * FROM dbo.Employees;
@@ -570,12 +576,14 @@ SELECT EmployeeID, ReportsTo, * FROM dbo.Employees;
 WITH RCTE
 AS 
 (
+  --앵커 멤버 쿼리
    SELECT e.EmployeeID, e.ReportsTo, e.Title
    FROM dbo.Employees AS e
    WHERE e.EmployeeID = 9
 
    UNION ALL
 
+   --재귀 멤버 쿼리
    SELECT e.EmployeeID, e.ReportsTo, e.Title
    FROM dbo.Employees AS e INNER JOIN RCTE AS r
       ON e.EmployeeID = r.ReportsTo
@@ -585,7 +593,37 @@ FROM RCTE;
 
 
 /*
+차집합 구하기 - NOT IN 사용 주의
+SubQuery에서 NULL을 반환할 수 있는 경우
+ - 결과 데이터 정합성 문제 or 실행 계획 최적화 이슈
+   ; NULL 반환되지 않도록 처리
+   ; NOT EXISTS 또는 다른 차집합 구현 방법 고려
+   ; NOT IN 필요 시 주의해서 사용
+
+*/
+
+/*
 -------------------------------------------------------------
 잠금 차단 고려 – 두 가지 선택지
 -------------------------------------------------------------
+*/
+
+/*
+UPDATE-SET 절 불필요한 열 참조
+가능한 실제 대상열만 참조
+ ; 불필요한 열이 Index일 경우 더욱 주의
+
+SELECT 쿼리 잠금 차단 회피 - 두가지 선택지
+ - SELECT 시 불필요한 잠금 대기/차단으로 인한 성능 이슈 해소
+ - 개발 초기 단계에 협의(의사결정) 필요
+  ; DB 단위 옵션 "Read Committed Snapshot" 사용 (Read Before Image)
+    => MVCC(Multi-Version Concurrency Control) 라고도 불림
+  ; 쿼리에서 NOLOCK 처리 (Read Dirty Data)
+    => 주의. 업무 모델 상 문제가 없을 때
+
+SET LOCK_TIMEOUT 3000
+SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
+
+SELECT * FROM table WITH(NOLOCK)- or READUNCOMMITTED
+
 */
