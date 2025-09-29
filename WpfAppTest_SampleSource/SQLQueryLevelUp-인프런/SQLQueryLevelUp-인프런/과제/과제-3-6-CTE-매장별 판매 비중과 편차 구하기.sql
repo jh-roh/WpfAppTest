@@ -70,3 +70,70 @@ FROM dbo.sales AS s
 
 ;
 
+
+
+--해답 - 1
+WITH StoreSales AS
+(
+	SELECT stor_id
+		, stor_sum = SUM(qty)
+		, stor_avg = AVG(qty)
+	FROM dbo.sales
+	GROUP BY stor_id
+),
+TotalSales AS
+(
+	SELECT sales_sum = SUM(qty)
+		, sales_avg = AVG(qty)
+	FROM dbo.sales
+)
+SELECT s.stor_id, s.title_id, s.qty
+	,	a.stor_sum
+	,	a.stor_avg
+	,	t.sales_sum
+	,	t.sales_avg
+	,	[판매비중/매장] = CAST(100.0 * s.qty / a.stor_sum AS decimal(18,2))
+	,  [판매편차/매장] = s.qty - a.stor_avg
+	,  [전체비중] = CAST(100.0 * s.qty / t.sales_sum AS decimal(18,2))
+	,  [전체편차] = s.qty - t.sales_avg
+
+FROM dbo.sales AS s
+ INNER JOIN StoreSales AS a
+  ON s.stor_id = a.stor_id
+ CROSS JOIN TotalSales AS t
+ORDER BY s.stor_id ASC, s.title_id ASC
+;
+
+
+--해답 - 2
+WITH StoreSales AS
+(
+	SELECT stor_id
+		, stor_sum = SUM(qty)
+		, stor_avg = AVG(qty)
+		, stor_count = COUNT(qty)
+	FROM dbo.sales
+	GROUP BY stor_id
+),
+TotalSales AS
+(
+	SELECT sales_sum = SUM(stor_sum)
+		, sales_avg = SUM(stor_sum) / SUM(stor_count)
+	FROM StoreSales
+)
+SELECT s.stor_id, s.title_id, s.qty
+	,	a.stor_sum
+	,	a.stor_avg
+	,	t.sales_sum
+	,	t.sales_avg
+	,	[판매비중/매장] = CAST(100.0 * s.qty / a.stor_sum AS decimal(18,2))
+	,  [판매편차/매장] = s.qty - a.stor_avg
+	,  [전체비중] = CAST(100.0 * s.qty / t.sales_sum AS decimal(18,2))
+	,  [전체편차] = s.qty - t.sales_avg
+
+FROM dbo.sales AS s
+ INNER JOIN StoreSales AS a
+  ON s.stor_id = a.stor_id
+ CROSS JOIN TotalSales AS t
+ORDER BY s.stor_id ASC, s.title_id ASC
+;

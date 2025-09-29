@@ -20,3 +20,17 @@ FROM dbo.Customers AS c
 ;
 
 
+--ÇØ´ä
+SELECT c.CustomerID, c.CompanyName, o.OrderDate, o.OrderID
+FROM dbo.Customers AS c
+CROSS APPLY
+ (
+	SELECT TOP(3) o.OrderID, o.OrderDate
+	FROM dbo.Orders AS o
+	WHERE o.CustomerID = c.CustomerID
+	ORDER BY OrderDate DESC, OrderID DESC
+
+ ) AS o
+ ORDER BY c.CustomerID ASC
+;
+

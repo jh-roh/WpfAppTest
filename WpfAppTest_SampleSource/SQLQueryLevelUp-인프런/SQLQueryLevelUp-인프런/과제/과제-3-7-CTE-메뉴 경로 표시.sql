@@ -61,3 +61,22 @@ FROM MenuPath AS p
 ;
 
 
+--ÇØ´ä
+WITH MenuPath (MenuID, ParentMenuID, lvl, MenuPath)
+AS
+(
+	SELECT m.MenuID, m.ParentMenuID, lvl = 0, CAST(m.Name AS varchar(1000))
+	FROM dbo.Menus AS m
+	WHERE MenuID = 6
+
+	UNION ALL
+
+	SELECT m.MenuID, m.ParentMenuID, lvl + 1, CAST(m.Name + '/' + MenuPath AS varchar(1000))
+	FROM dbo.Menus AS m
+	INNER JOIN MenuPath AS p
+		ON m.MenuID = p.ParentMenuID
+
+)
+SELECT *
+FROM MenuPath AS p
+;
