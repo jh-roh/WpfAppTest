@@ -28,6 +28,13 @@ INNER JOIN dbo.stores AS st
 	ON sa.stor_id = st.stor_id
 INNER JOIN dbo.titles AS ti
 	ON sa.title_id = ti.title_id
-GROUP BY ......
-ORDER BY ......
+GROUP BY GROUPING SETS
+(
+	(st.stor_name, ti.title,sa.payterms)
+,	(st.stor_name)
+,	(ti.title)
+,	()
+)
+ORDER BY GROUPING(st.stor_name),st.stor_name
+,		 GROUPING(ti.title), ti.title
 ;

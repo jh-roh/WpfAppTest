@@ -46,5 +46,14 @@ SELECT *
 FROM RowCols
 ;
 
+--ÇØ´ä 1
+
+SELECT *
+FROM RowCols rc
+UNPIVOT (value FOR C IN ([C1],[C2],[C3])) UnP;
 
 
+SELECT *
+FROM RowCols rc
+UNPIVOT (value FOR C IN ([C1],[C2],[C3])) UnP
+PIVOT (MIN(value) FOR R IN ([R1], [R2], [R3])) P;

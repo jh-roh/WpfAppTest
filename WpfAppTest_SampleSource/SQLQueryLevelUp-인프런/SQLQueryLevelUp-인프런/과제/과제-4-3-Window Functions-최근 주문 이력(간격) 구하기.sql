@@ -37,8 +37,9 @@ SELECT
 ,	OrderDate
 ,	OrderID
 	/* 여기에 코드 완성 */
-,	OrderDiff = 
-
+,	OrderDiff = DATEDIFF(DAY
+			, LAG(OrderDate,1) OVER(PARTITION BY CustomerID ORDER BY OrderDate ASC, OrderID ASC)
+			, OrderDate)
 FROM dbo.Orders
 ORDER BY CustomerID ASC, OrderDate DESC, OrderID DESC;
 
