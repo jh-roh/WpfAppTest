@@ -246,7 +246,7 @@
                                 </dxg:GridColumn.EditSettings>
                             </dxg:GridColumn>
                             <dxg:GridColumn Width="140"
-                                            Header="약품 총 수량"
+                                            Header="위치 표시"
                                             FieldName="CurrentTotalQuantity"
                                             HorizontalHeaderContentAlignment="Center"
                                             AllowEditing="False"
@@ -292,7 +292,7 @@
                                   Stroke="#CCCCCC"
                                   StrokeThickness="2"
                                   Margin="0,0,0,12"/>
-                            <TextBlock Text="{Binding TotalReceivingQuantity, StringFormat='총 입고 수량: {0} EA'}"
+                            <TextBlock Text="{Binding TotalReceivingQuantity, StringFormat='총 출고 수량: {0} EA'}"
                                        FontSize="24"
                                        FontWeight="Bold"
                                        Foreground="#333333"

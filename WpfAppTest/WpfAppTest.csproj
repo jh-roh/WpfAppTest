@@ -84,6 +84,7 @@
     </Compile>
     <Compile Include="Helper\VirtualKeyboardHelper.cs" />
     <Compile Include="Model\CustList.cs" />
+    <Compile Include="Model\DrugInventoryItem.cs" />
     <Compile Include="ServiceFunction\HttpTestFunction.cs" />
     <Compile Include="ServiceFunction\IInterfaceService.cs" />
     <Compile Include="ServiceFunction\InterfaceTestService.cs" />
@@ -92,6 +93,7 @@
     <Compile Include="TestClass\TestReflection.cs" />
     <Compile Include="TestClass\TryCatchAttribute.cs" />
     <Compile Include="TestClass\TryCatchInterceptor.cs" />
+    <Compile Include="ViewModel\ReceivingItemsViewModel.cs" />
     <Compile Include="ViewModel\ReceivingScreenViewModel.cs" />
     <Compile Include="ViewModel\StockingScreenTestModel.cs" />
     <Compile Include="View\CanvasViewBoxTest.xaml.cs">
@@ -124,6 +126,9 @@
     </Compile>
     <Compile Include="View\DrugManagement\PublicControl\NumericSpinner.xaml.cs">
       <DependentUpon>NumericSpinner.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\DrugManagement\ReceivingItemsControl.xaml.cs">
+      <DependentUpon>ReceivingItemsControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\DrugManagement\ReceivingScreen_V2.xaml.cs">
       <DependentUpon>ReceivingScreen_V2.xaml</DependentUpon>
@@ -330,6 +335,10 @@
     <Page Include="View\DrugManagement\PublicControl\NumericSpinner.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\DrugManagement\ReceivingItemsControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="View\DrugManagement\ReceivingScreen_V2.xaml">
       <Generator>MSBuild:Compile</Generator>

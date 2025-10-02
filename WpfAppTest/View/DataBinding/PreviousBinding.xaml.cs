@@ -95,10 +95,10 @@ namespace WpfAppTest.View.DataBinding
         private void txtAge_TextChanged(object sender, TextChangedEventArgs e)
         {
             Debug.WriteLine("87-Age Changed:" + txtAge.Text);
-            
+
             try
             {
-                c1.Age = Convert.ToInt32(txtAge.Text); 
+                c1.Age = Convert.ToInt32(txtAge.Text);
             }
             catch (Exception ex)
             {

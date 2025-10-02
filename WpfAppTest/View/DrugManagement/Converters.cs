@@ -2,6 +2,7 @@ using System;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
+using System.Windows.Media;
 
 namespace WpfAppTest.View.DrugManagement
 {
@@ -50,6 +51,53 @@ namespace WpfAppTest.View.DrugManagement
                 return visibility == Visibility.Visible;
             }
             return false;
+        }
+    }
+    /// <summary>
+    /// 재고 상태를 색상으로 변환하는 컨버터
+    /// </summary>
+    public class StockStatusToColorConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is bool isCriticalStock)
+            {
+                if (isCriticalStock)
+                    return new SolidColorBrush(Colors.Red); // 위험 상태 - 빨간색
+                else
+                    return new SolidColorBrush(Colors.Orange); // 부족 상태 - 주황색
+            }
+
+            return new SolidColorBrush(Colors.Green); // 정상 상태 - 초록색
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    /// <summary>
+    /// 재고 상태를 아이콘으로 변환하는 컨버터
+    /// </summary>
+    public class StockStatusToIconConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is bool isCriticalStock)
+            {
+                if (isCriticalStock)
+                    return "⚠"; // 위험 상태 - 경고 아이콘
+                else
+                    return "⚠"; // 부족 상태 - 경고 아이콘
+            }
+
+            return "✓"; // 정상 상태 - 체크 아이콘
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
         }
     }
 }

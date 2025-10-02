@@ -93,7 +93,10 @@
 
             <!-- 새로운 입고 화면 테스트 -->
             <!--<drugManagement:ReceivingScreen/>-->
-            <drugManagement:ReceivingScreen_V2/>
+            <!--<drugManagement:ReceivingScreen_V2/>-->
+            <drugManagement:ReceivingItemsControl/>
+
+            
             <!--<Button Content="테스트 버튼 입니다." Click="Button_Click" />-->
         </Grid>
 
