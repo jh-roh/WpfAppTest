@@ -84,7 +84,9 @@
     </Compile>
     <Compile Include="Helper\VirtualKeyboardHelper.cs" />
     <Compile Include="Model\CustList.cs" />
+    <Compile Include="Model\DrugInventoryGroupedItem.cs" />
     <Compile Include="Model\DrugInventoryItem.cs" />
+    <Compile Include="Model\DrugReceivingDetailItem.cs" />
     <Compile Include="ServiceFunction\HttpTestFunction.cs" />
     <Compile Include="ServiceFunction\IInterfaceService.cs" />
     <Compile Include="ServiceFunction\InterfaceTestService.cs" />
@@ -93,6 +95,8 @@
     <Compile Include="TestClass\TestReflection.cs" />
     <Compile Include="TestClass\TryCatchAttribute.cs" />
     <Compile Include="TestClass\TryCatchInterceptor.cs" />
+    <Compile Include="ViewModel\DrugReceivingDetailViewModel.cs" />
+    <Compile Include="ViewModel\ReceivingItemsGroupedViewModel.cs" />
     <Compile Include="ViewModel\ReceivingItemsViewModel.cs" />
     <Compile Include="ViewModel\ReceivingScreenViewModel.cs" />
     <Compile Include="ViewModel\StockingScreenTestModel.cs" />
@@ -121,6 +125,9 @@
       <DependentUpon>DataGridControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\DrugManagement\Converters.cs" />
+    <Compile Include="View\DrugManagement\DrugReceivingDetailControl.xaml.cs">
+      <DependentUpon>DrugReceivingDetailControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\DrugManagement\PublicControl\DetailInputUserControl.xaml.cs">
       <DependentUpon>DetailInputUserControl.xaml</DependentUpon>
     </Compile>
@@ -129,6 +136,9 @@
     </Compile>
     <Compile Include="View\DrugManagement\ReceivingItemsControl.xaml.cs">
       <DependentUpon>ReceivingItemsControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\DrugManagement\ReceivingItemsGroupedControl.xaml.cs">
+      <DependentUpon>ReceivingItemsGroupedControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\DrugManagement\ReceivingScreen_V2.xaml.cs">
       <DependentUpon>ReceivingScreen_V2.xaml</DependentUpon>
@@ -328,6 +338,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\DrugManagement\DrugReceivingDetailControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="View\DrugManagement\PublicControl\DetailInputUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -337,6 +351,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\DrugManagement\ReceivingItemsControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\DrugManagement\ReceivingItemsGroupedControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

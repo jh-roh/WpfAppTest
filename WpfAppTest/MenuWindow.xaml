@@ -5,8 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfAppTest"
         mc:Ignorable="d"
-        Title="MenuWindow" Height="450" Width="800"
-       
+        Title="MenuWindow"
+        Height="450"
+        Width="800"
         Activated="Window_Activated"
         Closing="Window_Closing">
     <Grid>
@@ -15,15 +16,62 @@
             <RowDefinition/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Menu Grid.Row="0" x:Name="menu1">
-            <MenuItem x:Name="mnuWInd" Header="창(_W)" SubmenuOpened="mnuWInd_SubmenuOpened">
-                <MenuItem Header="임시창" ></MenuItem>
+        <Menu Grid.Row="0"
+              x:Name="menu1">
+            <MenuItem x:Name="mnuWInd"
+                      Header="창(_W)"
+                      SubmenuOpened="mnuWInd_SubmenuOpened">
+                <MenuItem Header="임시창"></MenuItem>
             </MenuItem>
-            
+
         </Menu>
         <StackPanel Grid.Row="1">
-            <Button x:Name="btnNewWindow" Content="새로운 창" Margin="10" Height="50" Click="btnNewWindow_Click"></Button>
-            <Button x:Name="btnExit" Content="종료" Margin="10" Height="50" Click="btnExit_Click"></Button>
+            <TextBlock Text="약품 관리"
+                       FontSize="20"
+                       FontWeight="Bold"
+                       Margin="10,10,10,5"
+                       Foreground="#333333"/>
+            <Button x:Name="btnReceivingItems"
+                    Content="입고 항목 (상세)"
+                    Margin="10,5"
+                    Height="50"
+                    Click="btnReceivingItems_Click"
+                    Background="#4CAF50"
+                    Foreground="White"
+                    FontWeight="Bold"></Button>
+            <Button x:Name="btnReceivingItemsGrouped"
+                    Content="입고 항목 (약품코드별 그룹화)"
+                    Margin="10,5"
+                    Height="50"
+                    Click="btnReceivingItemsGrouped_Click"
+                    Background="#2196F3"
+                    Foreground="White"
+                    FontWeight="Bold"></Button>
+            <Button x:Name="btnReceivingDetail"
+                    Content="입고 상세 (위치별)"
+                    Margin="10,5"
+                    Height="50"
+                    Click="btnReceivingDetail_Click"
+                    Background="#FF9800"
+                    Foreground="White"
+                    FontWeight="Bold"></Button>
+
+            <Separator Margin="10,20,10,10"/>
+            <TextBlock Text="기타"
+                       FontSize="20"
+                       FontWeight="Bold"
+                       Margin="10,10,10,5"
+                       Foreground="#333333"/>
+            <Button x:Name="btnNewWindow"
+                    Content="새로운 창"
+                    Margin="10,5"
+                    Height="50"
+                    Click="btnNewWindow_Click"></Button>
+            <Button x:Name="btnExit"
+                    Content="종료"
+                    Margin="10,5"
+                    Height="50"
+                    Click="btnExit_Click"></Button>
         </StackPanel>
 
         <StatusBar  Grid.Row="2">

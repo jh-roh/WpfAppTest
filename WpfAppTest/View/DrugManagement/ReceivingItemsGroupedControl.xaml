@@ -1,0 +1,329 @@
+<UserControl x:Class="WpfAppTest.View.DrugManagement.ReceivingItemsGroupedControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:WpfAppTest.View.DrugManagement"
+             xmlns:model="clr-namespace:WpfAppTest.ViewModel"
+             xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+             xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+             mc:Ignorable="d"
+             Width="1080"
+             Height="1370"
+             Background="White">
+
+    <!-- 컨버터 정의 -->
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/WpfAppTest;component/ResourceDictionary/ReceivingScreenDictionary.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+
+            <!-- 재고 상태 컨버터 -->
+            <local:StockStatusToColorConverter x:Key="StockStatusToColorConverter"/>
+            <local:StockStatusToIconConverter x:Key="StockStatusToIconConverter"/>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <UserControl.DataContext>
+        <model:ReceivingItemsGroupedViewModel></model:ReceivingItemsGroupedViewModel>
+    </UserControl.DataContext>
+
+    <Grid>
+        <!-- 그룹화된 입고 항목 화면 -->
+        <Grid x:Name="GroupedView"
+              Visibility="Visible">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="1000"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- 헤더 섹션 -->
+            <Border Grid.Row="0"
+                    Background="White"
+                    Padding="20"
+                    Margin="15,15,15,0">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- 제목 -->
+                    <TextBlock Grid.Column="0"
+                               Text="입고 항목 (약품코드별 그룹화)"
+                               FontWeight="Bold"
+                               FontSize="30"
+                               Foreground="#333333"
+                               VerticalAlignment="Center"/>
+
+                    <!-- 페이지네이션 컨트롤 -->
+                    <StackPanel Grid.Column="1"
+                                Orientation="Horizontal"
+                                HorizontalAlignment="Center">
+                        <Button Content="◀"
+                                Command="{Binding PreviousPageCommand}"
+                                Style="{StaticResource PaginationButtonStyle}"
+                                Margin="0,0,5,0"/>
+
+                        <TextBlock Text="{Binding PageInfo}"
+                                   FontSize="20"
+                                   Foreground="#666666"
+                                   VerticalAlignment="Center"
+                                   Margin="5,0"/>
+
+                        <Button Content="▶"
+                                Command="{Binding NextPageCommand}"
+                                Style="{StaticResource PaginationButtonStyle}"
+                                Margin="5,0,0,0"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- 메인 테이블 섹션 -->
+            <Border Grid.Row="1"
+                    Background="White"
+                    Padding="20"
+                    Margin="15,10,15,0">
+                <dxg:GridControl ItemsSource="{Binding PagedGroupedItems}"
+                                 ShowBorder="True">
+
+                    <dxg:GridControl.View>
+                        <dxg:TableView Name="tableView"
+                                       FontSize="14"
+                                       RowMinHeight="70"
+                                       HeaderPanelMinHeight="60"
+                                       ShowGroupPanel="False"
+                                       ShowIndicator="False"
+                                       AllowColumnMoving="False"/>
+                    </dxg:GridControl.View>
+
+                    <dxg:GridControl.Columns>
+                        <!-- 약품코드 -->
+                        <dxg:GridColumn FieldName="DrugCode"
+                                        Header="약품코드"
+                                        Width="100"
+                                        HorizontalHeaderContentAlignment="Center"
+                                        AllowEditing="False"
+                                        HeaderStyle="{StaticResource GridColumnHeaderStyleKey}"
+                                        CellStyle="{StaticResource GridColumnCellKey}">
+                            <dxg:GridColumn.EditSettings>
+                                <dxe:TextEditSettings HorizontalContentAlignment="Center"
+                                                      TextWrapping="Wrap"/>
+                            </dxg:GridColumn.EditSettings>
+                        </dxg:GridColumn>
+
+                        <!-- 약품이름 -->
+                        <dxg:GridColumn FieldName="DrugName"
+                                        Header="약품이름"
+                                        Width="180"
+                                        HorizontalHeaderContentAlignment="Center"
+                                        AllowEditing="False"
+                                        HeaderStyle="{StaticResource GridColumnHeaderStyleKey}"
+                                        CellStyle="{StaticResource GridColumnCellKey}">
+                            <dxg:GridColumn.EditSettings>
+                                <dxe:TextEditSettings HorizontalContentAlignment="Center"
+                                                      TextWrapping="Wrap"/>
+                            </dxg:GridColumn.EditSettings>
+                        </dxg:GridColumn>
+
+                        <!-- 위치 개수 -->
+                        <dxg:GridColumn FieldName="LocationCount"
+                                        Header="위치"
+                                        Width="80"
+                                        HorizontalHeaderContentAlignment="Center"
+                                        AllowEditing="False"
+                                        HeaderStyle="{StaticResource GridColumnHeaderStyleKey}"
+                                        CellStyle="{StaticResource GridColumnCellKey}">
+                            <dxg:GridColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel HorizontalAlignment="Center"
+                                                VerticalAlignment="Center">
+                                        <TextBlock Text="{Binding RowData.Row.LocationCount}"
+                                                   FontSize="16"
+                                                   FontWeight="Bold"
+                                                   Foreground="#2196F3"
+                                                   HorizontalAlignment="Center"/>
+                                        <TextBlock Text="개"
+                                                   FontSize="12"
+                                                   Foreground="#666666"
+                                                   HorizontalAlignment="Center"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </dxg:GridColumn.CellTemplate>
+                        </dxg:GridColumn>
+
+                        <!-- 총 최대수량 -->
+                        <dxg:GridColumn FieldName="TotalMaxQuantity"
+                                        Header="최대수량"
+                                        Width="120"
+                                        HorizontalHeaderContentAlignment="Center"
+                                        AllowEditing="False"
+                                        HeaderStyle="{StaticResource GridColumnHeaderStyleKey}"
+                                        CellStyle="{StaticResource GridColumnCellKey}">
+                            <dxg:GridColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel HorizontalAlignment="Center"
+                                                VerticalAlignment="Center">
+                                        <TextBlock Text="{Binding RowData.Row.TotalMaxQuantity}"
+                                                   FontSize="16"
+                                                   Foreground="#333333"
+                                                   HorizontalAlignment="Center"/>
+                                        <TextBlock Text="{Binding RowData.Row.TotalMaxQuantityBox, StringFormat='({0}B)'}"
+                                                   FontSize="12"
+                                                   Foreground="#666666"
+                                                   HorizontalAlignment="Center"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </dxg:GridColumn.CellTemplate>
+                        </dxg:GridColumn>
+
+                        <!-- 총 알람수량 -->
+                        <dxg:GridColumn FieldName="TotalAlarmQuantity"
+                                        Header="알람수량"
+                                        Width="120"
+                                        HorizontalHeaderContentAlignment="Center"
+                                        AllowEditing="False"
+                                        HeaderStyle="{StaticResource GridColumnHeaderStyleKey}"
+                                        CellStyle="{StaticResource GridColumnCellKey}">
+                            <dxg:GridColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel HorizontalAlignment="Center"
+                                                VerticalAlignment="Center">
+                                        <TextBlock Text="{Binding RowData.Row.TotalAlarmQuantity}"
+                                                   FontSize="16"
+                                                   Foreground="#333333"
+                                                   HorizontalAlignment="Center"/>
+                                        <TextBlock Text="{Binding RowData.Row.TotalAlarmQuantityBox, StringFormat='({0}B)'}"
+                                                   FontSize="12"
+                                                   Foreground="#666666"
+                                                   HorizontalAlignment="Center"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </dxg:GridColumn.CellTemplate>
+                        </dxg:GridColumn>
+
+                        <!-- 총 재고수량 (상태 표시 포함) -->
+                        <dxg:GridColumn FieldName="TotalCurrentQuantity"
+                                        Header="재고수량"
+                                        Width="140"
+                                        HorizontalHeaderContentAlignment="Center"
+                                        AllowEditing="False"
+                                        HeaderStyle="{StaticResource GridColumnHeaderStyleKey}"
+                                        CellStyle="{StaticResource GridColumnCellKey}">
+                            <dxg:GridColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel HorizontalAlignment="Center"
+                                                VerticalAlignment="Center">
+                                        <StackPanel Orientation="Horizontal"
+                                                    HorizontalAlignment="Center">
+                                            <TextBlock Text="{Binding RowData.Row.TotalCurrentQuantity}"
+                                                       FontSize="16"
+                                                       FontWeight="Bold"
+                                                       Foreground="{Binding RowData.Row.HasCriticalStock, Converter={StaticResource StockStatusToColorConverter}}"
+                                                       HorizontalAlignment="Center"/>
+                                            <!-- 재고 상태 아이콘 -->
+                                            <TextBlock Text="{Binding RowData.Row.HasCriticalStock, Converter={StaticResource StockStatusToIconConverter}}"
+                                                       FontSize="18"
+                                                       Foreground="{Binding RowData.Row.HasCriticalStock, Converter={StaticResource StockStatusToColorConverter}}"
+                                                       Margin="3,0,0,0"
+                                                       VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal"
+                                                    HorizontalAlignment="Center">
+                                            <TextBlock Text="{Binding RowData.Row.TotalCurrentQuantityDetail}"
+                                                       FontSize="12"
+                                                       Foreground="#666666"
+                                                       HorizontalAlignment="Center"/>
+                                            <TextBlock Text="{Binding RowData.Row.StockStatus}"
+                                                       FontSize="12"
+                                                       FontWeight="Bold"
+                                                       Foreground="{Binding RowData.Row.HasCriticalStock, Converter={StaticResource StockStatusToColorConverter}}"
+                                                       Margin="5,0,0,0"
+                                                       HorizontalAlignment="Center"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </dxg:GridColumn.CellTemplate>
+                        </dxg:GridColumn>
+
+                        <!-- 입고 버튼 -->
+                        <dxg:GridColumn Header="입고"
+                                        Width="100"
+                                        HorizontalHeaderContentAlignment="Center"
+                                        AllowEditing="False"
+                                        HeaderStyle="{StaticResource GridColumnHeaderStyleKey}">
+                            <dxg:GridColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="입고"
+                                            Command="{Binding DataContext.ReceiveItemCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            CommandParameter="{Binding RowData.Row}"
+                                            Width="70"
+                                            Height="35"
+                                            FontSize="14"
+                                            FontWeight="Bold"
+                                            Background="#4CAF50"
+                                            Foreground="White"
+                                            BorderThickness="0"
+                                            Style="{StaticResource RoundedButtonStyle}"
+                                            Margin="5"/>
+                                </DataTemplate>
+                            </dxg:GridColumn.CellTemplate>
+                        </dxg:GridColumn>
+                    </dxg:GridControl.Columns>
+                </dxg:GridControl>
+            </Border>
+
+            <!-- 하단 요약 섹션 -->
+            <Border Grid.Row="2"
+                    Background="#F8F9FA"
+                    BorderBrush="#E0E0E0"
+                    BorderThickness="0,1,0,0"
+                    Padding="20"
+                    Margin="15,10,15,15">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0">
+                        <Line X1="0"
+                              Y1="0"
+                              X2="300"
+                              Y2="0"
+                              Stroke="#CCCCCC"
+                              StrokeThickness="2"
+                              Margin="0,0,0,12"/>
+                        <TextBlock Text="{Binding TotalItemsCount, StringFormat='총 약품 종류: {0} 개'}"
+                                   FontSize="24"
+                                   FontWeight="Bold"
+                                   Foreground="#333333"
+                                   Margin="0,0,0,8"/>
+                        <TextBlock Text="{Binding SummaryInfo}"
+                                   FontSize="18"
+                                   Foreground="#666666"
+                                   FontWeight="Medium"/>
+                    </StackPanel>
+
+                    <Button Grid.Column="1"
+                            Content="전체 입고"
+                            Command="{Binding ReceiveAllCommand}"
+                            Width="160"
+                            Height="65"
+                            FontSize="20"
+                            FontWeight="Bold"
+                            Background="#4CAF50"
+                            Style="{StaticResource RoundedButtonStyle}"
+                            Visibility="Collapsed"/>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <!-- 입고 상세 화면 -->
+        <local:DrugReceivingDetailControl x:Name="DetailView"
+                                          Visibility="Hidden"/>
+    </Grid>
+</UserControl>

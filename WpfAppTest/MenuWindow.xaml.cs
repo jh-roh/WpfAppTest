@@ -10,6 +10,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using WpfAppTest.View.DrugManagement;
 
 namespace WpfAppTest
 {
@@ -50,7 +51,7 @@ namespace WpfAppTest
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if(MessageBox.Show("정말로 종료 하시겠습니까","종료확인", MessageBoxButton.YesNo) == MessageBoxResult.No)
+            if (MessageBox.Show("정말로 종료 하시겠습니까", "종료확인", MessageBoxButton.YesNo) == MessageBoxResult.No)
             {
                 e.Cancel = true;
             }
@@ -67,17 +68,17 @@ namespace WpfAppTest
                 if (win.Title == "") continue;
 
                 MenuItem item = new MenuItem();
-                
+
 
 
                 item.Header = win.Title;
                 item.Click += Item_Click;
                 item.Tag = win;
-               
+
 
                 mnuWInd.Items.Add(item);
 
-                if(activeWindow != null && activeWindow == win)
+                if (activeWindow != null && activeWindow == win)
                 {
                     item.IsChecked = true;
                 }
@@ -96,8 +97,48 @@ namespace WpfAppTest
 
             w.Activate();
             activeWindow = w;
+        }
 
+        private void btnReceivingItems_Click(object sender, RoutedEventArgs e)
+        {
+            Window win = new Window();
+            win.Title = "입고 항목 (상세)";
+            win.Width = 1200;
+            win.Height = 900;
+            win.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
+            var receivingItemsControl = new ReceivingItemsControl();
+            win.Content = receivingItemsControl;
+
+            win.Show();
+        }
+
+        private void btnReceivingItemsGrouped_Click(object sender, RoutedEventArgs e)
+        {
+            Window win = new Window();
+            win.Title = "입고 항목 (약품코드별 그룹화)";
+            win.Width = 1200;
+            win.Height = 900;
+            win.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+
+            var receivingItemsGroupedControl = new ReceivingItemsGroupedControl();
+            win.Content = receivingItemsGroupedControl;
+
+            win.Show();
+        }
+
+        private void btnReceivingDetail_Click(object sender, RoutedEventArgs e)
+        {
+            Window win = new Window();
+            win.Title = "입고 상세 (위치별)";
+            win.Width = 1200;
+            win.Height = 900;
+            win.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+
+            var receivingDetailControl = new DrugReceivingDetailControl();
+            win.Content = receivingDetailControl;
+
+            win.Show();
         }
     }
 }

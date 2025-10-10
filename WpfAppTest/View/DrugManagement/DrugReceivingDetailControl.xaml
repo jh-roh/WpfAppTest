@@ -1,0 +1,451 @@
+<UserControl x:Class="WpfAppTest.View.DrugManagement.DrugReceivingDetailControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:WpfAppTest.View.DrugManagement"
+             xmlns:model="clr-namespace:WpfAppTest.ViewModel"
+             xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+             xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+             mc:Ignorable="d"
+             Width="1080"
+             Height="800"
+             Background="White"
+             Visibility="Visible">
+
+    <!-- 컨버터 정의 -->
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/WpfAppTest;component/ResourceDictionary/ReceivingScreenDictionary.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <UserControl.DataContext>
+        <model:DrugReceivingDetailViewModel></model:DrugReceivingDetailViewModel>
+    </UserControl.DataContext>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- 왼쪽 메인 영역 -->
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- 상단 헤더 및 바코드 입력 영역 -->
+            <Border Grid.Row="0"
+                    Background="White"
+                    Padding="20"
+                    Margin="15,15,15,0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- 제목, 뒤로가기 버튼 및 페이지네이션 -->
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- 뒤로가기 버튼 -->
+                        <Button Grid.Column="0"
+                                Content="← 뒤로가기"
+                                Command="{Binding BackCommand}"
+                                Width="120"
+                                Height="40"
+                                FontSize="16"
+                                FontWeight="Bold"
+                                Background="#6C757D"
+                                Foreground="White"
+                                BorderThickness="0"
+                                Style="{StaticResource RoundedButtonStyle}"
+                                Margin="0,0,20,0"/>
+
+                        <TextBlock Grid.Column="1"
+                                   Text="입고 항목 상세"
+                                   FontWeight="Bold"
+                                   FontSize="30"
+                                   Foreground="#333333"
+                                   VerticalAlignment="Center"/>
+
+                        <StackPanel Grid.Column="2"
+                                    Orientation="Horizontal"
+                                    HorizontalAlignment="Center">
+                            <Button Content="◀"
+                                    Command="{Binding PreviousPageCommand}"
+                                    Style="{StaticResource PaginationButtonStyle}"
+                                    Margin="0,0,5,0"/>
+
+                            <TextBlock Text="{Binding PageInfo}"
+                                       FontSize="20"
+                                       Foreground="#666666"
+                                       VerticalAlignment="Center"
+                                       Margin="5,0"/>
+
+                            <Button Content="▶"
+                                    Command="{Binding NextPageCommand}"
+                                    Style="{StaticResource PaginationButtonStyle}"
+                                    Margin="5,0,0,0"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- 바코드 스캔 영역 -->
+                    <Border Grid.Row="1"
+                            Background="#F8F9FA"
+                            BorderBrush="#E0E0E0"
+                            BorderThickness="1"
+                            CornerRadius="8"
+                            Margin="0,20,0,0"
+                            Padding="20">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <!-- 바코드 스캔 제목 -->
+                            <TextBlock Grid.Row="0"
+                                       Text="바코드 스캔"
+                                       FontSize="18"
+                                       FontWeight="Bold"
+                                       Foreground="#333333"
+                                       Margin="0,0,0,15"/>
+
+                            <!-- 바코드 입력 필드들 -->
+                            <Grid Grid.Row="1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="1*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel Grid.Column="0"
+                                            Margin="0,0,10,0">
+                                    <TextBlock Text="원본 바코드"
+                                               FontSize="14"
+                                               FontWeight="Bold"
+                                               Margin="0,0,0,5"/>
+                                    <TextBox Height="40"
+                                             FontSize="14"
+                                             Padding="10,8"
+                                             BorderBrush="#CCCCCC"
+                                             BorderThickness="1"/>
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="1"
+                                            Margin="5,0">
+                                    <TextBlock Text="품목번호(GTIN)"
+                                               FontSize="14"
+                                               FontWeight="Bold"
+                                               Margin="0,0,0,5"/>
+                                    <TextBox Height="40"
+                                             FontSize="14"
+                                             Padding="10,8"
+                                             BorderBrush="#CCCCCC"
+                                             BorderThickness="1"/>
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="2"
+                                            Margin="5,0">
+                                    <TextBlock Text="유효기간"
+                                               FontSize="14"
+                                               FontWeight="Bold"
+                                               Margin="0,0,0,5"/>
+                                    <TextBox Height="40"
+                                             FontSize="14"
+                                             Padding="10,8"
+                                             BorderBrush="#CCCCCC"
+                                             BorderThickness="1"/>
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="3"
+                                            Margin="10,0,0,0">
+                                    <TextBlock Text="일련번호"
+                                               FontSize="14"
+                                               FontWeight="Bold"
+                                               Margin="0,0,0,5"/>
+                                    <TextBox Height="40"
+                                             FontSize="14"
+                                             Padding="10,8"
+                                             BorderBrush="#CCCCCC"
+                                             BorderThickness="1"/>
+                                </StackPanel>
+                            </Grid>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </Border>
+
+            <!-- 메인 그리드 영역 -->
+            <Border Grid.Row="1"
+                    Background="White"
+                    Padding="20"
+                    Margin="15,10,15,0">
+                <dxg:GridControl ItemsSource="{Binding PagedReceivingDetailItems}"
+                                 ShowBorder="True">
+
+                    <dxg:GridControl.View>
+                        <dxg:TableView Name="tableView"
+                                       FontSize="14"
+                                       RowMinHeight="50"
+                                       HeaderPanelMinHeight="50"
+                                       ShowGroupPanel="False"
+                                       ShowIndicator="False"
+                                       AllowColumnMoving="False"/>
+                    </dxg:GridControl.View>
+
+                    <dxg:GridControl.Columns>
+                        <!-- 삭제 버튼 -->
+                        <dxg:GridColumn Header="삭제"
+                                        Width="80"
+                                        HorizontalHeaderContentAlignment="Center"
+                                        AllowEditing="False"
+                                        HeaderStyle="{StaticResource GridColumnHeaderStyleKey}">
+                            <dxg:GridColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="✕"
+                                            Command="{Binding DataContext.DeleteItemCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            CommandParameter="{Binding RowData.Row}"
+                                            Width="30"
+                                            Height="30"
+                                            FontSize="16"
+                                            FontWeight="Bold"
+                                            Background="#F44336"
+                                            Foreground="White"
+                                            BorderThickness="0"
+                                            Style="{StaticResource RoundedButtonStyle}"
+                                            Margin="5"/>
+                                </DataTemplate>
+                            </dxg:GridColumn.CellTemplate>
+                        </dxg:GridColumn>
+
+                        <!-- 약품이름 -->
+                        <dxg:GridColumn FieldName="DrugName"
+                                        Header="약품이름"
+                                        Width="250"
+                                        HorizontalHeaderContentAlignment="Center"
+                                        AllowEditing="False"
+                                        HeaderStyle="{StaticResource GridColumnHeaderStyleKey}"
+                                        CellStyle="{StaticResource GridColumnCellKey}">
+                            <dxg:GridColumn.EditSettings>
+                                <dxe:TextEditSettings HorizontalContentAlignment="Center"
+                                                      TextWrapping="Wrap"/>
+                            </dxg:GridColumn.EditSettings>
+                        </dxg:GridColumn>
+
+                        <!-- 일련번호 -->
+                        <dxg:GridColumn FieldName="SerialNumber"
+                                        Header="일련번호"
+                                        Width="120"
+                                        HorizontalHeaderContentAlignment="Center"
+                                        AllowEditing="False"
+                                        HeaderStyle="{StaticResource GridColumnHeaderStyleKey}"
+                                        CellStyle="{StaticResource GridColumnCellKey}">
+                            <dxg:GridColumn.EditSettings>
+                                <dxe:TextEditSettings HorizontalContentAlignment="Center"/>
+                            </dxg:GridColumn.EditSettings>
+                        </dxg:GridColumn>
+
+                        <!-- 입고 수량 -->
+                        <dxg:GridColumn FieldName="ReceivingQuantity"
+                                        Header="입고 수량"
+                                        Width="120"
+                                        HorizontalHeaderContentAlignment="Center"
+                                        AllowEditing="True"
+                                        HeaderStyle="{StaticResource GridColumnHeaderStyleKey}"
+                                        CellStyle="{StaticResource GridColumnCellKey}">
+                            <dxg:GridColumn.EditSettings>
+                                <dxe:SpinEditSettings HorizontalContentAlignment="Center"
+                                                      MinValue="1"
+                                                      MaxValue="999"/>
+                            </dxg:GridColumn.EditSettings>
+                        </dxg:GridColumn>
+
+                        <!-- 위치 표시 -->
+                        <dxg:GridColumn FieldName="Location"
+                                        Header="위치 표시"
+                                        Width="150"
+                                        HorizontalHeaderContentAlignment="Center"
+                                        AllowEditing="False"
+                                        HeaderStyle="{StaticResource GridColumnHeaderStyleKey}"
+                                        CellStyle="{StaticResource GridColumnCellKey}">
+                            <dxg:GridColumn.EditSettings>
+                                <dxe:TextEditSettings HorizontalContentAlignment="Center"/>
+                            </dxg:GridColumn.EditSettings>
+                        </dxg:GridColumn>
+                    </dxg:GridControl.Columns>
+                </dxg:GridControl>
+            </Border>
+
+            <!-- 하단 요약 및 저장 버튼 -->
+            <Border Grid.Row="2"
+                    Background="#F8F9FA"
+                    BorderBrush="#E0E0E0"
+                    BorderThickness="0,1,0,0"
+                    Padding="20"
+                    Margin="15,10,15,15">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0">
+                        <Line X1="0"
+                              Y1="0"
+                              X2="300"
+                              Y2="0"
+                              Stroke="#CCCCCC"
+                              StrokeThickness="2"
+                              Margin="0,0,0,12"/>
+                        <TextBlock Text="{Binding TotalReceivingQuantity}"
+                                   FontSize="24"
+                                   FontWeight="Bold"
+                                   Foreground="#333333"
+                                   Margin="0,0,0,8"/>
+                    </StackPanel>
+
+                    <Button Grid.Column="1"
+                            Content="저장"
+                            Command="{Binding SaveCommand}"
+                            Width="120"
+                            Height="60"
+                            FontSize="20"
+                            FontWeight="Bold"
+                            Background="#4CAF50"
+                            Foreground="White"
+                            Style="{StaticResource RoundedButtonStyle}"/>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <!-- 오른쪽 위치 선택 영역 -->
+        <Border Grid.Column="1"
+                Background="#F5F5F5"
+                BorderBrush="#E0E0E0"
+                BorderThickness="1,0,0,0"
+                Padding="15">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+
+                <!-- 위치 선택 제목 -->
+                <TextBlock Grid.Row="0"
+                           Text="위치 선택"
+                           FontSize="20"
+                           FontWeight="Bold"
+                           Foreground="#333333"
+                           Margin="0,0,0,15"/>
+
+                <!-- 검색 및 페이지네이션 -->
+                <Grid Grid.Row="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- 검색 바 -->
+                    <Grid Grid.Row="0"
+                          Margin="0,0,0,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBox Grid.Column="0"
+                                 Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+                                 Height="35"
+                                 FontSize="14"
+                                 Padding="10,5,35,5"
+                                 VerticalContentAlignment="Center"/>
+
+                        <TextBlock Grid.Column="1"
+                                   Text="Q"
+                                   FontSize="16"
+                                   FontWeight="Bold"
+                                   Foreground="#666666"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Center"
+                                   Margin="-30,0,10,0"/>
+                    </Grid>
+
+                    <!-- 페이지네이션 -->
+                    <StackPanel Grid.Row="1"
+                                Orientation="Horizontal"
+                                HorizontalAlignment="Center">
+                        <Button Content="◀"
+                                Command="{Binding LocationPreviousPageCommand}"
+                                Style="{StaticResource PaginationButtonStyle}"
+                                Margin="0,0,5,0"/>
+
+                        <TextBlock Text="{Binding LocationPageInfo}"
+                                   FontSize="16"
+                                   Foreground="#666666"
+                                   VerticalAlignment="Center"
+                                   Margin="5,0"/>
+
+                        <Button Content="▶"
+                                Command="{Binding LocationNextPageCommand}"
+                                Style="{StaticResource PaginationButtonStyle}"
+                                Margin="5,0,0,0"/>
+                    </StackPanel>
+                </Grid>
+
+                <!-- 위치 목록 -->
+                <ScrollViewer Grid.Row="2"
+                              VerticalScrollBarVisibility="Auto">
+                    <ItemsControl ItemsSource="{Binding PagedAvailableLocations}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Button Command="{Binding DataContext.SelectLocationCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                        CommandParameter="{Binding}"
+                                        Margin="0,8"
+                                        Padding="15,12"
+                                        Background="White"
+                                        BorderBrush="#E0E0E0"
+                                        BorderThickness="1"
+                                        HorizontalContentAlignment="Left">
+                                    <Button.Content>
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding DrugCode}"
+                                                       FontSize="16"
+                                                       FontWeight="Bold"
+                                                       Foreground="#2196F3"/>
+                                            <TextBlock Text="{Binding DrugName}"
+                                                       FontSize="14"
+                                                       Foreground="#666666"
+                                                       TextWrapping="Wrap"
+                                                       Margin="0,4,0,0"/>
+                                            <TextBlock Text="{Binding Location, StringFormat='위치: {0}'}"
+                                                       FontSize="13"
+                                                       FontWeight="Medium"
+                                                       Foreground="#333333"
+                                                       Margin="0,4,0,0"/>
+                                        </StackPanel>
+                                    </Button.Content>
+                                </Button>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>
