@@ -93,8 +93,15 @@
 
             <!-- 새로운 입고 화면 테스트 -->
             <!--<drugManagement:ReceivingScreen/>-->
-            <!--<drugManagement:ReceivingScreen_V2/>-->
-            <drugManagement:ReceivingItemsGroupedControl/>
+
+
+            <dxlc:FlowLayoutControl x:Name="layoutControl"  ScrollViewer.PanningMode="VerticalOnly" 
+                            ScrollViewer.VerticalScrollBarVisibility="Visible"  ScrollViewer.CanContentScroll="True" ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                            VerticalAlignment="Top"  >
+                <!--<drugManagement:ReceivingScreen_V2/>-->
+                <drugManagement:ReceivingItemsGroupedControl/>
+
+            </dxlc:FlowLayoutControl>
 
             
             <!--<Button Content="테스트 버튼 입니다." Click="Button_Click" />-->

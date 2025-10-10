@@ -9,7 +9,7 @@
              xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
              mc:Ignorable="d"
              Width="1080"
-             Height="800"
+             Height="1300"
              Background="White"
              Visibility="Visible">
 
@@ -114,6 +114,7 @@
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
 
                             <!-- 바코드 스캔 제목 -->
@@ -124,13 +125,13 @@
                                        Foreground="#333333"
                                        Margin="0,0,0,15"/>
 
-                            <!-- 바코드 입력 필드들 -->
-                            <Grid Grid.Row="1">
+                            <!-- 첫 번째 행: 원본 바코드, 품목번호, 항목 추가 버튼 -->
+                            <Grid Grid.Row="1"
+                                  Margin="0,0,0,15">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="1*"/>
                                     <ColumnDefinition Width="1*"/>
-                                    <ColumnDefinition Width="1*"/>
-                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
 
                                 <StackPanel Grid.Column="0"
@@ -139,7 +140,8 @@
                                                FontSize="14"
                                                FontWeight="Bold"
                                                Margin="0,0,0,5"/>
-                                    <TextBox Height="40"
+                                    <TextBox x:Name="OriginalBarcodeTextBox"
+                                             Height="40"
                                              FontSize="14"
                                              Padding="10,8"
                                              BorderBrush="#CCCCCC"
@@ -152,7 +154,59 @@
                                                FontSize="14"
                                                FontWeight="Bold"
                                                Margin="0,0,0,5"/>
-                                    <TextBox Height="40"
+                                    <TextBox x:Name="GTINTextBox"
+                                             Height="40"
+                                             FontSize="14"
+                                             Padding="10,8"
+                                             BorderBrush="#CCCCCC"
+                                             BorderThickness="1" />
+                                </StackPanel>
+
+                                <Button Grid.Column="2"
+                                        Content="항목 추가"
+                                        Command="{Binding AddItemCommand}"
+                                        Width="100"
+                                        Height="40"
+                                        FontSize="16"
+                                        FontWeight="Bold"
+                                        Background="#2196F3"
+                                        Foreground="White"
+                                        BorderThickness="0"
+                                        Style="{StaticResource RoundedButtonStyle}"
+                                        Margin="10,20,0,0"
+                                        VerticalAlignment="Top"/>
+                            </Grid>
+
+                            <!-- 두 번째 행: 유효기간, 일련번호, 제조번호 -->
+                            <Grid Grid.Row="2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="1*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel Grid.Column="0"
+                                            Margin="0,0,10,0">
+                                    <TextBlock Text="유효기간"
+                                               FontSize="14"
+                                               FontWeight="Bold"
+                                               Margin="0,0,0,5"/>
+                                    <TextBox x:Name="ExpirationDateTextBox"
+                                             Height="40"
+                                             FontSize="14"
+                                             Padding="10,8"
+                                             BorderBrush="#CCCCCC"
+                                             BorderThickness="1"/>
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="1"
+                                            Margin="5,0">
+                                    <TextBlock Text="일련번호"
+                                               FontSize="14"
+                                               FontWeight="Bold"
+                                               Margin="0,0,0,5"/>
+                                    <TextBox x:Name="SerialNumberTextBox"
+                                             Height="40"
                                              FontSize="14"
                                              Padding="10,8"
                                              BorderBrush="#CCCCCC"
@@ -160,25 +214,13 @@
                                 </StackPanel>
 
                                 <StackPanel Grid.Column="2"
-                                            Margin="5,0">
-                                    <TextBlock Text="유효기간"
-                                               FontSize="14"
-                                               FontWeight="Bold"
-                                               Margin="0,0,0,5"/>
-                                    <TextBox Height="40"
-                                             FontSize="14"
-                                             Padding="10,8"
-                                             BorderBrush="#CCCCCC"
-                                             BorderThickness="1"/>
-                                </StackPanel>
-
-                                <StackPanel Grid.Column="3"
                                             Margin="10,0,0,0">
-                                    <TextBlock Text="일련번호"
+                                    <TextBlock Text="제조번호"
                                                FontSize="14"
                                                FontWeight="Bold"
                                                Margin="0,0,0,5"/>
-                                    <TextBox Height="40"
+                                    <TextBox x:Name="ManufacturingNumberTextBox"
+                                             Height="40"
                                              FontSize="14"
                                              Padding="10,8"
                                              BorderBrush="#CCCCCC"

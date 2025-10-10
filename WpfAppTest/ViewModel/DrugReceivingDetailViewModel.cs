@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -254,6 +255,7 @@ namespace WpfAppTest.ViewModel
         public ICommand LocationNextPageCommand { get; private set; }
         public ICommand SelectLocationCommand { get; private set; }
         public ICommand BackCommand { get; private set; }
+        public ICommand AddItemCommand { get; private set; }
 
         #endregion
 
@@ -269,14 +271,122 @@ namespace WpfAppTest.ViewModel
             LocationNextPageCommand = new RelayCommand(LocationNextPage, CanLocationNextPage);
             SelectLocationCommand = new RelayCommand<DrugInventoryItem>(SelectLocation);
             BackCommand = new RelayCommand(Back);
+            AddItemCommand = new RelayCommand(AddItem);
         }
 
         private void InitializeData()
         {
             ReceivingDetailItems = new ObservableCollection<DrugReceivingDetailItem>();
             AvailableLocations = new ObservableCollection<DrugInventoryItem>();
+
+            // 샘플 데이터 추가
+            AddSampleData();
+
             UpdatePageInfo();
             UpdateLocationPageInfo();
+        }
+
+        private void AddSampleData()
+        {
+            // 샘플 입고 항목 데이터 추가
+            var sampleItems = new List<DrugReceivingDetailItem>
+            {
+                new DrugReceivingDetailItem
+                {
+                    Location = "장비1-3-5-2",
+                    DrugCode = "DM-PERLI",
+                    DrugName = "페링가니트 0.1% 주사 10ml",
+                    SerialNumber = "PERL-001",
+                    ReceivingQuantity = 6,
+                    CurrentQuantity = 25,
+                    MaxQuantity = 100,
+                    AlarmQuantity = 20,
+                    Barcode = "123456789001",
+                    GTIN = "88012345678901",
+                    ExpirationDate = "2025-12-31",
+                    ManufacturingNumber = "MFG20241201001"
+                },
+                new DrugReceivingDetailItem
+                {
+                    Location = "장비1-3-5-3",
+                    DrugCode = "DM-MORPH",
+                    DrugName = "모르핀 주사 10mg/1ml",
+                    SerialNumber = "MORP-002",
+                    ReceivingQuantity = 7,
+                    CurrentQuantity = 15,
+                    MaxQuantity = 50,
+                    AlarmQuantity = 10,
+                    Barcode = "123456789002",
+                    GTIN = "88012345678902",
+                    ExpirationDate = "2025-11-30",
+                    ManufacturingNumber = "MFG20241201002"
+                },
+                new DrugReceivingDetailItem
+                {
+                    Location = "장비1-3-5-4",
+                    DrugCode = "DM-FENT",
+                    DrugName = "펜타닐 주사 0.1mg/2ml",
+                    SerialNumber = "FENT-003",
+                    ReceivingQuantity = 8,
+                    CurrentQuantity = 30,
+                    MaxQuantity = 80,
+                    AlarmQuantity = 16,
+                    Barcode = "123456789003",
+                    GTIN = "88012345678903",
+                    ExpirationDate = "2025-10-31",
+                    ManufacturingNumber = "MFG20241201003"
+                },
+                new DrugReceivingDetailItem
+                {
+                    Location = "장비1-3-6-1",
+                    DrugCode = "DM-MIDAZ",
+                    DrugName = "미다졸람 주사 5mg/5ml",
+                    SerialNumber = "MIDZ-004",
+                    ReceivingQuantity = 9,
+                    CurrentQuantity = 5,
+                    MaxQuantity = 60,
+                    AlarmQuantity = 12,
+                    Barcode = "123456789004",
+                    GTIN = "88012345678904",
+                    ExpirationDate = "2025-09-30",
+                    ManufacturingNumber = "MFG20241201004"
+                },
+                new DrugReceivingDetailItem
+                {
+                    Location = "장비1-3-6-2",
+                    DrugCode = "DM-PROPO",
+                    DrugName = "프로포폴 주사 200mg/20ml",
+                    SerialNumber = "PROP-005",
+                    ReceivingQuantity = 10,
+                    CurrentQuantity = 8,
+                    MaxQuantity = 120,
+                    AlarmQuantity = 24,
+                    Barcode = "123456789005",
+                    GTIN = "88012345678905",
+                    ExpirationDate = "2025-08-31",
+                    ManufacturingNumber = "MFG20241201005"
+                },
+                new DrugReceivingDetailItem
+                {
+                    Location = "장비1-3-6-3",
+                    DrugCode = "DM-SUCC",
+                    DrugName = "석시닐콜린 주사 100mg/5ml",
+                    SerialNumber = "SUCC-006",
+                    ReceivingQuantity = 11,
+                    CurrentQuantity = 15,
+                    MaxQuantity = 40,
+                    AlarmQuantity = 8,
+                    Barcode = "123456789006",
+                    GTIN = "88012345678906",
+                    ExpirationDate = "2025-07-31",
+                    ManufacturingNumber = "MFG20241201006"
+                }
+            };
+
+            foreach (var item in sampleItems)
+            {
+                ReceivingDetailItems.Add(item);
+            }
         }
 
         public void InitializeDataForDrug(string drugCode)
@@ -541,6 +651,29 @@ namespace WpfAppTest.ViewModel
         }
 
         public event Action BackRequested;
+
+        private void AddItem(object parameter)
+        {
+            // 바코드 스캔 필드에서 데이터를 가져와서 새 항목 생성
+            var newItem = new DrugReceivingDetailItem
+            {
+                Location = "자동할당",
+                DrugCode = SelectedDrugCode ?? "DM-UNKNOWN",
+                DrugName = SelectedDrugName ?? "알 수 없는 약품",
+                SerialNumber = GenerateSerialNumber(),
+                ReceivingQuantity = 1,
+                CurrentQuantity = 0,
+                MaxQuantity = 100,
+                AlarmQuantity = 20,
+                Barcode = GenerateBarcode(),
+                GTIN = GenerateGTIN(),
+                ExpirationDate = DateTime.Now.AddYears(2).ToString("yyyy-MM-dd"),
+                ManufacturingNumber = GenerateManufacturingNumber()
+            };
+
+            ReceivingDetailItems.Add(newItem);
+            UpdateTotalReceivingQuantity();
+        }
 
         #endregion
 
